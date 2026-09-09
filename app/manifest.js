@@ -1,0 +1,1 @@
+export default function manifest(){return {name:'TTT — Thompson Transportation Technologies',short_name:'TTT',description:'Automotive technology consulting and integration.',start_url:'/',display:'standalone',background_color:'#0D0F14',theme_color:'#012374'};}

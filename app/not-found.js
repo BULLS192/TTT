@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function NotFound(){return <main><section className="page-hero"><div className="shell"><p className="eyebrow">404</p><h1>That route is not part of the TTT system.</h1><p className="lead">Return to the main experience or start a project.</p><div className="button-row"><Link className="button" href="/">Go home</Link><Link className="button button--ghost" href="/start">Start a project</Link></div></div></section></main>}
