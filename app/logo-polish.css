@@ -55,6 +55,29 @@
   background: #f6f8fb !important;
   border-color: #e2e7ef !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+  height: 48px !important;
+  max-height: 48px !important;
+  padding: 4px 8px !important;
+  border-radius: 26px !important;
+  align-self: center;
+  overflow: visible;
+}
+
+.site-header .desktop-nav--premium > a,
+.site-header .desktop-nav--premium .nav-trigger,
+.site-header .desktop-nav--premium .nav-group > a {
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 12px !important;
+  border-radius: 19px !important;
+  display: flex;
+  align-items: center;
+}
+
+.site-header .desktop-nav--premium .nav-group {
+  height: 38px;
+  display: flex;
+  align-items: center;
 }
 
 .site-header .desktop-nav--premium > a,
@@ -90,6 +113,11 @@
 
 .site-header .menu-button {
   color: #0d0f14 !important;
+}
+
+/* Mega menu positioning now follows the tighter navigation pill. */
+.site-header .desktop-nav--premium .mega-menu {
+  top: 44px !important;
 }
 
 /* Mobile menu should also follow the white header treatment. */
