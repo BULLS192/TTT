@@ -39,13 +39,21 @@ const menus = {
       ['Specialty Vehicles', 'Purpose-built and unusual vehicle applications.', '/industries/specialty-vehicles'],
     ],
   },
+  Technology: {
+    intro: 'Understand the system, the vehicle and the product before installation.',
+    links: [
+      ['Technology Library', 'DSP, security, telematics, cameras and OEM integration.', '/technology'],
+      ['Brands & Partners', 'The curated manufacturer and product portfolio.', '/technology/brands'],
+      ['Vehicle Compatibility', 'Build technology context around year, make, model and trim.', '/vehicles'],
+      ['TTT Journal', 'Original technical and vehicle-integration articles.', '/articles'],
+    ],
+  },
   Resources: {
-    intro: 'Independent explanations, practical guidance and TTT field knowledge.',
+    intro: 'Practical guidance, common questions and TTT field knowledge.',
     links: [
       ['Articles', 'Original TTT perspectives on vehicle technology and integration.', '/articles'],
       ['FAQ', 'Common questions about services, process, fitment and support.', '/resources/faq'],
       ['Knowledge Center', 'Technology, vehicle and buying guides.', '/resources'],
-      ['Technology Library', 'Understand the systems behind the finished build.', '/technology'],
       ['Work With Us', 'Manufacturers, distributors and service partners.', '/work-with-us'],
     ],
   },
