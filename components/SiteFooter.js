@@ -2,11 +2,11 @@ import Link from 'next/link';
 import BrandMark from './BrandMark';
 
 const groups = [
-  ['TTT', [['About', '/about'], ['Concept One', '/concept-one'], ['Projects', '/projects'], ['Contact', '/contact'], ['Work With Us', '/work-with-us']]],
+  ['TTT', [['About', '/about'], ['The TTT Standard', '/standards'], ['Concept One', '/concept-one'], ['Projects', '/projects'], ['Client Stories', '/testimonials'], ['Contact', '/contact']]],
   ['Solutions', [['Premium Vehicle', '/solutions/premium-vehicle-experience'], ['Security', '/solutions/vehicle-security'], ['Connected Vehicle', '/solutions/connected-vehicle'], ['Fleet Intelligence', '/solutions/fleet-intelligence']]],
   ['Services', [['Audio', '/services/audio'], ['Window Tint', '/services/window-tint'], ['Tracking', '/services/tracking'], ['Cameras', '/services/cameras']]],
-  ['Business', [['Dealerships', '/industries/dealerships'], ['Fleets', '/industries/fleets'], ['Commercial', '/industries/commercial-vehicles'], ['Start a Project', '/start']]],
-  ['Resources', [['Articles', '/articles'], ['FAQ', '/resources/faq'], ['Technology', '/technology'], ['Brands & Partners', '/technology/brands'], ['Vehicle Compatibility', '/vehicles'], ['Shop', '/shop']]],
+  ['Business', [['Dealerships', '/industries/dealerships'], ['Fleets', '/industries/fleets'], ['Commercial', '/industries/commercial-vehicles'], ['Greater Houston', '/service-area'], ['Work With Us', '/work-with-us']]],
+  ['Resources', [['Articles', '/articles'], ['FAQ', '/resources/faq'], ['Technology', '/technology'], ['Brands & Partners', '/technology/brands'], ['Knowledge Center', '/resources']]],
 ];
 
 export default function SiteFooter() {
