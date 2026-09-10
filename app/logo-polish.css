@@ -1,98 +1,185 @@
-/* Canonical TTT logo presentation — blended dark-header/footer treatment */
+/* Canonical TTT logo presentation — white-brand-surface treatment */
+
+/* Header: the approved logo was designed for a light field, so the entire nav becomes that field. */
+.site-header.site-header--premium {
+  background: rgba(255,255,255,.97) !important;
+  color: #0d0f14 !important;
+  border-bottom: 1px solid #dce3ec !important;
+  box-shadow: 0 8px 26px rgba(13,15,20,.07) !important;
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+.site-header__accent {
+  height: 2px !important;
+  background: linear-gradient(90deg, transparent 0%, #012374 20%, #2b5fd9 50%, #012374 80%, transparent 100%) !important;
+  opacity: .85 !important;
+}
+
 .site-header .brand-mark,
 .site-footer .brand-mark {
   position: relative;
-  isolation: isolate;
+  isolation: auto;
   overflow: visible;
   flex: 0 0 auto;
   min-width: 0;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-}
-
-.site-header .brand-mark {
-  padding: 0 10px !important;
   border-radius: 0 !important;
 }
 
-.site-header .brand-mark::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: -10px -18px;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255,255,255,.96) 0%,
-    rgba(248,250,255,.88) 43%,
-    rgba(222,231,251,.48) 62%,
-    rgba(126,154,221,.12) 76%,
-    rgba(9,14,23,0) 88%
-  );
-  filter: blur(.5px);
+.site-header .brand-mark {
+  padding: 0 !important;
+  height: auto !important;
+  max-width: none !important;
+}
+
+.site-header .brand-mark::before,
+.site-footer .brand-mark::before {
+  display: none !important;
+  content: none !important;
 }
 
 .site-header .brand-mark__image {
   display: block;
-  width: 142px !important;
-  max-width: 142px !important;
+  width: 150px !important;
+  max-width: 150px !important;
   height: auto !important;
+  max-height: 62px !important;
   object-fit: contain;
   image-rendering: auto;
 }
 
-.site-footer .brand-mark {
-  padding: 8px 14px !important;
-  border-radius: 0 !important;
+/* White-header navigation */
+.site-header .desktop-nav--premium {
+  background: #f6f8fb !important;
+  border-color: #e2e7ef !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
 }
 
-.site-footer .brand-mark::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: -20px -30px;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255,255,255,.97) 0%,
-    rgba(248,250,255,.91) 48%,
-    rgba(226,234,250,.52) 66%,
-    rgba(123,151,215,.10) 79%,
-    rgba(9,14,23,0) 90%
-  );
-  filter: blur(1px);
+.site-header .desktop-nav--premium > a,
+.site-header .desktop-nav--premium .nav-trigger,
+.site-header .desktop-nav > a,
+.site-header .nav-group > a {
+  color: #344054 !important;
+}
+
+.site-header .desktop-nav--premium > a:hover,
+.site-header .desktop-nav--premium .nav-trigger:hover,
+.site-header .desktop-nav > a:hover,
+.site-header .nav-group > a:hover {
+  color: #012374 !important;
+  background: #eaf0ff !important;
+}
+
+.site-header .nav-trigger span {
+  color: #66758b !important;
+}
+
+.site-header .account-pill {
+  color: #243047 !important;
+  background: #fff !important;
+  border-color: #dce3ec !important;
+  box-shadow: 0 4px 14px rgba(13,15,20,.05);
+}
+
+.site-header .account-pill:hover {
+  color: #012374 !important;
+  border-color: #aebfe5 !important;
+}
+
+.site-header .menu-button {
+  color: #0d0f14 !important;
+}
+
+/* Mobile menu should also follow the white header treatment. */
+.site-header .mobile-menu {
+  background: #fff !important;
+  color: #0d0f14 !important;
+  border-top: 1px solid #e2e7ef;
+}
+
+.site-header .mobile-menu a,
+.site-header .mobile-menu summary {
+  color: #243047 !important;
+}
+
+/* Keep the rich mega menus dark: they contain no logo and provide deliberate contrast. */
+.site-header .mega-menu--premium {
+  background: rgba(9,14,23,.985) !important;
+  color: #fff !important;
+}
+
+/* Footer: create a dedicated light brand surface, then retain the dark information footer below it. */
+.site-footer .footer-top {
+  position: relative;
+  margin: 0 0 48px !important;
+  padding: 30px 34px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  background: #fff !important;
+  color: #0d0f14 !important;
+  border: 1px solid #e0e6ef;
+  border-radius: 18px;
+  box-shadow: 0 16px 44px rgba(0,0,0,.13);
+}
+
+.site-footer .footer-top p {
+  margin: 0;
+  max-width: 610px;
+  color: #596679 !important;
+}
+
+.site-footer .brand-mark {
+  padding: 0 !important;
+  height: auto !important;
+  max-width: none !important;
 }
 
 .site-footer .brand-mark__image {
   display: block;
-  width: 270px !important;
-  max-width: min(270px,72vw) !important;
+  width: 320px !important;
+  max-width: min(320px, 42vw) !important;
   height: auto !important;
+  max-height: none !important;
   object-fit: contain;
   image-rendering: auto;
 }
 
 @media (max-width: 1100px) {
   .site-header .brand-mark__image {
-    width: 132px !important;
-    max-width: 132px !important;
+    width: 138px !important;
+    max-width: 138px !important;
+  }
+  .site-footer .brand-mark__image {
+    width: 285px !important;
+    max-width: 38vw !important;
   }
 }
 
 @media (max-width: 780px) {
   .site-header .brand-mark {
-    padding: 0 5px !important;
-  }
-  .site-header .brand-mark::before {
-    inset: -8px -12px;
+    padding: 0 !important;
   }
   .site-header .brand-mark__image {
     width: 118px !important;
     max-width: 118px !important;
+    max-height: 54px !important;
+  }
+  .site-header .desktop-nav--premium {
+    display: none !important;
+  }
+  .site-footer .footer-top {
+    padding: 24px !important;
+    margin-bottom: 36px !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
   }
   .site-footer .brand-mark__image {
-    width: 230px !important;
-    max-width: 72vw !important;
+    width: 250px !important;
+    max-width: 75vw !important;
   }
 }
