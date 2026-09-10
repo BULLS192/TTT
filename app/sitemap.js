@@ -1,3 +1,3 @@
 import { solutions, services, industries } from '../lib/siteData';
-const base='https://ttt.vercel.app';
-export default function sitemap(){const fixed=['','/solutions','/services','/industries','/concept-one','/projects','/technology','/resources','/shop','/about','/start','/contact']; const dynamic=[...solutions.map(x=>`/solutions/${x.slug}`),...services.map(x=>`/services/${x.slug}`),...industries.map(x=>`/industries/${x.slug}`)]; return [...fixed,...dynamic].map(path=>({url:`${base}${path}`,lastModified:new Date(),changeFrequency:'monthly',priority:path===''?1:.7}));}
+const base=process.env.NEXT_PUBLIC_SITE_URL || 'https://ttt.vercel.app';
+export default function sitemap(){const fixed=['','/solutions','/services','/industries','/concept-one','/projects','/technology','/vehicles','/resources','/shop','/about','/start','/contact']; const dynamic=[...solutions.map(x=>`/solutions/${x.slug}`),...services.map(x=>`/services/${x.slug}`),...industries.map(x=>`/industries/${x.slug}`)]; return [...fixed,...dynamic].map(path=>({url:`${base}${path}`,lastModified:new Date(),changeFrequency:'monthly',priority:path===''?1:.7}));}
