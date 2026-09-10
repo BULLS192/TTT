@@ -6,7 +6,7 @@ const groups = [
   ['Solutions', [['Premium Vehicle', '/solutions/premium-vehicle-experience'], ['Security', '/solutions/vehicle-security'], ['Connected Vehicle', '/solutions/connected-vehicle'], ['Fleet Intelligence', '/solutions/fleet-intelligence']]],
   ['Services', [['Audio', '/services/audio'], ['Window Tint', '/services/window-tint'], ['Tracking', '/services/tracking'], ['Cameras', '/services/cameras']]],
   ['Business', [['Dealerships', '/industries/dealerships'], ['Fleets', '/industries/fleets'], ['Commercial', '/industries/commercial-vehicles'], ['Start a Project', '/start']]],
-  ['Resources', [['Articles', '/articles'], ['FAQ', '/resources/faq'], ['Technology', '/technology'], ['Knowledge Center', '/resources'], ['Shop', '/shop']]],
+  ['Resources', [['Articles', '/articles'], ['FAQ', '/resources/faq'], ['Technology', '/technology'], ['Brands & Partners', '/technology/brands'], ['Vehicle Compatibility', '/vehicles'], ['Shop', '/shop']]],
 ];
 
 export default function SiteFooter() {
