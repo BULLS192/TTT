@@ -1,0 +1,12 @@
+import InquiryForm from '../../components/InquiryForm';
+
+export const metadata={title:'Work With Us',description:'Manufacturer, distributor, vendor and technology partnership inquiries for Thompson Transportation Technologies.'};
+
+const fit=[['Manufacturers','Audio, security, telematics, cameras, film, electronics and vehicle technology manufacturers.'],['Distributors','Regional and national distribution partners with strong availability, support and dealer programs.'],['Technology providers','Software, connected services, fleet platforms, data, diagnostics and integration tools.'],['Service partners','Specialists whose capabilities extend a TTT project without compromising quality or accountability.']];
+
+export default function Page(){return <main>
+  <section className="page-hero"><div className="shell"><p className="eyebrow">Work With Us</p><h1>Bring useful technology to the TTT ecosystem.</h1><p className="lead">TTT evaluates products and partners around customer outcomes, technical fit, reliability, serviceability, support and long-term business value — not simply the size of a catalog.</p></div></section>
+  <section className="section"><div className="shell"><div className="section-heading"><p className="eyebrow">Partner fit</p><h2>Who should reach out.</h2></div><div className="card-grid card-grid--4">{fit.map(([title,body],i)=><article className="feature-card" key={title}><span className="feature-card__index">0{i+1}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
+  <section className="section section--soft"><div className="shell two-col partner-principles"><div><p className="eyebrow">How TTT evaluates</p><h2>Fit before shelf space.</h2></div><div><p>We look at product performance, integration quality, documentation, warranty/RMA support, installer training, channel strategy, customer experience and whether the product meaningfully strengthens a TTT solution.</p><p>Submitting a product does not guarantee endorsement, stocking, installation or a commercial relationship. Any published recommendation should reflect genuine TTT evaluation and any material commercial relationship should be disclosed where appropriate.</p></div></div></section>
+  <section className="section"><div className="shell"><InquiryForm type="vendor" title="Introduce your company or product" intro="Give us enough context to understand what you make, where it fits, how it is supported and why it belongs in the TTT portfolio." /></div></section>
+</main>}
