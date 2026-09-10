@@ -3,6 +3,7 @@ import './phase2.css';
 import './refinement.css';
 import './wave2.css';
 import './logo-fix.css';
+import './logo-polish.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 
