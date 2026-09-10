@@ -2,7 +2,7 @@ import { articles } from '../lib/articles';
 
 export default function sitemap(){
   const base=process.env.NEXT_PUBLIC_SITE_URL||'https://ttt-alpha-gules.vercel.app';
-  const staticRoutes=['','/solutions','/services','/industries','/concept-one','/projects','/technology','/technology/brands','/vehicles','/resources','/resources/faq','/articles','/shop','/about','/contact','/work-with-us','/start','/privacy','/terms','/accessibility'];
+  const staticRoutes=['','/solutions','/services','/industries','/concept-one','/projects','/technology','/technology/dsp','/technology/oem-integration','/technology/telematics','/technology/vehicle-vision','/technology/brands','/vehicles','/resources','/resources/faq','/articles','/shop','/about','/standards','/testimonials','/service-area','/contact','/work-with-us','/start','/privacy','/terms','/accessibility'];
   const solutionSlugs=['premium-vehicle-experience','vehicle-security','connected-vehicle','fleet-intelligence','dealership-technology','custom-integration'];
   const serviceSlugs=['audio','window-tint','security','tracking','cameras','lighting','electronics','custom-fabrication'];
   const industrySlugs=['vehicle-owners','dealerships','fleets','commercial-vehicles','specialty-vehicles'];
