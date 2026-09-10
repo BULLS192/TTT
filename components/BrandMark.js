@@ -12,8 +12,9 @@ export default function BrandMark({ compact = false }) {
         className="brand-mark__image"
         src={canonicalLogoDataUri}
         alt="Thompson Transportation Technologies LLC"
-        width="100"
-        height="47"
+        width="480"
+        height="228"
+        decoding="async"
       />
     </Link>
   );
