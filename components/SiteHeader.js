@@ -48,6 +48,7 @@ export default function SiteHeader() {
           <Link href="/concept-one">Concept One</Link>
           <Link href="/projects">Projects</Link>
           <Link href="/technology">Technology</Link>
+          <Link href="/vehicles">Vehicles</Link>
           <Link href="/shop">Shop</Link>
         </nav>
         <div className="header-actions">
@@ -64,6 +65,7 @@ export default function SiteHeader() {
           <Link onClick={() => setOpen(false)} href="/concept-one">Concept One</Link>
           <Link onClick={() => setOpen(false)} href="/projects">Projects</Link>
           <Link onClick={() => setOpen(false)} href="/technology">Technology</Link>
+          <Link onClick={() => setOpen(false)} href="/vehicles">Vehicle compatibility</Link>
           <Link onClick={() => setOpen(false)} href="/shop">Shop</Link>
           <Link onClick={() => setOpen(false)} href="/account">My TTT</Link>
           <Link onClick={() => setOpen(false)} className="button" href="/start">Start a project</Link>
