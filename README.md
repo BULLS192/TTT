@@ -24,6 +24,8 @@ npm run dev
 
 Designed for Vercel. The repository root is the Next.js project root.
 
+Git deployment is connected to the Vercel `ttt` project; pushes to `main` are intended to trigger production builds.
+
 ## Brand asset note
 
 The approved TTT master logo from the canonical brand board should replace the text fallback in `components/BrandMark.js` when the production vector/transparent asset is added to `/public/brand/`.
