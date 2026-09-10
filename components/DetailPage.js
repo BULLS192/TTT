@@ -1,7 +1,37 @@
 import Link from 'next/link';
 import VehicleStage from './VehicleStage';
 
+const discovery = {
+  Service: [
+    ['Vehicle context','Year, make, model, trim, factory equipment and existing modifications.'],
+    ['Desired result','What should sound, look, feel or function differently when the work is complete?'],
+    ['Integration constraints','Which factory functions, controls, appearance and serviceability need to be preserved?'],
+    ['Future plan','Will this system need to expand, transfer, integrate with other technology or support later upgrades?'],
+  ],
+  Solution: [
+    ['Primary outcome','Define the problem or improvement first, before choosing products.'],
+    ['System scope','Identify every vehicle system that may need to work together to deliver the outcome.'],
+    ['Priorities','Balance capability, factory appearance, security, convenience, reliability and budget.'],
+    ['Lifecycle','Consider support, subscriptions, future upgrades, warranty and long-term serviceability.'],
+  ],
+  Industry: [
+    ['Operating model','How vehicles enter the workflow, who approves work and how completion is documented.'],
+    ['Vehicle population','Makes, models, trims, fleet size, turnover and the degree of standardization possible.'],
+    ['Program requirements','Installation consistency, reporting, pricing, turnaround time, user roles and support.'],
+    ['Scale & lifecycle','How the program expands across locations, vehicles, technicians and future technology.'],
+  ],
+};
+
+const process=[
+  ['01','Discover','Vehicle, use case, priorities, constraints and existing systems.'],
+  ['02','Design','Architecture, product selection, scope, integration strategy and expected outcome.'],
+  ['03','Approve','Clear estimate or commercial scope before material work begins.'],
+  ['04','Integrate','Install, configure and document the system with serviceability in mind.'],
+  ['05','Validate','Test affected functions, capture records and hand off the completed vehicle.'],
+];
+
 export default function DetailPage({ item, kind }) {
+  const questions=discovery[kind] || discovery.Solution;
   return (
     <main>
       <section className="detail-hero dark-section grid-bg">
@@ -10,9 +40,17 @@ export default function DetailPage({ item, kind }) {
           <VehicleStage active={item.eyebrow.toUpperCase()} />
         </div>
       </section>
-      <section className="section"><div className="shell two-col"><div><p className="eyebrow">TTT approach</p><h2>Integrated around the vehicle, not bolted on as an afterthought.</h2></div><div><p className="lead">TTT starts with the vehicle, the intended outcome and the systems already present. Components are selected for compatibility, serviceability and the way they work together.</p></div></div></section>
-      <section className="section section--soft"><div className="shell"><p className="eyebrow">Capabilities</p><div className="capability-grid">{item.points.map((point, i) => <article className="capability-card" key={point}><span>0{i + 1}</span><h3>{point}</h3><p>Specified, installed and validated as part of the complete TTT system.</p></article>)}</div></div></section>
-      <section className="section"><div className="shell two-col"><div><p className="eyebrow">OEM+</p><h2>Technology should feel like it belonged there from the factory.</h2></div><div className="system-list"><div><span>01</span><b>Consult</b><p>Define goals and constraints.</p></div><div><span>02</span><b>Design</b><p>Specify the system and integration plan.</p></div><div><span>03</span><b>Install</b><p>Execute with clean, serviceable workmanship.</p></div><div><span>04</span><b>Validate</b><p>Configure, test and document the finished vehicle.</p></div></div></div></section>
+
+      <section className="section"><div className="shell section-intro-grid"><div><p className="eyebrow">TTT approach</p><h2>Integrated around the vehicle, not bolted on as an afterthought.</h2></div><div className="section-copy"><p>TTT starts with the vehicle, the intended outcome and the systems already present. Components are selected for compatibility, serviceability and the way they work together.</p><p>The product matters, but the finished result also depends on architecture, wiring, configuration, mounting, tuning, testing and how clearly the system can be supported later.</p></div></div></section>
+
+      <section className="section section--soft"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Capabilities</p><h2>What this TTT {kind.toLowerCase()} can include.</h2></div></div><div className="capability-grid">{item.points.map((point, i) => <article className="capability-card" key={point}><span>0{i + 1}</span><h3>{point}</h3><p>Specified, installed and validated as part of the complete TTT system.</p></article>)}</div></div></section>
+
+      <section className="section"><div className="shell"><div className="section-intro-grid"><div><p className="eyebrow">Before the scope</p><h2>Questions worth answering before hardware is chosen.</h2></div><div className="section-copy"><p>A useful consultation should narrow the system before it expands the parts list. These are the four areas TTT uses to turn a broad request into a buildable scope.</p></div></div><div className="system-layer-grid">{questions.map(([title,body],i)=><article className="system-layer" key={title}><span>0{i+1}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
+
+      <section className="section section--dark"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Project lifecycle</p><h2>From idea to documented vehicle.</h2></div></div><div className="catalog-rail detail-process">{process.map(([n,title,body])=><div className="catalog-chip" key={title}><span>{n}</span><b>{title}</b><small>{body}</small></div>)}</div></div></section>
+
+      <section className="section"><div className="shell section-intro-grid"><div><p className="eyebrow">OEM+</p><h2>Technology should feel intentional when the vehicle comes back together.</h2></div><div className="section-copy"><p>TTT's OEM+ standard is not a promise that every modification will be invisible. It means controls should make sense, workmanship should be disciplined, affected vehicle functions should be checked and future service should not require rediscovering how the system was built.</p><div className="section-link-row"><Link className="button button--ghost" href="/articles/what-oem-plus-vehicle-integration-means">Read the OEM+ article</Link><Link className="button button--ghost" href="/resources/faq">Common questions</Link><Link className="button button--ghost" href="/technology">Technology library</Link></div></div></div></section>
+
       <section className="cta-band"><div className="shell"><p className="eyebrow">Ready when you are</p><h2>{item.cta}.</h2><Link className="button button--light" href="/start">Start a project →</Link></div></section>
     </main>
   );
