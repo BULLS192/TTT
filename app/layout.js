@@ -7,6 +7,7 @@ import './logo-polish.css';
 import './editorial.css';
 import './visuals.css';
 import './premium.css';
+import './cinematic.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 
