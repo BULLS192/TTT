@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { canonicalLogoDataUri } from '../lib/brand/logoData';
 import { homepageCinematic } from '../lib/cinematicMedia';
 
@@ -14,15 +14,25 @@ const chapters = [
 ];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+const chapterFor = (value) => {
+  const index = chapters.findIndex((item) => value >= item.start && value < item.end);
+  return index < 0 ? chapters.length - 1 : index;
+};
 
 export default function ScrollCinematic() {
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
   const rafRef = useRef(null);
-  const lastTimeRef = useRef(-1);
+  const targetProgressRef = useRef(0);
+  const smoothProgressRef = useRef(0);
+  const renderedProgressRef = useRef(0);
+  const lastSeekAtRef = useRef(0);
+  const unlockedRef = useRef(false);
+  const unlockingRef = useRef(false);
   const [progress, setProgress] = useState(0);
   const [activeChapter, setActiveChapter] = useState(0);
   const [ready, setReady] = useState(false);
+  const [decoderReady, setDecoderReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -33,46 +43,123 @@ export default function ScrollCinematic() {
     return () => media.removeEventListener?.('change', sync);
   }, []);
 
+  const unlockVideo = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video || unlockedRef.current || unlockingRef.current || reducedMotion || video.readyState < 2) return;
+    unlockingRef.current = true;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+
+    try {
+      const playback = video.play();
+      if (playback?.then) await playback;
+
+      await new Promise((resolve) => {
+        let finished = false;
+        const done = () => {
+          if (finished) return;
+          finished = true;
+          resolve();
+        };
+        if (typeof video.requestVideoFrameCallback === 'function') video.requestVideoFrameCallback(done);
+        window.setTimeout(done, 120);
+      });
+
+      video.pause();
+      if (video.currentTime > 0.12 || video.currentTime === 0) {
+        try { video.currentTime = 0.001; } catch (_) {}
+      }
+      unlockedRef.current = true;
+      setDecoderReady(true);
+    } catch (_) {
+      // Safari may require the first touch gesture. The gesture listeners below retry this path.
+    } finally {
+      unlockingRef.current = false;
+    }
+  }, [reducedMotion]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || reducedMotion) return;
+
+    const onLoadedData = () => { unlockVideo(); };
+    const onFirstGesture = () => { unlockVideo(); };
+
+    video.addEventListener('loadeddata', onLoadedData);
+    window.addEventListener('touchstart', onFirstGesture, { passive: true });
+    window.addEventListener('pointerdown', onFirstGesture, { passive: true });
+    window.addEventListener('click', onFirstGesture, { passive: true });
+
+    if (video.readyState >= 2) unlockVideo();
+
+    return () => {
+      video.removeEventListener('loadeddata', onLoadedData);
+      window.removeEventListener('touchstart', onFirstGesture);
+      window.removeEventListener('pointerdown', onFirstGesture);
+      window.removeEventListener('click', onFirstGesture);
+    };
+  }, [reducedMotion, unlockVideo]);
+
   useEffect(() => {
     const section = sectionRef.current;
     const video = videoRef.current;
     if (!section || !video || reducedMotion) return;
 
-    const update = () => {
-      rafRef.current = null;
+    const readScrollTarget = () => {
       const rect = section.getBoundingClientRect();
       const scrollable = Math.max(section.offsetHeight - window.innerHeight, 1);
-      const nextProgress = clamp(clamp(-rect.top, 0, scrollable) / scrollable, 0, 1);
-      setProgress(nextProgress);
-      const nextChapter = chapters.findIndex((item) => nextProgress >= item.start && nextProgress < item.end);
-      setActiveChapter(nextChapter < 0 ? chapters.length - 1 : nextChapter);
+      targetProgressRef.current = clamp(clamp(-rect.top, 0, scrollable) / scrollable, 0, 1);
+      if (!unlockedRef.current && video.readyState >= 2) unlockVideo();
+      if (!rafRef.current) rafRef.current = window.requestAnimationFrame(tick);
+    };
 
-      if (video.readyState >= 1 && Number.isFinite(video.duration) && video.duration > 0) {
-        const target = clamp(nextProgress * video.duration, 0, Math.max(video.duration - 0.04, 0));
-        if (Math.abs(target - lastTimeRef.current) > 0.035) {
+    const tick = (now) => {
+      rafRef.current = null;
+      const target = targetProgressRef.current;
+      let current = smoothProgressRef.current;
+      const distance = target - current;
+
+      current = Math.abs(distance) < 0.00035 ? target : current + distance * 0.18;
+      smoothProgressRef.current = current;
+
+      if (Math.abs(current - renderedProgressRef.current) > 0.001 || current === target) {
+        renderedProgressRef.current = current;
+        setProgress(current);
+        setActiveChapter(chapterFor(current));
+      }
+
+      if (unlockedRef.current && video.readyState >= 2 && Number.isFinite(video.duration) && video.duration > 0) {
+        const targetTime = clamp(current * video.duration, 0.001, Math.max(video.duration - 0.04, 0.001));
+        const delta = Math.abs(targetTime - video.currentTime);
+        const enoughTimePassed = now - lastSeekAtRef.current >= 34;
+
+        if (delta > 0.028 && enoughTimePassed && !video.seeking) {
           try {
-            video.currentTime = target;
-            lastTimeRef.current = target;
+            video.currentTime = targetTime;
+            lastSeekAtRef.current = now;
           } catch (_) {}
         }
       }
-    };
 
-    const requestUpdate = () => {
-      if (rafRef.current) return;
-      rafRef.current = window.requestAnimationFrame(update);
+      if (Math.abs(target - current) > 0.00035) rafRef.current = window.requestAnimationFrame(tick);
     };
 
     video.pause();
-    update();
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
+    readScrollTarget();
+    window.addEventListener('scroll', readScrollTarget, { passive: true });
+    window.addEventListener('resize', readScrollTarget);
+    window.addEventListener('orientationchange', readScrollTarget);
+
     return () => {
-      window.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
+      window.removeEventListener('scroll', readScrollTarget);
+      window.removeEventListener('resize', readScrollTarget);
+      window.removeEventListener('orientationchange', readScrollTarget);
       if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, unlockVideo]);
 
   const securityProgress = clamp((progress - 0.58) / 0.26, 0, 1);
 
@@ -81,15 +168,18 @@ export default function ScrollCinematic() {
       <div className="cinematic__sticky">
         <video
           ref={videoRef}
-          className={`cinematic__video ${ready ? 'is-ready' : ''}`}
+          className={`cinematic__video ${ready ? 'is-ready' : ''} ${decoderReady ? 'is-unlocked' : ''}`}
           src={homepageCinematic.video}
           poster={homepageCinematic.poster}
           muted
           playsInline
           preload="auto"
+          disablePictureInPicture
+          controls={false}
           aria-hidden="true"
           tabIndex={-1}
           onLoadedMetadata={(event) => { event.currentTarget.pause(); setReady(true); }}
+          onCanPlay={() => unlockVideo()}
         />
         <div className="cinematic__shade cinematic__shade--left" />
         <div className="cinematic__shade cinematic__shade--top" />
