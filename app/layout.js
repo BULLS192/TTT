@@ -4,6 +4,7 @@ import './refinement.css';
 import './wave2.css';
 import './logo-fix.css';
 import './logo-polish.css';
+import './editorial.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 
