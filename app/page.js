@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ScrollCinematic from '../components/ScrollCinematic';
+import SmoothScrollCinematic from '../components/SmoothScrollCinematic';
 import VehicleStage from '../components/VehicleStage';
 import TestimonialStrip from '../components/TestimonialStrip';
 import { solutions, services } from '../lib/siteData';
@@ -20,7 +20,7 @@ const bestFit = [
 export default function HomePage() {
   return (
     <main>
-      <ScrollCinematic />
+      <SmoothScrollCinematic />
 
       <section className="section intro-statement home-handoff"><div className="shell"><p className="eyebrow">TTT / Integration</p><h2>One vehicle. Multiple technologies. One system.</h2><p className="lead">The best automotive technology disappears into the vehicle. It works together, feels intentional and remains serviceable long after installation.</p></div></section>
 
