@@ -1,24 +1,24 @@
 import Link from 'next/link';
-import { projects } from '../../lib/siteData';
 
-export const metadata={title:'Projects & Case Studies',description:'TTT project concepts, documented build methodology and future verified customer case studies for automotive technology integration.'};
+export const metadata={title:'Projects | TTT',description:'TTT projects document the vehicle, objective, integration work, validation and finished result.'};
 
-const proof=[
-  ['Vehicle profile','Year, make, model, trim, factory equipment and relevant prior modifications.'],
-  ['Objective','What the owner or organization wanted the vehicle to do better.'],
-  ['System architecture','How the selected technologies fit together and which factory functions had to be preserved.'],
-  ['Installation record','Approved scope, products, mounting, photos, configuration and workmanship notes.'],
-  ['Validation','Functional testing of the installed system and the factory features affected by the work.'],
-  ['Client voice','A verified testimonial or customer perspective when permission is granted.'],
-  ['Handoff','Operating guidance, warranty information, subscriptions, limitations and next steps.'],
-  ['Lifecycle','A persistent vehicle record that can support future upgrades, service and warranty activity.'],
+const record=[
+  ['Vehicle','Year, make, model, trim, factory equipment and the modifications that matter to the job.'],
+  ['Goal','What the owner or organization wanted to improve, prevent or make easier.'],
+  ['Work','What was installed, configured, fabricated or changed.'],
+  ['Integration','Which factory functions had to be retained and how the new systems fit together.'],
+  ['Validation','What was checked before the vehicle was handed back.'],
+  ['Result','What changed for the customer, with images or feedback only when permission exists.'],
 ];
 
 export default function Page(){return <main>
-  <section className="page-hero"><div className="shell"><p className="eyebrow">Projects</p><h1>Every build should become proof, documentation and reusable knowledge.</h1><p className="lead">TTT is building a technical project library — not a generic gallery. The objective is to show what changed, why it changed, how it was integrated and what the finished vehicle can now do.</p></div></section>
-  <section className="section"><div className="shell"><div className="project-feature"><div className="project-feature__visual"/><div className="project-feature__content"><p className="eyebrow">TTT showcase</p><h2>Concept One</h2><p>The flagship demonstration vehicle is the first example of the TTT project model: one matte-black coupe used to explain glass, audio, security, tracking, cameras and connected technology as a coordinated system.</p><div className="tag-row"><span>Audio</span><span>Tint</span><span>Security</span><span>Tracking</span><span>Cameras</span></div><div className="section-link-row"><Link className="button button--light" href="/concept-one">Explore Concept One →</Link></div></div></div></div></section>
-  <section className="section section--soft"><div className="shell"><div className="section-intro-grid"><div><p className="eyebrow">Case-study framework</p><h2>What every TTT project story should contain.</h2></div><div className="section-copy"><p>As real customer work is completed, the project database will make the work searchable by vehicle, technology, solution, product family and customer type.</p><p>Verified client feedback can sit inside the project instead of floating as an unrelated marketing quote.</p></div></div><div className="project-proof-grid">{proof.map(([title,body],i)=><article className="project-proof" key={title}><span className="feature-card__index">0{i+1}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
-  <section className="section"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Current portfolio foundation</p><h2>Showcase and program concepts</h2></div></div><div className="project-grid">{projects.map((p,i)=><article className="project-card" key={p.title}><div className="project-card__visual"><span>TTT / 00{i+1}</span></div><p className="eyebrow">{p.status}</p><h2>{p.vehicle}</h2><p>{p.title}</p><div className="tag-row">{p.tags.map(x=><span key={x}>{x}</span>)}</div></article>)}</div><div className="case-policy"><b>Case-study policy:</b> TTT will not present program templates, generated concepts or showcase work as completed customer projects. Real customer results, vehicles, imagery and testimonials will only be published when the underlying work exists and appropriate permission has been obtained.</div></div></section>
-  <section className="section section--dark"><div className="shell section-intro-grid"><div><p className="eyebrow">Proof layer</p><h2>Projects and testimonials should reinforce each other.</h2></div><div className="section-copy"><p>As verified feedback becomes available, client stories can link back to the relevant project so a visitor can see the objective, installation approach and customer perspective in the same context.</p><div className="section-link-row"><Link className="button button--ghost-dark" href="/testimonials">Client Stories →</Link><Link className="button button--ghost-dark" href="/standards">The TTT Standard</Link></div></div></div></section>
-  <section className="cta-band"><div className="shell"><h2>Your vehicle can become the next documented TTT project.</h2><Link className="button button--light" href="/start">Start a project →</Link></div></section>
+  <section className="page-hero"><div className="shell"><p className="eyebrow">Projects</p><h1>Show the problem, not just the finished car.</h1><p className="lead">A useful project page should explain why the vehicle came in, what changed, what had to keep working and how the result was checked.</p></div></section>
+
+  <section className="section"><div className="shell"><div className="project-feature"><div className="project-feature__visual"/><div className="project-feature__content"><p className="eyebrow">TTT demonstrator</p><h2>Concept One</h2><p>The C1 matte-black coupe is the reference build for showing glass, audio, security, tracking, cameras and connectivity as one coordinated vehicle.</p><div className="tag-row"><span>Audio</span><span>Tint</span><span>Security</span><span>Tracking</span><span>Cameras</span></div><Link className="button button--light" href="/concept-one">Explore Concept One →</Link></div></div></div></section>
+
+  <section className="section section--soft"><div className="shell"><div className="section-intro-grid"><div><p className="eyebrow">Project record</p><h2>What we document when a build is worth publishing.</h2></div><div className="section-copy"><p>This is the difference between a gallery and a case study. The finished photo matters more when the reader can understand what was solved.</p></div></div><div className="editorial-capabilities">{record.map(([title,body],i)=><article className="editorial-capability" key={title}><span>0{i+1}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
+
+  <section className="section"><div className="shell section-intro-grid"><div><p className="eyebrow">Publishing policy</p><h2>Real work only.</h2></div><div className="section-copy"><p>Customer vehicles, quotes, results and photography are published only when the underlying work exists and permission allows it. Concepts and program examples are labeled as concepts, not passed off as customer projects.</p></div></div></section>
+
+  <section className="cta-band"><div className="shell"><h2>Have a vehicle with a problem worth solving?</h2><Link className="button button--light" href="/start">Start a project →</Link></div></section>
 </main>}
