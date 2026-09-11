@@ -6,59 +6,59 @@ import BrandMark from './BrandMark';
 
 const menus = {
   Solutions: {
-    intro: 'Outcome-led vehicle technology, designed as one integrated system.',
+    intro: 'Start with what you want the vehicle to do better.',
     links: [
-      ['Premium Vehicle Experience', 'Audio, comfort and technology working together.', '/solutions/premium-vehicle-experience'],
-      ['Vehicle Security', 'Layered deterrence, monitoring and recovery.', '/solutions/vehicle-security'],
-      ['Connected Vehicle', 'Tracking, control and connected services.', '/solutions/connected-vehicle'],
-      ['Fleet Intelligence', 'Visibility and standardization across vehicles.', '/solutions/fleet-intelligence'],
-      ['Dealership Technology', 'Repeatable programs for dealer operations.', '/solutions/dealership-technology'],
-      ['Custom Integration', 'Purpose-built systems outside the standard menu.', '/solutions/custom-integration'],
+      ['Premium Vehicle Experience', 'Audio, comfort and technology planned together.', '/solutions/premium-vehicle-experience'],
+      ['Vehicle Security', 'Deterrence, detection, immobilization and recovery layers.', '/solutions/vehicle-security'],
+      ['Connected Vehicle', 'Tracking, cameras and connected services.', '/solutions/connected-vehicle'],
+      ['Fleet Intelligence', 'Repeatable technology across multiple vehicles.', '/solutions/fleet-intelligence'],
+      ['Dealership Technology', 'Accessory and technology programs built for dealer workflow.', '/solutions/dealership-technology'],
+      ['Custom Integration', 'When the requirement does not fit a standard package.', '/solutions/custom-integration'],
     ],
   },
   Services: {
-    intro: 'Technical capabilities for the vehicle, cabin, glass and connected layer.',
+    intro: 'The actual work performed on the vehicle.',
     links: [
-      ['Audio & DSP', 'OEM integration, amplification, speakers and tuning.', '/services/audio'],
-      ['Window Tint', 'Film selection for comfort, protection and privacy.', '/services/window-tint'],
-      ['Security', 'Alarms, immobilization and layered protection.', '/services/security'],
+      ['Audio & DSP', 'Signal integration, amplification, speakers and tuning.', '/services/audio'],
+      ['Window Tint', 'Film selected for heat, visibility, privacy and appearance.', '/services/window-tint'],
+      ['Security', 'Layered protection without publishing sensitive install details.', '/services/security'],
       ['GPS & Tracking', 'Location, geofencing and telematics.', '/services/tracking'],
-      ['Cameras', 'Dash, rear, multi-channel and fleet camera systems.', '/services/cameras'],
-      ['Lighting', 'Interior, exterior and utility lighting integration.', '/services/lighting'],
+      ['Cameras', 'Dash, rear, parking and fleet video systems.', '/services/cameras'],
+      ['Lighting', 'Interior, exterior and work lighting.', '/services/lighting'],
       ['Electronics', 'Remote start, charging and vehicle accessories.', '/services/electronics'],
-      ['Custom Fabrication', 'Clean mounting, trim and integration work.', '/services/custom-fabrication'],
+      ['Custom Fabrication', 'Mounts, panels and enclosures built for the vehicle.', '/services/custom-fabrication'],
     ],
   },
   Industries: {
-    intro: 'Different operating environments need different technology programs.',
+    intro: 'The install changes when the operating model changes.',
     links: [
       ['Vehicle Owners', 'Personal, luxury, performance and specialty vehicles.', '/industries/vehicle-owners'],
       ['Dealerships', 'Dealer-installed accessories and technology programs.', '/industries/dealerships'],
       ['Fleets', 'Standardized technology across fleet vehicles.', '/industries/fleets'],
-      ['Commercial Vehicles', 'Systems for mobile workforces and service vehicles.', '/industries/commercial-vehicles'],
-      ['Specialty Vehicles', 'Purpose-built and unusual vehicle applications.', '/industries/specialty-vehicles'],
-      ['Greater Houston', 'TTT service-area positioning and local program support.', '/service-area'],
+      ['Commercial Vehicles', 'Systems for service vehicles and mobile workforces.', '/industries/commercial-vehicles'],
+      ['Specialty Vehicles', 'Unusual platforms and higher-complexity projects.', '/industries/specialty-vehicles'],
+      ['Greater Houston', 'Local service-area information.', '/service-area'],
     ],
   },
   Technology: {
-    intro: 'Understand the systems behind the finished vehicle.',
+    intro: 'What is happening behind the trim panels and factory screens.',
     links: [
-      ['Technology Library', 'DSP, OEM integration, telematics, security and vehicle networks.', '/technology'],
-      ['Audio Signal & DSP', 'Why modern audio upgrades start with the factory signal.', '/technology/dsp'],
-      ['OEM Integration', 'Preserve useful factory behavior while adding capability.', '/technology/oem-integration'],
-      ['Telematics', 'Location, connectivity and operational vehicle data.', '/technology/telematics'],
-      ['Vehicle Vision', 'Cameras, recording, parking visibility and event evidence.', '/technology/vehicle-vision'],
-      ['Brands & Partners', 'How TTT evaluates manufacturers and technology providers.', '/technology/brands'],
+      ['Technology Library', 'How modern vehicle systems fit together.', '/technology'],
+      ['Audio Signal & DSP', 'Why the factory signal changes the audio plan.', '/technology/dsp'],
+      ['OEM Integration', 'Keep useful factory behavior while adding capability.', '/technology/oem-integration'],
+      ['Telematics', 'Location, connectivity and vehicle data.', '/technology/telematics'],
+      ['Vehicle Vision', 'Cameras, recording and parking visibility.', '/technology/vehicle-vision'],
+      ['Brands & Partners', 'How TTT evaluates products and manufacturers.', '/technology/brands'],
     ],
   },
   Resources: {
-    intro: 'Independent explanations, practical guidance and TTT field knowledge.',
+    intro: 'Straight answers before a customer spends money.',
     links: [
-      ['Articles', 'Original TTT perspectives on vehicle technology and integration.', '/articles'],
-      ['FAQ', 'Common questions about services, process, fitment and support.', '/resources/faq'],
-      ['The TTT Standard', 'The workmanship and documentation baseline behind the work.', '/standards'],
-      ['Client Stories', 'Verified testimonials and customer case-study feedback.', '/testimonials'],
-      ['Knowledge Center', 'Technology, vehicle and buying guides.', '/resources'],
+      ['Articles', 'Original TTT writing on vehicle technology.', '/articles'],
+      ['FAQ', 'Projects, fitment, installation and support.', '/resources/faq'],
+      ['The TTT Standard', 'The workmanship baseline behind the work.', '/standards'],
+      ['Knowledge Center', 'Technology and buying guidance.', '/resources'],
+      ['Vehicle Fitment', 'Start with year, make, model and trim.', '/vehicles'],
       ['Work With Us', 'Manufacturers, distributors and service partners.', '/work-with-us'],
     ],
   },
@@ -88,10 +88,8 @@ export default function SiteHeader() {
           ))}
           <Link href="/concept-one">Concept One</Link>
           <Link href="/projects">Projects</Link>
-          <Link href="/shop">Shop</Link>
         </nav>
         <div className="header-actions">
-          <Link className="account-pill" href="/account" aria-label="My TTT account"><span aria-hidden="true">●</span> My TTT</Link>
           <Link className="button button--small header-cta" href="/start">Start a project</Link>
           <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="mobile-menu">{open ? 'Close' : 'Menu'}</button>
         </div>
@@ -103,8 +101,6 @@ export default function SiteHeader() {
           ))}
           <Link onClick={() => setOpen(false)} href="/concept-one">Concept One</Link>
           <Link onClick={() => setOpen(false)} href="/projects">Projects</Link>
-          <Link onClick={() => setOpen(false)} href="/shop">Shop</Link>
-          <Link onClick={() => setOpen(false)} href="/account">My TTT</Link>
           <Link onClick={() => setOpen(false)} className="button" href="/start">Start a project</Link>
         </div>
       </div>
