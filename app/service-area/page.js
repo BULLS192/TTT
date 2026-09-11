@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AutoVisual from '../../components/AutoVisual';
 
 export const metadata = {
   title: 'Houston Automotive Technology Integration',
@@ -8,57 +9,13 @@ export const metadata = {
 const areas = ['Houston', 'Katy', 'Sugar Land', 'Cypress', 'The Woodlands', 'Pearland'];
 
 export default function ServiceAreaPage() {
-  return (
-    <main>
-      <section className="page-hero">
-        <div className="shell">
-          <p className="eyebrow">Greater Houston</p>
-          <h1>Automotive technology integration for Houston-area vehicles and businesses.</h1>
-          <p className="lead">TTT is being built in Houston to support individual vehicle owners as well as dealership, fleet and commercial technology programs across the surrounding metro area.</p>
-        </div>
-      </section>
+  return <main>
+    <section className="page-hero page-hero--visual"><div className="shell"><div><p className="eyebrow">Greater Houston</p><h1>Automotive technology integration across the Houston metro.</h1><p className="lead">Owner vehicles, dealership programs, fleets and commercial applications—scoped around the actual vehicle and operating need.</p></div><AutoVisual variant="dealership" eyebrow="GREATER HOUSTON / TTT"/></div></section>
 
-      <section className="section">
-        <div className="shell">
-          <div className="section-intro-grid">
-            <div>
-              <p className="eyebrow">Service area</p>
-              <h2>Houston first. Broader program support as the operation grows.</h2>
-            </div>
-            <div className="section-copy">
-              <p>Initial projects and consultations are centered on Greater Houston. Exact installation availability, mobile capability and travel scope depend on the project and should be confirmed before scheduling.</p>
-              <p>For dealership and fleet programs, TTT can separately evaluate repeatable multi-vehicle or multi-location requirements.</p>
-            </div>
-          </div>
-          <div className="evaluation-strip">
-            {areas.map((area) => <span key={area}>{area}</span>)}
-          </div>
-        </div>
-      </section>
+    <section className="section"><div className="shell editorial-visual-band"><AutoVisual variant="concept" eyebrow="LOCAL VEHICLE PROJECTS"/><div className="editorial-visual-copy"><p className="eyebrow">Service area</p><h2>Houston first.</h2><p>Project availability, mobile capability and travel scope are confirmed before scheduling. Dealer and fleet programs can be evaluated separately for multi-vehicle requirements.</p><div className="evaluation-strip">{areas.map((area)=><span key={area}>{area}</span>)}</div></div></div></section>
 
-      <section className="section section--soft">
-        <div className="shell">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">What we support</p>
-              <h2>Consumer vehicles, dealerships, fleets and commercial applications.</h2>
-            </div>
-          </div>
-          <div className="capability-grid">
-            <article className="capability-card"><span>01</span><h3>Vehicle owners</h3><p>Audio, tint, security, tracking, cameras, electronics and custom integration.</p></article>
-            <article className="capability-card"><span>02</span><h3>Dealerships</h3><p>Repeatable accessory, security, tracking and customer-upgrade workflows.</p></article>
-            <article className="capability-card"><span>03</span><h3>Fleets</h3><p>Standardized tracking, cameras, security and vehicle technology packages.</p></article>
-            <article className="capability-card"><span>04</span><h3>Commercial vehicles</h3><p>Technology and electronics for vehicles that support mobile workforces.</p></article>
-          </div>
-        </div>
-      </section>
+    <section className="section section--soft"><div className="shell"><div className="visual-feature-grid"><Link className="visual-feature" href="/industries/vehicle-owners"><AutoVisual variant="concept"/><div className="visual-feature__content"><small>Vehicle owners</small><h3>Personal vehicles</h3><p>Audio, tint, security, tracking, cameras and integration.</p></div></Link><Link className="visual-feature" href="/industries/dealerships"><AutoVisual variant="dealership"/><div className="visual-feature__content"><small>Dealerships</small><h3>Dealer programs</h3><p>Repeatable accessory and technology workflows.</p></div></Link><Link className="visual-feature" href="/industries/fleets"><AutoVisual variant="fleets"/><div className="visual-feature__content"><small>Fleets</small><h3>Fleet systems</h3><p>Standardized tracking, cameras and vehicle technology.</p></div></Link></div></div></section>
 
-      <section className="cta-band">
-        <div className="shell">
-          <h2>Tell us where the vehicle is and what you want to improve.</h2>
-          <Link className="button button--light" href="/start">Start a project →</Link>
-        </div>
-      </section>
-    </main>
-  );
+    <section className="cta-band"><div className="shell"><h2>Tell us where the vehicle is and what you want to improve.</h2><Link className="button button--light" href="/start">Start a project →</Link></div></section>
+  </main>;
 }
