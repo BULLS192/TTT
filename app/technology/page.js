@@ -1,27 +1,24 @@
 import Link from 'next/link';
 
 const disciplines=[
-  ['DSP & audio signal','Understand the factory signal, processing, routing and tuning before adding power.','/technology/dsp'],
-  ['OEM integration','Preserve useful factory controls, data and vehicle behavior while adding capability.','/technology/oem-integration'],
-  ['Telematics','GPS, cellular connectivity, geofencing, event history and fleet visibility.','/technology/telematics'],
-  ['Vehicle vision','Dash cameras, parking visibility, multi-channel recording and connected video.','/technology/vehicle-vision'],
-  ['Vehicle security','Layer deterrence, detection, immobilization, tracking and recovery awareness.','/solutions/vehicle-security'],
-  ['Brands & partners','Evaluate manufacturers around technical fit, reliability, support and lifecycle.','/technology/brands'],
+  ['01','DSP & audio signal','What the factory audio system is doing before new speakers or amplifiers are added.','/technology/dsp'],
+  ['02','OEM integration','Which screens, controls, cameras, chimes and data need to survive the upgrade.','/technology/oem-integration'],
+  ['03','Telematics','Where the vehicle is, what data leaves it, who can see it and what service keeps the device online.','/technology/telematics'],
+  ['04','Vehicle vision','Coverage, recording, parking mode, storage and how footage is retrieved.','/technology/vehicle-vision'],
+  ['05','Security','Different layers for detection, immobilization, awareness and recovery.','/solutions/vehicle-security'],
+  ['06','Brands & products','Why support, documentation and fit matter as much as the feature list.','/technology/brands'],
 ];
 
-const layers=[
-  ['01 / Vehicle interface','Preserve the controls, signals and factory behavior that still add value.'],
-  ['02 / Processing & control','DSP, controllers and logic shape how added systems communicate and perform.'],
-  ['03 / Sensing & visibility','Cameras, sensors, security inputs and vehicle data create awareness.'],
-  ['04 / Connected layer','Tracking, apps, cellular services and cloud platforms extend the vehicle beyond the cabin.'],
-];
-
-export const metadata={title:'Automotive Technology Library',description:'TTT technology library covering DSP, OEM integration, telematics, vehicle security, cameras, factory electronics and connected vehicle systems.'};
+export const metadata={title:'Automotive Technology Library | TTT',description:'TTT explains automotive DSP, OEM integration, telematics, vehicle cameras, security and connected systems in practical terms.'};
 
 export default function Page(){return <main>
-  <section className="page-hero"><div className="shell"><p className="eyebrow">Technology</p><h1>Understand the system before choosing the hardware.</h1><p className="lead">Modern vehicles are networks of controls, signals, sensors, software and power systems. TTT treats new hardware as part of that architecture rather than as an isolated accessory.</p></div></section>
-  <section className="section"><div className="shell"><div className="section-intro-grid"><div><p className="eyebrow">System thinking</p><h2>Four layers of vehicle technology.</h2></div><div className="section-copy"><p>The same framework can be used whether the project is a premium audio build, a security package, a connected fleet vehicle or a multi-system Concept One installation.</p><p>Understanding the layer a product belongs to helps define dependencies, preserve factory behavior and avoid buying hardware before the system is understood.</p></div></div><div className="system-layer-grid">{layers.map(([title,body])=><article className="system-layer" key={title}><span>{title.split(' / ')[0]}</span><h3>{title.split(' / ')[1]}</h3><p>{body}</p></article>)}</div></div></section>
-  <section className="section section--dark"><div className="shell"><div className="tech-architecture"><p className="eyebrow">Example architecture</p><h2>Vehicle → interface → control → system → connected services.</h2><p className="lead">The exact signal path changes by vehicle and project. The principle is to understand and document it before installation.</p><div className="tech-architecture__rail"><div className="tech-node"><b>Factory vehicle</b><small>Controls, power, data, audio, sensors</small></div><div className="tech-arrow">→</div><div className="tech-node"><b>Integration layer</b><small>Interfaces, harnesses, signal access</small></div><div className="tech-arrow">→</div><div className="tech-node"><b>TTT system</b><small>Audio, security, vision, tracking</small></div></div></div></div></section>
-  <section className="section section--soft"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Technology library</p><h2>Go deeper into the disciplines.</h2></div></div><div className="card-grid card-grid--3">{disciplines.map(([title,body,href],i)=><Link className="feature-card" href={href} key={title}><span className="feature-card__index">0{i+1}</span><h2>{title}</h2><p>{body}</p><b>Explore →</b></Link>)}</div></div></section>
-  <section className="section"><div className="shell section-intro-grid"><div><p className="eyebrow">Knowledge graph</p><h2>Technology should connect to brands, vehicles, projects and articles.</h2></div><div className="section-copy"><p>As TTT's product and project database grows, this section can answer practical questions: which systems work with a particular vehicle, which products TTT has evaluated, where those products have been used, and what the installation considerations are.</p><div className="section-link-row"><Link className="button" href="/technology/brands">Explore brands →</Link><Link className="button button--ghost" href="/vehicles">Vehicle compatibility</Link><Link className="button button--ghost" href="/articles">Read TTT Journal</Link></div></div></div></section>
+  <section className="page-hero"><div className="shell"><p className="eyebrow">Technology</p><h1>The car already has a technology stack before we touch it.</h1><p className="lead">Factory screens, amplifiers, sensors, cameras, data networks and software all change what “installing an accessory” actually means. This library explains the parts that matter before the trim comes off.</p></div></section>
+
+  <section className="section"><div className="shell section-intro-grid"><div><p className="eyebrow">A typical path</p><h2>Factory vehicle → interface → control → added system.</h2></div><div className="section-copy"><p>Not every project uses every layer. The point is to identify the signal, power, data and control path before selecting hardware.</p></div></div><div className="tech-architecture__rail"><div className="tech-node"><b>Factory vehicle</b><small>Controls, power, data, audio, sensors</small></div><div className="tech-arrow">→</div><div className="tech-node"><b>Integration layer</b><small>Interfaces, harnesses, signal access</small></div><div className="tech-arrow">→</div><div className="tech-node"><b>Added system</b><small>Audio, security, vision, tracking</small></div></div></div></section>
+
+  <section className="section section--soft"><div className="shell"><p className="eyebrow">Go deeper</p><div className="scenario-list">{disciplines.map(([n,title,body,href])=><Link className="scenario-row" href={href} key={title}><span>{n}</span><h2>{title}</h2><p>{body}</p><em>→</em></Link>)}</div></div></section>
+
+  <section className="section section--dark"><div className="shell decision-split"><div><p className="eyebrow">Before you buy</p><h3>Ask what the product has to connect to.</h3><ul className="plain-list"><li>Factory audio signal or amplifier</li><li>Vehicle data network or ignition state</li><li>Factory screen, camera or steering controls</li><li>Cellular plan, app or cloud account</li></ul></div><div><p className="eyebrow">Before we install</p><h3>Ask what the product could affect.</h3><ul className="plain-list"><li>Warning tones and safety-related alerts</li><li>Battery draw and vehicle sleep behavior</li><li>Service access and diagnostic work</li><li>Future upgrades or removal</li></ul></div></div></section>
+
+  <section className="cta-band"><div className="shell"><h2>Bring us the vehicle, not just a product link.</h2><Link className="button button--light" href="/start">Start a project →</Link></div></section>
 </main>}
