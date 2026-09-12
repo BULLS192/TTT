@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">TTT Concept One cinematic fallback</title>
+  <desc id="desc">Dark studio illustration of the matte-black Concept One coupe for use when cinematic media is unavailable.</desc>
+  <defs>
+    <radialGradient id="bg" cx="62%" cy="48%" r="66%">
+      <stop offset="0" stop-color="#17366F" stop-opacity=".62"/>
+      <stop offset=".42" stop-color="#0B1629"/>
+      <stop offset="1" stop-color="#05070B"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#1D2229"/>
+      <stop offset=".58" stop-color="#090B0E"/>
+      <stop offset="1" stop-color="#171B21"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" x2="1">
+      <stop offset="0" stop-color="#162A4D"/>
+      <stop offset="1" stop-color="#0B1426"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" x2="1">
+      <stop offset="0" stop-color="#012374"/>
+      <stop offset="1" stop-color="#2B5FD9"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="12" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <path d="M0 710L1600 595V900H0Z" fill="#06080B"/>
+  <ellipse cx="940" cy="700" rx="520" ry="62" fill="#000" opacity=".5"/>
+  <g transform="translate(250 70)">
+    <path d="M195 548C282 465 374 427 493 413L622 310C661 278 710 262 765 262H900C968 264 1028 292 1080 346L1163 425C1232 439 1297 472 1340 517L1361 544C1372 558 1364 579 1346 585L1248 604C1208 612 1184 625 1164 655L1137 695H353L320 654C299 627 272 615 235 608L159 590C142 586 136 566 146 554Z" fill="url(#body)" stroke="#3A414D" stroke-width="3"/>
+    <path d="M504 414L635 322C665 301 698 291 739 291H888C943 292 988 313 1028 352L1106 423H504Z" fill="url(#glass)" stroke="#49586F" stroke-width="3"/>
+    <path d="M709 301L672 412M900 294L995 416" stroke="#6A7C96" stroke-width="3" opacity=".55"/>
+    <path d="M210 552C480 525 878 523 1336 549" fill="none" stroke="#253449" stroke-width="3"/>
+    <path d="M1060 456L1228 466" stroke="url(#blue)" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+    <path d="M175 565L274 548" stroke="#EEF4FF" stroke-width="7" stroke-linecap="round" opacity=".72" filter="url(#glow)"/>
+    <g>
+      <circle cx="370" cy="653" r="91" fill="#050608" stroke="#333A45" stroke-width="6"/>
+      <circle cx="370" cy="653" r="54" fill="#10141A" stroke="#626E7E" stroke-width="4"/>
+      <circle cx="370" cy="653" r="15" fill="#2B5FD9"/>
+      <circle cx="1168" cy="653" r="91" fill="#050608" stroke="#333A45" stroke-width="6"/>
+      <circle cx="1168" cy="653" r="54" fill="#10141A" stroke="#626E7E" stroke-width="4"/>
+      <circle cx="1168" cy="653" r="15" fill="#2B5FD9"/>
+    </g>
+    <path d="M755 445L757 583" stroke="#303948" stroke-width="3"/>
+    <rect x="825" y="451" width="54" height="7" rx="3.5" fill="#5C6571"/>
+  </g>
+  <rect x="90" y="78" width="80" height="4" rx="2" fill="url(#blue)"/>
+</svg>
