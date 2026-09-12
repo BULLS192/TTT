@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import SmoothScrollCinematic from '../components/SmoothScrollCinematic';
-import VehicleStage from '../components/VehicleStage';
+import ScrollCinematic from '../components/ScrollCinematic';
+import ConceptMedia from '../components/ConceptMedia';
 import TestimonialStrip from '../components/TestimonialStrip';
 import { solutions, services } from '../lib/siteData';
 
@@ -20,11 +20,11 @@ const bestFit = [
 export default function HomePage() {
   return (
     <main>
-      <SmoothScrollCinematic />
+      <ScrollCinematic />
 
       <section className="section intro-statement home-handoff"><div className="shell"><p className="eyebrow">TTT / Integration</p><h2>One vehicle. Multiple technologies. One system.</h2><p className="lead">The best automotive technology disappears into the vehicle. It works together, feels intentional and remains serviceable long after installation.</p></div></section>
 
-      <section className="section"><div className="shell section-heading"><div><p className="eyebrow">Desired outcomes</p><h2>Start with what the vehicle needs to do.</h2></div><Link href="/solutions">View all solutions →</Link></div><div className="shell card-grid card-grid--3">{solutions.slice(0,6).map((item) => <Link className="feature-card" href={`/solutions/${item.slug}`} key={item.slug}><span className="feature-card__index">{item.eyebrow}</span><h3>{item.title}</h3><p>{item.summary}</p><b>Explore →</b></Link>)}</div></section>
+      <section className="section"><div className="shell section-heading"><div><p className="eyebrow">Desired outcomes</p><h2>Start with what the vehicle needs to do.</h2></div><Link href="/solutions">View all solutions →</Link></div><div className="shell card-grid card-grid--3">{solutions.slice(0,3).map((item) => <Link className="feature-card" href={`/solutions/${item.slug}`} key={item.slug}><span className="feature-card__index">{item.eyebrow}</span><h3>{item.title}</h3><p>{item.summary}</p><b>Explore →</b></Link>)}</div></section>
 
       <section className="section section--soft"><div className="shell two-col"><div><p className="eyebrow">Capabilities</p><h2>Technical depth without the generic shop experience.</h2><p className="lead">TTT combines hands-on installation with a consulting and integration mindset for consumer vehicles, dealership programs and fleets.</p></div><div className="system-list">{services.slice(0,4).map((item, i) => <Link key={item.slug} href={`/services/${item.slug}`}><span>0{i+1}</span><b>{item.title}</b><p>{item.summary}</p></Link>)}</div></div></section>
 
@@ -34,7 +34,7 @@ export default function HomePage() {
 
       <TestimonialStrip />
 
-      <section className="section dark-section concept-tease"><div className="shell two-col"><div><p className="eyebrow">Concept One</p><h2>A rolling demonstration of the TTT philosophy.</h2><p className="lead lead--dark">Concept One shows how glass, audio, security, tracking, cameras and connectivity can behave as one integrated vehicle experience.</p><Link className="button" href="/concept-one">Explore Concept One →</Link></div><VehicleStage label="TTT / 001" active="CONCEPT ONE" /></div></section>
+      <section className="section dark-section concept-tease"><div className="shell two-col"><div><p className="eyebrow">Concept One</p><h2>A rolling demonstration of the TTT philosophy.</h2><p className="lead lead--dark">Concept One shows how glass, audio, security, tracking, cameras and connectivity can behave as one integrated vehicle experience.</p><Link className="button" href="/concept-one">Explore Concept One →</Link></div><ConceptMedia compact eyebrow="TTT / C1 / 001" caption="Concept One"/></div></section>
 
       <section className="cta-band"><div className="shell"><p className="eyebrow">Build with TTT</p><h2>Tell us what you want your vehicle to do.</h2><p>Start with the vehicle and the outcome. TTT will help define the technology, architecture and integration path.</p><Link className="button button--light" href="/start">Start a project →</Link></div></section>
     </main>
