@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { brandAssets } from '../lib/assets';
+import { canonicalLogoDataUri } from '../lib/brand/logoData';
 import { homepageCinematic } from '../lib/cinematicMedia';
 
 const chapters = [
@@ -22,23 +22,23 @@ const chapterFor = (value) => {
 export default function ScrollCinematic() {
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
+  const canvasRef = useRef(null);
   const rafRef = useRef(null);
   const targetProgressRef = useRef(0);
   const smoothProgressRef = useRef(0);
-  const renderedProgressRef = useRef(0);
+  const renderedProgressRef = useRef(-1);
   const lastSeekAtRef = useRef(0);
-  const unlockedRef = useRef(false);
-  const unlockingRef = useRef(false);
-  const settlingRef = useRef(false);
+  const spriteImagesRef = useRef([]);
+
+  const [deviceKnown, setDeviceKnown] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [progress, setProgress] = useState(0);
   const [activeChapter, setActiveChapter] = useState(0);
-  const [ready, setReady] = useState(false);
-  const [decoderReady, setDecoderReady] = useState(false);
-  const [needsActivation, setNeedsActivation] = useState(false);
+  const [desktopReady, setDesktopReady] = useState(false);
+  const [mobileReady, setMobileReady] = useState(false);
+  const [mediaFailed, setMediaFailed] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [motionOverride, setMotionOverride] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [mediaFailed, setMediaFailed] = useState(false);
   const reducedMotion = prefersReducedMotion && !motionOverride;
 
   useEffect(() => {
@@ -48,6 +48,7 @@ export default function ScrollCinematic() {
     const sync = () => {
       setPrefersReducedMotion(motion.matches);
       setIsMobile(mobileWidth.matches || coarse.matches);
+      setDeviceKnown(true);
     };
     sync();
     motion.addEventListener?.('change', sync);
@@ -60,96 +61,96 @@ export default function ScrollCinematic() {
     };
   }, []);
 
-  const unlockVideo = useCallback(async (force = false) => {
-    const video = videoRef.current;
-    if (!video || unlockedRef.current || unlockingRef.current || (!force && reducedMotion) || video.readyState < 2) return false;
-    unlockingRef.current = true;
-    video.muted = true;
-    video.defaultMuted = true;
-    video.playsInline = true;
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
+  const drawMobileFrame = useCallback((value) => {
+    const canvas = canvasRef.current;
+    const images = spriteImagesRef.current;
+    const spec = homepageCinematic.mobileScrub;
+    if (!canvas || !spec || !images.length) return;
 
-    try {
-      const playback = video.play();
-      if (playback?.then) await playback;
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
 
-      await new Promise((resolve) => {
-        let finished = false;
-        const done = () => {
-          if (finished) return;
-          finished = true;
-          resolve();
-        };
-        if (typeof video.requestVideoFrameCallback === 'function') video.requestVideoFrameCallback(done);
-        window.setTimeout(done, 160);
-      });
-
-      video.pause();
-      try { video.currentTime = Math.max(video.currentTime, 0.001); } catch (_) {}
-      unlockedRef.current = true;
-      setDecoderReady(true);
-      setNeedsActivation(false);
-      return true;
-    } catch (_) {
-      if (isMobile) setNeedsActivation(true);
-      return false;
-    } finally {
-      unlockingRef.current = false;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dw = Math.max(1, Math.round(rect.width * dpr));
+    const dh = Math.max(1, Math.round(rect.height * dpr));
+    if (canvas.width !== dw || canvas.height !== dh) {
+      canvas.width = dw;
+      canvas.height = dh;
     }
-  }, [isMobile, reducedMotion]);
+
+    const frameIndex = clamp(Math.round(value * (spec.frameCount - 1)), 0, spec.frameCount - 1);
+    const sheetIndex = Math.floor(frameIndex / spec.framesPerSheet);
+    const localIndex = frameIndex % spec.framesPerSheet;
+    const image = images[sheetIndex];
+    if (!image?.complete) return;
+
+    const col = localIndex % spec.columns;
+    const row = Math.floor(localIndex / spec.columns);
+    const cellX = col * spec.frameWidth;
+    const cellY = row * spec.frameHeight;
+    const srcAspect = spec.frameWidth / spec.frameHeight;
+    const dstAspect = dw / dh;
+
+    let sx = cellX;
+    let sy = cellY;
+    let sw = spec.frameWidth;
+    let sh = spec.frameHeight;
+
+    if (srcAspect > dstAspect) {
+      sw = spec.frameHeight * dstAspect;
+      sx = cellX + (spec.frameWidth - sw) / 2;
+    } else if (srcAspect < dstAspect) {
+      sh = spec.frameWidth / dstAspect;
+      sy = cellY + (spec.frameHeight - sh) / 2;
+    }
+
+    const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+    if (!ctx) return;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(image, sx, sy, sw, sh, 0, 0, dw, dh);
+  }, []);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video || reducedMotion || mediaFailed) return;
+    if (!deviceKnown || !isMobile || reducedMotion || mediaFailed) return;
+    const urls = homepageCinematic.mobileScrub?.sprites || [];
+    if (!urls.length) {
+      setMediaFailed(true);
+      return;
+    }
 
-    const onLoadedData = () => { unlockVideo(); };
-    const onFirstGesture = () => { unlockVideo(true); };
+    let cancelled = false;
+    setMobileReady(false);
+    const images = urls.map(() => new window.Image());
 
-    video.addEventListener('loadeddata', onLoadedData);
-    window.addEventListener('touchstart', onFirstGesture, { passive: true });
-    window.addEventListener('pointerdown', onFirstGesture, { passive: true });
+    Promise.all(images.map((image, index) => new Promise((resolve, reject) => {
+      image.decoding = 'async';
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = urls[index];
+    }))).then(() => {
+      if (cancelled) return;
+      spriteImagesRef.current = images;
+      setMobileReady(true);
+      window.requestAnimationFrame(() => drawMobileFrame(smoothProgressRef.current));
+    }).catch(() => {
+      if (!cancelled) setMediaFailed(true);
+    });
 
-    if (video.readyState >= 2) unlockVideo();
-
-    return () => {
-      video.removeEventListener('loadeddata', onLoadedData);
-      window.removeEventListener('touchstart', onFirstGesture);
-      window.removeEventListener('pointerdown', onFirstGesture);
-    };
-  }, [reducedMotion, unlockVideo, mediaFailed]);
+    return () => { cancelled = true; };
+  }, [deviceKnown, isMobile, reducedMotion, mediaFailed, drawMobileFrame]);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const video = videoRef.current;
-    if (!section || !video || reducedMotion || mediaFailed) return;
-
-    const ensureMobilePlayback = () => {
-      if (!isMobile || !unlockedRef.current || !video.paused) return;
-      const playback = video.play();
-      playback?.catch?.(() => setNeedsActivation(true));
-    };
-
-    const settleMobileFrame = () => {
-      if (!isMobile || !unlockedRef.current || settlingRef.current) return;
-      settlingRef.current = true;
-      const exactTime = clamp(targetProgressRef.current * video.duration, 0.001, Math.max(video.duration - 0.04, 0.001));
-      try { video.currentTime = exactTime; } catch (_) {}
-
-      const finish = () => {
-        video.pause();
-        settlingRef.current = false;
-      };
-      if (typeof video.requestVideoFrameCallback === 'function') video.requestVideoFrameCallback(finish);
-      else window.setTimeout(finish, 90);
-    };
+    if (!section || !deviceKnown || reducedMotion || mediaFailed) return;
 
     const tick = (now) => {
       rafRef.current = null;
       const target = targetProgressRef.current;
       let current = smoothProgressRef.current;
       const distance = target - current;
-      current = Math.abs(distance) < 0.00035 ? target : current + distance * (isMobile ? 0.22 : 0.18);
+      const easing = isMobile ? 0.24 : 0.18;
+      current = Math.abs(distance) < 0.00035 ? target : current + distance * easing;
       smoothProgressRef.current = current;
 
       if (Math.abs(current - renderedProgressRef.current) > 0.001 || current === target) {
@@ -158,73 +159,69 @@ export default function ScrollCinematic() {
         setActiveChapter(chapterFor(current));
       }
 
-      if (unlockedRef.current && video.readyState >= 2 && Number.isFinite(video.duration) && video.duration > 0) {
-        if (isMobile) ensureMobilePlayback();
-        const targetTime = clamp(current * video.duration, 0.001, Math.max(video.duration - 0.04, 0.001));
-        const delta = Math.abs(targetTime - video.currentTime);
-        const seekInterval = isMobile ? 70 : 34;
-        const seekThreshold = isMobile ? 0.045 : 0.028;
-        const enoughTimePassed = now - lastSeekAtRef.current >= seekInterval;
-
-        if (delta > seekThreshold && enoughTimePassed && !video.seeking) {
-          try {
-            video.currentTime = targetTime;
-            lastSeekAtRef.current = now;
-          } catch (_) {}
+      if (isMobile) {
+        if (mobileReady) drawMobileFrame(current);
+      } else {
+        const video = videoRef.current;
+        if (video && desktopReady && video.readyState >= 1 && Number.isFinite(video.duration) && video.duration > 0) {
+          const targetTime = clamp(current * video.duration, 0.001, Math.max(video.duration - 0.04, 0.001));
+          const delta = Math.abs(targetTime - video.currentTime);
+          if (delta > 0.028 && now - lastSeekAtRef.current >= 34 && !video.seeking) {
+            try {
+              video.currentTime = targetTime;
+              lastSeekAtRef.current = now;
+            } catch (_) {}
+          }
         }
       }
 
-      if (Math.abs(target - current) > 0.00035) {
-        rafRef.current = window.requestAnimationFrame(tick);
-      } else if (isMobile && unlockedRef.current && video.readyState >= 2) {
-        settleMobileFrame();
-      }
+      if (Math.abs(target - current) > 0.00035) rafRef.current = window.requestAnimationFrame(tick);
     };
 
     const readScrollTarget = () => {
       const rect = section.getBoundingClientRect();
       const scrollable = Math.max(section.offsetHeight - window.innerHeight, 1);
       targetProgressRef.current = clamp(clamp(-rect.top, 0, scrollable) / scrollable, 0, 1);
-      if (!unlockedRef.current && video.readyState >= 2) unlockVideo();
       if (!rafRef.current) rafRef.current = window.requestAnimationFrame(tick);
     };
 
-    video.pause();
+    const onResize = () => {
+      readScrollTarget();
+      if (isMobile && mobileReady) drawMobileFrame(smoothProgressRef.current);
+    };
+
     readScrollTarget();
     window.addEventListener('scroll', readScrollTarget, { passive: true });
-    window.addEventListener('resize', readScrollTarget);
-    window.addEventListener('orientationchange', readScrollTarget);
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
 
     return () => {
       window.removeEventListener('scroll', readScrollTarget);
-      window.removeEventListener('resize', readScrollTarget);
-      window.removeEventListener('orientationchange', readScrollTarget);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
       if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
-      video.pause();
     };
-  }, [isMobile, reducedMotion, unlockVideo, mediaFailed]);
+  }, [deviceKnown, isMobile, reducedMotion, mediaFailed, desktopReady, mobileReady, drawMobileFrame]);
 
   const securityProgress = clamp((progress - 0.58) / 0.26, 0, 1);
-  const showActivation = isMobile && (needsActivation || reducedMotion) && !mediaFailed;
-
-  const activateCinematic = () => {
-    setMotionOverride(true);
-    setNeedsActivation(false);
-    unlockVideo(true);
-  };
-
-  const showStaticFallback = reducedMotion || mediaFailed;
+  const showStatic = !deviceKnown || reducedMotion || mediaFailed;
 
   return (
     <section ref={sectionRef} className={`cinematic ${reducedMotion ? 'cinematic--reduced' : ''}`} aria-label="TTT vehicle technology experience">
       <div className="cinematic__sticky">
-        {showStaticFallback ? (
-          <img className="cinematic__video is-ready" src={homepageCinematic.fallback} alt="" aria-hidden="true" decoding="async" />
+        {showStatic ? (
+          <img className="cinematic__video cinematic__poster is-ready" src={homepageCinematic.sourcePoster || homepageCinematic.fallback} alt="" aria-hidden="true" decoding="async" />
+        ) : isMobile ? (
+          <>
+            <img className={`cinematic__video cinematic__poster is-ready ${mobileReady ? 'is-hidden' : ''}`} src={homepageCinematic.sourcePoster || homepageCinematic.fallback} alt="" aria-hidden="true" decoding="async" />
+            <canvas ref={canvasRef} className={`cinematic__video cinematic__canvas ${mobileReady ? 'is-ready' : ''}`} aria-hidden="true" />
+          </>
         ) : (
           <video
             ref={videoRef}
-            className={`cinematic__video ${ready ? 'is-ready' : ''} ${decoderReady ? 'is-unlocked' : ''}`}
-            poster={homepageCinematic.poster}
+            className={`cinematic__video ${desktopReady ? 'is-ready' : ''}`}
+            src={homepageCinematic.video}
+            poster={homepageCinematic.sourcePoster || homepageCinematic.poster}
             muted
             playsInline
             preload="auto"
@@ -232,14 +229,11 @@ export default function ScrollCinematic() {
             controls={false}
             aria-hidden="true"
             tabIndex={-1}
-            onLoadedMetadata={(event) => { event.currentTarget.pause(); setReady(true); }}
-            onCanPlay={() => unlockVideo()}
-            onError={() => { setMediaFailed(true); setReady(true); }}
-          >
-            <source media="(max-width: 900px)" src={homepageCinematic.mobileVideo || homepageCinematic.video} type="video/mp4" />
-            <source src={homepageCinematic.video} type="video/mp4" />
-          </video>
+            onLoadedMetadata={(event) => { event.currentTarget.pause(); setDesktopReady(true); }}
+            onError={() => setMediaFailed(true)}
+          />
         )}
+
         <div className="cinematic__shade cinematic__shade--left" />
         <div className="cinematic__shade cinematic__shade--top" />
         <div className="cinematic__shade cinematic__shade--bottom" />
@@ -247,7 +241,7 @@ export default function ScrollCinematic() {
         <div className="cinematic__content shell">
           {chapters.map((item, index) => (
             <div className={`cinematic__chapter cinematic__chapter--${item.key} ${index === activeChapter ? 'is-active' : ''}`} key={item.key} aria-hidden={index !== activeChapter}>
-              {item.key === 'ecosystem' ? <img className="cinematic__logo" src={brandAssets.logo} alt="Thompson Transportation Technologies" width="480" height="228" decoding="async" /> : null}
+              {item.key === 'ecosystem' ? <img className="cinematic__logo" src={canonicalLogoDataUri} alt="Thompson Transportation Technologies" width="480" height="228" decoding="async" /> : null}
               <p className="cinematic__kicker">{item.kicker}</p>
               <h1>{item.title}</h1>
               <p className="cinematic__body">{item.body}</p>
@@ -257,7 +251,7 @@ export default function ScrollCinematic() {
           ))}
         </div>
 
-        {showActivation ? <button className="cinematic__activate" type="button" onClick={activateCinematic}>{reducedMotion ? 'Play cinematic' : 'Tap to enable cinematic'}</button> : null}
+        {prefersReducedMotion && !motionOverride && !mediaFailed ? <button className="cinematic__motion-toggle" type="button" onClick={() => setMotionOverride(true)}>Enable cinematic</button> : null}
         <div className={`cinematic__scroll-hint ${progress > 0.08 ? 'is-hidden' : ''}`}><span>Scroll to explore</span><b>↓</b></div>
         <div className="cinematic__rail" aria-hidden="true">{chapters.map((item, index) => <span key={item.key} className={index === activeChapter ? 'is-active' : ''}>0{index + 1}</span>)}</div>
         <div className="cinematic__progress" aria-hidden="true"><span style={{ transform: `scaleX(${progress})` }} /></div>
