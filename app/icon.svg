@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#0D0F14"/><text x="9" y="42" font-family="Arial,sans-serif" font-size="30" font-weight="800" fill="#fff">T</text><text x="26" y="42" font-family="Arial,sans-serif" font-size="30" font-weight="800" fill="#2B5FD9">TT</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">TTT</title>
+  <desc id="desc">Thompson Transportation Technologies icon.</desc>
+  <defs>
+    <linearGradient id="blue" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#012374"/><stop offset="1" stop-color="#2B5FD9"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#F7F9FC"/>
+  <rect x="22" y="22" width="468" height="468" rx="92" fill="none" stroke="#DDE5F0" stroke-width="4"/>
+  <path d="M80 221c46-57 102-89 168-95 65-6 129 15 184 72" fill="none" stroke="#111318" stroke-width="18" stroke-linecap="round"/>
+  <path d="M85 224c34 2 62-1 87-10M343 204c30 10 60 16 91 17" fill="none" stroke="url(#blue)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M112 257h98v28h-34v119h-31V285h-33z" fill="#111318"/>
+  <path d="M210 257h92v28h-31v119h-31V285h-30z" fill="url(#blue)"/>
+  <path d="M301 257h99v28h-34v119h-31V285h-34z" fill="url(#blue)"/>
+  <path d="M112 420h288" stroke="#C8D4E7" stroke-width="6" stroke-linecap="round"/>
+</svg>
