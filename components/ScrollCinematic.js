@@ -6,11 +6,11 @@ import { canonicalLogoDataUri } from '../lib/brand/logoData';
 import { homepageCinematic } from '../lib/cinematicMedia';
 
 const chapters = [
-  { key: 'hero', start: 0, end: 0.16, kicker: 'Thompson Transportation Technologies', title: 'Technology, Integrated.', body: 'Automotive technology designed around the vehicle — not added around it.' },
-  { key: 'tint', start: 0.16, end: 0.32, kicker: '01 / Glass', title: 'Precision Tint', body: 'Privacy, heat rejection and a finish that feels native to the vehicle.' },
-  { key: 'audio', start: 0.32, end: 0.58, kicker: '02 / Audio', title: 'Premium Audio Integration', body: 'Speakers, DSP, amplification and sub-bass engineered as one cabin system.' },
-  { key: 'security', start: 0.58, end: 0.84, kicker: '03 / Security + Tracking', title: 'Track. Protect. Control.', body: 'Discreet hardware, connected intelligence and layered anti-theft integration.' },
-  { key: 'ecosystem', start: 0.84, end: 1.01, kicker: '04 / TTT Ecosystem', title: 'Technology for every vehicle.', body: 'Consumer vehicles. Dealerships. Fleets. One integration philosophy.' },
+  { key: 'hero', start: 0, end: 0.15, kicker: 'Thompson Transportation Technologies', title: 'Technology, Integrated.', body: 'Designed into the vehicle. Tuned to the driver. Built to work as one system.' },
+  { key: 'tint', start: 0.15, end: 0.31, kicker: '01 / Glass', title: 'Precision Tint', body: 'Heat rejection, privacy and optical clarity — selected for the vehicle, not just the shade.' },
+  { key: 'audio', start: 0.31, end: 0.58, kicker: '02 / Audio', title: 'Audio, Engineered.', body: 'OEM integration, DSP, amplification and speakers tuned as one cabin system.' },
+  { key: 'security', start: 0.58, end: 0.85, kicker: '03 / Security + Tracking', title: 'Track. Protect. Control.', body: 'Tracking, immobilization and layered protection integrated discreetly into the vehicle.' },
+  { key: 'ecosystem', start: 0.85, end: 1.01, kicker: '04 / TTT Ecosystem', title: 'One standard. Every vehicle.', body: 'Personal vehicles, dealership programs and fleets — one integration philosophy.' },
 ];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -203,7 +203,7 @@ export default function ScrollCinematic() {
     };
   }, [deviceKnown, isMobile, reducedMotion, mediaFailed, desktopReady, mobileReady, drawMobileFrame]);
 
-  const securityProgress = clamp((progress - 0.58) / 0.26, 0, 1);
+  const securityProgress = clamp((progress - 0.58) / 0.27, 0, 1);
   const showStatic = !deviceKnown || reducedMotion || mediaFailed;
 
   return (
@@ -245,7 +245,7 @@ export default function ScrollCinematic() {
               <p className="cinematic__kicker">{item.kicker}</p>
               <h1>{item.title}</h1>
               <p className="cinematic__body">{item.body}</p>
-              {item.key === 'security' ? <div className="cinematic__callouts" aria-label="Vehicle security capabilities"><span className={securityProgress > 0.08 ? 'is-on' : ''}>GPS Tracking</span><span className={securityProgress > 0.35 ? 'is-on' : ''}>Immobilizer</span><span className={securityProgress > 0.62 ? 'is-on' : ''}>Security Control</span></div> : null}
+              {item.key === 'security' ? <div className="cinematic__callouts" aria-label="Vehicle security capabilities"><span className={securityProgress > 0.08 ? 'is-on' : ''}>GPS Tracking</span><span className={securityProgress > 0.35 ? 'is-on' : ''}>Immobilization</span><span className={securityProgress > 0.62 ? 'is-on' : ''}>Security Control</span></div> : null}
               {item.key === 'ecosystem' ? <div className="cinematic__actions"><Link className="button" href="/start">Start a project →</Link><Link className="button button--ghost-dark" href="/solutions">Explore solutions</Link></div> : null}
             </div>
           ))}
