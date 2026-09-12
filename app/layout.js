@@ -8,6 +8,7 @@ import './editorial.css';
 import './visuals.css';
 import './premium.css';
 import './cinematic.css';
+import './cinematic-mobile.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 
