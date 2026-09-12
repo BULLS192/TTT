@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { canonicalLogoDataUri } from '../lib/brand/logoData';
+import { brandAssets } from '../lib/assets';
 
 export default function BrandMark({ compact = false }) {
   return (
@@ -10,11 +10,12 @@ export default function BrandMark({ compact = false }) {
     >
       <img
         className="brand-mark__image"
-        src={canonicalLogoDataUri}
+        src={brandAssets.logo}
         alt="Thompson Transportation Technologies LLC"
         width="480"
         height="228"
         decoding="async"
+        fetchPriority="high"
       />
     </Link>
   );
