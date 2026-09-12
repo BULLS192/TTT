@@ -2,24 +2,23 @@
 
 Updated: 2026-09-12
 
-## What changed
+## Current seed set
 
-TTT now has a first product-level commercial dataset instead of only manufacturer/category research.
+TTT now has a product-level commercial and vehicle-fitment dataset instead of only manufacturer/category research.
 
-Current seed set:
-
-- 24 product/SKU records
-- 13 with current public manufacturer/list/MSRP pricing
+- 29 product/SKU records
+- 18 with current public manufacturer/list/MSRP pricing
 - 10 recurring connected-service plans
 - 12 candidate TTT package recipes
 - 8 labor/QA classes
+- 10 priority vehicle-platform fitment records
 - dealer cost intentionally blank for all SKUs until TTT obtains authorized commercial terms
 
-The goal is to make the data useful for quoting without allowing incomplete research to become a misleading customer price.
+The goal is to make the data useful for planning and quoting without allowing incomplete research to become a misleading customer price.
 
 ## Core rule
 
-`createPlanningBom()` produces a **planning-only BOM** until the following are resolved:
+`createPlanningBom()` produces a **planning-only BOM** until all of these are resolved:
 
 1. exact vehicle is specified
 2. vehicle/product fitment is verified
@@ -30,172 +29,88 @@ The goal is to make the data useful for quoting without allowing incomplete rese
 
 Only after those blockers are cleared should a future system treat the record as quote-ready.
 
+`resolveVehicleFitment()` can now suggest candidate vehicle-specific interfaces from researched platform data, but it **always** returns a manual-verification requirement. Trim, RPO/factory-audio configuration, radio/display options, firmware and current manufacturer application data still control final compatibility.
+
 ## Initial product ecosystems
 
 ### Security / connected vehicle
 
-Seed products:
+Seed products include Compustar PRO T13, Compustar PRO CSXP9913-AS, Compustar CM900-AS and Drone X1 LTE.
 
-- Compustar PRO T13
-- Compustar PRO CSXP9913-AS
-- Compustar CM900-AS
-- Drone X1 LTE
-
-Recurring plans:
-
-- DroneMobile Basic — public price currently shown as low as $3.99/month
-- DroneMobile Premium — public price currently shown as low as $7.99/month
-
-These records intentionally exclude sensitive installation detail. Exact compatibility and product architecture remain authorized-installer/vehicle-specific decisions.
+Public recurring-plan reference data currently includes DroneMobile Basic and Premium. Security records intentionally exclude sensitive installation detail. Exact compatibility and architecture remain authorized-installer and vehicle-specific decisions.
 
 ### Cameras
 
-Seed products:
-
-- Momento M7 Wi-Fi MD-7205 — MSRP $379.99
-- Momento M8 Max MD-8400 — MSRP $399.99
-- BlackVue DR970X-2CH LTE Plus II — manufacturer list reference $540.99; sale price observed separately
-- BlackVue ELITE 10-2CH — manufacturer list reference $603.99
-- THINKWARE U3000 PRO Front & Rear — starting manufacturer-store price $579.99, with higher-priced LTE bundles
-
-Key commercial difference:
-
-- Momento is straightforward dealer-installed hardware with no required cloud subscription in the seed configuration.
-- BlackVue can include separate cloud/FLEETA and cellular-data economics.
-- THINKWARE can add optional LTE hardware/Connected services.
-
-The future quote should therefore show hardware and recurring services separately.
+Seed products include Momento M7/M8, BlackVue DR970X LTE/ELITE 10 and THINKWARE U3000 PRO. Hardware price and recurring cloud/LTE costs are represented separately so connected-camera packages do not hide ongoing ownership cost.
 
 ### Window film / protection
 
-Seed XPEL lines:
-
-- PRIME CS
-- PRIME XR
-- PRIME XR+
-- ULTIMATE PLUS PPF
-
-No public hardware price is stored because customer pricing depends heavily on vehicle, glass/coverage, shade, installer/dealer terms and selected coverage.
-
-Current XPEL consumer comparison data is stored for heat/IR/UV positioning, but actual quote logic must be based on TTT film cost, vehicle labor and current legal requirements.
+Seed lines include XPEL PRIME CS, PRIME XR, PRIME XR+ and ULTIMATE PLUS PPF. Exact customer price is deliberately not inferred from consumer-facing product data because vehicle coverage, film quantity, labor, training/dealer terms and selected coverage materially affect the job.
 
 ### OEM integration
 
-Seed interfaces:
+General/vehicle-sensitive seed interfaces include iDatalink Maestro ADS-MRR2, Axxess AXDSP-X and PAC AmpPRO products.
 
-- iDatalink Maestro ADS-MRR2
-- Axxess AXDSP-X
-- PAC AP4-TY14
-- PAC AP4-FD21
-- PAC APA-TOS1
+Verified vehicle-specific additions now include:
 
-These are fitment-sensitive by design. A connector or interface being physically available is not enough to declare compatibility.
+- PAC AP4-FD31 — selected 2018–2024 Ford B&O A2B applications including F-150; current public reference $489
+- PAC AP4-GM61 — selected older GM Bose applications including Silverado/Sierra, Tahoe/Suburban/Yukon; current public reference $489
+- PAC AP4-TY13 — selected Toyota premium-amplified applications including Tacoma/Tundra; current public reference $379
+- PAC AP4-CH42 — selected newer Chrysler/Dodge/Jeep/RAM applications; current manufacturer-store reference $499
+- Metra/Axxess AXDSPX-ETH1 — GM Ethernet-amplifier/DSP applications; 2026 GMC Sierra 1500 currently appears in Metra's fit guide at MSRP $613.99
 
-The quote workflow must identify:
-
-- exact year/make/model/trim
-- radio/display configuration
-- factory premium audio system/amplifier
-- required firmware/application
-- required harnesses/accessories
-- retained factory functions
-
-before final BOM selection.
+These are never selected from vehicle name alone. The workflow must identify exact year/make/model/trim, factory audio architecture, radio/display configuration, current firmware/application and required harnesses/accessories.
 
 ### DSP / premium audio
 
-Seed products:
+Seed products include AudioControl DM-810, D-4.800, D-5.1300 and D-6.1200 plus HELIX NEXT V EIGHT DSP ULTIMATE and HELIX V EIGHTEEN DSP. Selection logic is based on factory signal architecture, channel count, power/load, space/electrical capacity, OEM integration, future expansion and measurement/tuning workflow—not brand name alone.
 
-- AudioControl DM-810
-- AudioControl D-4.800
-- AudioControl D-5.1300
-- AudioControl D-6.1200
-- HELIX NEXT V EIGHT DSP ULTIMATE
-- HELIX V EIGHTEEN DSP
+## Priority vehicle-fitment intelligence
 
-Public manufacturer pricing is stored for AudioControl products where available. HELIX dealer/distributor pricing remains blank pending TTT's approved supply route.
+The first platform set is intentionally concentrated on Houston-relevant trucks and SUVs:
 
-The key selection logic is not brand-first. It is:
+- Ford F-150
+- Ford Bronco
+- Ford F-250/F-350 Super Duty
+- Chevrolet Silverado 1500
+- GMC Sierra 1500
+- Chevrolet Tahoe/Suburban
+- GMC Yukon/Yukon XL
+- Toyota Tacoma
+- Toyota Tundra
+- Ram 1500 / Ram Truck
 
-1. factory signal architecture
-2. target channel count
-3. load/power requirements
-4. available space/electrical capacity
-5. OEM integration requirements
-6. future expansion
-7. measurement/tuning workflow
-8. dealer support/warranty
+Each year window is tagged with a confidence state such as `official-application`, `official-fit-guide`, `official-support-conditional`, or `research-needed`.
+
+Examples of why this matters:
+
+- Ford F-150 2018–2024 with the relevant factory B&O A2B system has an official PAC AP4-FD31 path; 2025–2026 stays unresolved until current application data is verified.
+- Older GM Bose trucks/SUVs use a different integration path from newer GM Ethernet-amplifier vehicles.
+- Tacoma/Tundra support changes by generation: PAC TY13 and TY14 cover different year groups.
+- RAM 2025+ AP4-CH42 support is conditional and should not be generalized across every trim/audio configuration.
+
+This is the beginning of the fitment database, not the final catalog.
 
 ## Candidate TTT packages
 
-These are product-selection frameworks, not final sellable packages.
+Current planning recipes include:
 
-### Cameras
+- TTT Reference / Performance / Signature Camera
+- TTT Reference / Performance / Signature Tint
+- TTT Reference / Performance / Signature Connected Security
+- TTT OEM Audio Integration
+- TTT Performance DSP
+- TTT Signature DSP
 
-- TTT Reference Camera — Momento M7 Wi-Fi candidate
-- TTT Performance Camera — Momento M8 Max or THINKWARE U3000 PRO candidate
-- TTT Signature Camera — BlackVue DR970X LTE / ELITE candidate with explicit cloud/LTE plan selection
-
-### Tint
-
-- TTT Reference Tint — XPEL PRIME CS candidate
-- TTT Performance Tint — XPEL PRIME XR candidate
-- TTT Signature Tint — XPEL PRIME XR+ candidate
-
-### Connected security
-
-- TTT Reference Connected Security — professional Compustar architecture selected by fitment
-- TTT Performance Connected Security — 2-way/connected system plus GPS subscription where desired
-- TTT Signature Connected Security — connected security plus camera/cloud layer and room for additional independently authorized protection layers
-
-### Audio
-
-- TTT OEM Audio Integration — correct factory interface + DSP architecture
-- TTT Performance DSP — AudioControl integrated processing/amplification candidates
-- TTT Signature DSP — high-channel-count HELIX/AudioControl architecture candidates
+These are product-selection frameworks, not final sellable packages. Product choices remain subject to TTT authorization, supply, exact vehicle fitment, margin and installer capability.
 
 ## Labor model
 
-Labor rates/hours are intentionally blank until Derek/TTT confirms the real operating model.
-
-Current labor classes capture the work/QA scope for:
-
-- 2-channel camera hardwire
-- cloud/LTE camera provisioning
-- security/remote-start integration
-- connected-vehicle account setup
-- OEM audio/data interface work
-- DSP system design/tuning
-- window film
-- paint-protection film
-
-This lets TTT define standards first, then attach real hours and rates once known.
+Labor rates/hours remain blank until Derek/TTT confirms the operating model. Current labor classes define the scope and QA requirements for camera hardwire, cloud/LTE provisioning, security/remote-start, connected-vehicle setup, OEM audio/data interfaces, DSP design/tuning, window film and PPF.
 
 ## Pricing hierarchy to implement later
 
-Each product should eventually have:
-
-- dealer cost
-- freight/landed cost
-- rebate/incentive
-- MSRP
-- MAP
-- TTT standard sell price
-- package sell price if different
-- required accessories/material allowance
-- labor class + hours
-- merchant/tax assumptions
-- recurring service revenue/share if any
-- warranty reserve/RMA responsibility where relevant
-
-From those fields TTT can calculate:
-
-- hardware gross profit
-- labor gross profit
-- blended gross margin
-- recurring revenue
-- dealer/fleet volume price
-- minimum acceptable price
+Each product should eventually carry dealer cost, freight/landed cost, rebates, MSRP/MAP, TTT standard/package sell price, required materials, labor hours/rate, taxes/fees, recurring revenue/share and warranty/RMA responsibility. Those fields enable hardware GP, labor GP, blended gross margin, recurring revenue, dealer/fleet volume pricing and a minimum acceptable price.
 
 ## Next data acquisition priority
 
@@ -206,12 +121,17 @@ From those fields TTT can calculate:
 5. Obtain AudioControl/HELIX supply routes and dealer pricing.
 6. Obtain BlackVue/Thinkware/Momento dealer cost and RMA procedures.
 7. Confirm Derek's labor-hour and labor-rate standards.
-8. Start fitment intelligence with high-volume Houston platforms (F-150, Silverado/Sierra, Tahoe/Yukon, Ram 1500, Tacoma/Tundra, common luxury SUVs and dealer/fleet targets).
+8. Fill unresolved 2025–2026 truck/SUV fitment windows.
+9. Expand to common Houston luxury SUVs, performance vehicles and dealer/fleet target platforms.
+10. Add trim/RPO/factory-audio option data and speaker/camera/power notes only from current authoritative fitment sources.
 
 ## Source-of-truth files
 
 - `lib/data/productSkuCatalog.js`
 - `lib/data/securityProductCatalog.js`
+- `lib/data/vehicleSpecificSkus.js`
+- `lib/data/vehicleFitmentIntelligence.js`
+- `lib/data/fitmentResolver.js`
 - `lib/data/recurringPlans.js`
 - `lib/data/laborModel.js`
 - `lib/data/packageCandidates.js`
