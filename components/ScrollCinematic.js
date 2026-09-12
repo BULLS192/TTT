@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { canonicalLogoDataUri } from '../lib/brand/logoData';
+import { brandAssets } from '../lib/assets';
 import { homepageCinematic } from '../lib/cinematicMedia';
 
 const chapters = [
@@ -38,6 +38,7 @@ export default function ScrollCinematic() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [motionOverride, setMotionOverride] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [mediaFailed, setMediaFailed] = useState(false);
   const reducedMotion = prefersReducedMotion && !motionOverride;
 
   useEffect(() => {
@@ -100,7 +101,7 @@ export default function ScrollCinematic() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || reducedMotion) return;
+    if (!video || reducedMotion || mediaFailed) return;
 
     const onLoadedData = () => { unlockVideo(); };
     const onFirstGesture = () => { unlockVideo(true); };
@@ -116,12 +117,12 @@ export default function ScrollCinematic() {
       window.removeEventListener('touchstart', onFirstGesture);
       window.removeEventListener('pointerdown', onFirstGesture);
     };
-  }, [reducedMotion, unlockVideo]);
+  }, [reducedMotion, unlockVideo, mediaFailed]);
 
   useEffect(() => {
     const section = sectionRef.current;
     const video = videoRef.current;
-    if (!section || !video || reducedMotion) return;
+    if (!section || !video || reducedMotion || mediaFailed) return;
 
     const ensureMobilePlayback = () => {
       if (!isMobile || !unlockedRef.current || !video.paused) return;
@@ -201,10 +202,10 @@ export default function ScrollCinematic() {
       if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
       video.pause();
     };
-  }, [isMobile, reducedMotion, unlockVideo]);
+  }, [isMobile, reducedMotion, unlockVideo, mediaFailed]);
 
   const securityProgress = clamp((progress - 0.58) / 0.26, 0, 1);
-  const showActivation = isMobile && (needsActivation || reducedMotion);
+  const showActivation = isMobile && (needsActivation || reducedMotion) && !mediaFailed;
 
   const activateCinematic = () => {
     setMotionOverride(true);
@@ -212,26 +213,33 @@ export default function ScrollCinematic() {
     unlockVideo(true);
   };
 
+  const showStaticFallback = reducedMotion || mediaFailed;
+
   return (
     <section ref={sectionRef} className={`cinematic ${reducedMotion ? 'cinematic--reduced' : ''}`} aria-label="TTT vehicle technology experience">
       <div className="cinematic__sticky">
-        <video
-          ref={videoRef}
-          className={`cinematic__video ${ready ? 'is-ready' : ''} ${decoderReady ? 'is-unlocked' : ''}`}
-          poster={homepageCinematic.sourcePoster || homepageCinematic.poster}
-          muted
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          controls={false}
-          aria-hidden="true"
-          tabIndex={-1}
-          onLoadedMetadata={(event) => { event.currentTarget.pause(); setReady(true); }}
-          onCanPlay={() => unlockVideo()}
-        >
-          <source media="(max-width: 900px)" src={homepageCinematic.mobileVideo} type="video/mp4" />
-          <source src={homepageCinematic.video} type="video/mp4" />
-        </video>
+        {showStaticFallback ? (
+          <img className="cinematic__video is-ready" src={homepageCinematic.fallback} alt="" aria-hidden="true" decoding="async" />
+        ) : (
+          <video
+            ref={videoRef}
+            className={`cinematic__video ${ready ? 'is-ready' : ''} ${decoderReady ? 'is-unlocked' : ''}`}
+            poster={homepageCinematic.poster}
+            muted
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+            controls={false}
+            aria-hidden="true"
+            tabIndex={-1}
+            onLoadedMetadata={(event) => { event.currentTarget.pause(); setReady(true); }}
+            onCanPlay={() => unlockVideo()}
+            onError={() => { setMediaFailed(true); setReady(true); }}
+          >
+            <source media="(max-width: 900px)" src={homepageCinematic.mobileVideo || homepageCinematic.video} type="video/mp4" />
+            <source src={homepageCinematic.video} type="video/mp4" />
+          </video>
+        )}
         <div className="cinematic__shade cinematic__shade--left" />
         <div className="cinematic__shade cinematic__shade--top" />
         <div className="cinematic__shade cinematic__shade--bottom" />
@@ -239,7 +247,7 @@ export default function ScrollCinematic() {
         <div className="cinematic__content shell">
           {chapters.map((item, index) => (
             <div className={`cinematic__chapter cinematic__chapter--${item.key} ${index === activeChapter ? 'is-active' : ''}`} key={item.key} aria-hidden={index !== activeChapter}>
-              {item.key === 'ecosystem' ? <img className="cinematic__logo" src={canonicalLogoDataUri} alt="Thompson Transportation Technologies" width="480" height="228" /> : null}
+              {item.key === 'ecosystem' ? <img className="cinematic__logo" src={brandAssets.logo} alt="Thompson Transportation Technologies" width="480" height="228" decoding="async" /> : null}
               <p className="cinematic__kicker">{item.kicker}</p>
               <h1>{item.title}</h1>
               <p className="cinematic__body">{item.body}</p>
