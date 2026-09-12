@@ -1,11 +1,36 @@
 import { articles } from '../lib/articles';
+import { siteUrl } from '../lib/siteConfig';
 
-export default function sitemap(){
-  const base=process.env.NEXT_PUBLIC_SITE_URL||'https://ttt-alpha-gules.vercel.app';
-  const staticRoutes=['','/solutions','/services','/industries','/concept-one','/projects','/technology','/technology/dsp','/technology/oem-integration','/technology/telematics','/technology/vehicle-vision','/technology/brands','/vehicles','/resources','/resources/faq','/articles','/about','/standards','/service-area','/contact','/work-with-us','/start','/privacy','/terms','/accessibility'];
-  const solutionSlugs=['premium-vehicle-experience','vehicle-security','connected-vehicle','fleet-intelligence','dealership-technology','custom-integration'];
-  const serviceSlugs=['audio','window-tint','security','tracking','cameras','lighting','electronics','custom-fabrication'];
-  const industrySlugs=['vehicle-owners','dealerships','fleets','commercial-vehicles','specialty-vehicles'];
-  const paths=[...staticRoutes,...solutionSlugs.map(x=>`/solutions/${x}`),...serviceSlugs.map(x=>`/services/${x}`),...industrySlugs.map(x=>`/industries/${x}`),...articles.map(x=>`/articles/${x.slug}`)];
-  return paths.map((path)=>({url:`${base}${path}`,lastModified:new Date(),changeFrequency:path.startsWith('/articles')?'monthly':'weekly',priority:path===''?1:path==='/start'?0.9:0.7}));
+const staticPaths = [
+  '/', '/about', '/articles', '/concept-one', '/contact', '/industries',
+  '/industries/vehicle-owners', '/industries/dealerships', '/industries/fleets',
+  '/industries/commercial-vehicles', '/industries/specialty-vehicles', '/projects',
+  '/resources', '/resources/faq', '/service-area', '/services', '/services/audio',
+  '/services/window-tint', '/services/security', '/services/tracking', '/services/cameras',
+  '/services/lighting', '/services/electronics', '/services/custom-fabrication', '/solutions',
+  '/solutions/premium-vehicle-experience', '/solutions/vehicle-security',
+  '/solutions/connected-vehicle', '/solutions/fleet-intelligence',
+  '/solutions/dealership-technology', '/solutions/custom-integration', '/standards', '/start',
+  '/technology', '/technology/dsp', '/technology/oem-integration', '/technology/telematics',
+  '/technology/vehicle-vision', '/technology/brands', '/vehicles', '/work-with-us',
+  '/privacy', '/terms', '/accessibility'
+];
+
+export default function sitemap() {
+  const now = new Date();
+  const pages = staticPaths.map((path) => ({
+    url: `${siteUrl}${path}`,
+    lastModified: now,
+    changeFrequency: path === '/' ? 'weekly' : 'monthly',
+    priority: path === '/' ? 1 : path === '/start' || path === '/services' || path === '/solutions' ? 0.9 : 0.7
+  }));
+
+  const articlePages = articles.map((article) => ({
+    url: `${siteUrl}/articles/${article.slug}`,
+    lastModified: new Date(`${article.date}T12:00:00Z`),
+    changeFrequency: 'yearly',
+    priority: 0.65
+  }));
+
+  return [...pages, ...articlePages];
 }

@@ -9,32 +9,47 @@ import './visuals.css';
 import './premium.css';
 import './cinematic.css';
 import './cinematic-mobile.css';
+import './launch-hardening.css';
+import './agency-pass.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
+import SiteTelemetry from '../components/SiteTelemetry';
+import { organizationSchema, siteDescription, siteName, siteUrl } from '../lib/siteConfig';
 
 export const metadata = {
   applicationName: 'TTT',
-  title: { default: 'TTT — Thompson Transportation Technologies', template: '%s | TTT' },
-  description: 'Automotive technology consulting, integration and installation for vehicle owners, dealerships and fleets.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ttt-alpha-gules.vercel.app'),
+  title: { default: `TTT — ${siteName}`, template: '%s | TTT' },
+  description: siteDescription,
+  metadataBase: new URL(siteUrl),
   appleWebApp: {
     capable: true,
     title: 'TTT',
     statusBarStyle: 'default',
   },
   openGraph: {
-    title: 'TTT — Thompson Transportation Technologies',
-    description: 'Automotive technology consulting, integration and installation for vehicle owners, dealerships and fleets.',
+    title: `TTT — ${siteName}`,
+    description: siteDescription,
+    url: siteUrl,
     type: 'website',
-    siteName: 'Thompson Transportation Technologies',
+    siteName,
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TTT — Thompson Transportation Technologies',
-    description: 'Automotive technology consulting, integration and installation for vehicle owners, dealerships and fleets.',
+    title: `TTT — ${siteName}`,
+    description: siteDescription,
   },
 };
 
+export const viewport = { themeColor: '#0d0f14' };
+
 export default function RootLayout({ children }) {
-  return <html lang="en"><body><SiteHeader />{children}<SiteFooter /></body></html>;
+  return <html lang="en"><body>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(organizationSchema)}} />
+    <a className="skip-link" href="#main-content">Skip to main content</a>
+    <SiteHeader />
+    <div id="main-content">{children}</div>
+    <SiteFooter />
+    <SiteTelemetry />
+  </body></html>;
 }

@@ -16,7 +16,14 @@ create table if not exists public.project_requests (
   name text not null,
   email text not null,
   phone text,
+  consent_at timestamptz,
   created_at timestamptz default now()
 );
+
+alter table public.project_requests add column if not exists consent_at timestamptz;
 alter table public.project_requests enable row level security;
--- No anonymous insert policy is required: website submissions use the server-side service role route.
+revoke all on table public.project_requests from anon, authenticated;
+grant insert, select on table public.project_requests to service_role;
+grant usage, select on sequence public.project_requests_id_seq to service_role;
+
+-- Website submissions are accepted only through the server-side route using service-role credentials.

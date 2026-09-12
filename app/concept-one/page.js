@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import AutoVisual from '../../components/AutoVisual';
+import ConceptMedia from '../../components/ConceptMedia';
 
 export const metadata={title:'Concept One | TTT',description:'Concept One is TTT’s matte-black coupe demonstrator for audio, tint, security, tracking, cameras and connected vehicle technology.'};
 
@@ -13,9 +14,9 @@ const systems=[
 ];
 
 export default function Page(){return <main>
-  <section className="detail-hero dark-section grid-bg"><div className="shell visual-hero-grid"><div><p className="eyebrow">TTT / C1</p><h1>Concept One.</h1><p className="lead lead--dark">The TTT reference vehicle: matte black, cleanly integrated, and built to show six technology systems on one platform.</p><div className="button-row"><Link className="button" href="/start">Build your version →</Link><Link className="button button--ghost-dark" href="/projects">Projects</Link></div></div><AutoVisual variant="concept" eyebrow="CONCEPT ONE / C1"/></div></section>
+  <section className="detail-hero dark-section grid-bg concept-one-hero"><div className="shell visual-hero-grid"><div><p className="eyebrow">TTT / C1</p><h1>Concept One.</h1><p className="lead lead--dark">The TTT reference vehicle: matte black, cleanly integrated, and built to show six technology systems on one platform.</p><div className="button-row"><Link className="button" href="/start">Build your version →</Link><Link className="button button--ghost-dark" href="/projects">Projects</Link></div></div><ConceptMedia eyebrow="TTT / C1 / 001" caption="Concept One"/></div></section>
 
-  <section className="section"><div className="shell editorial-visual-band"><AutoVisual variant="concept" eyebrow="C1 / EXTERIOR"/><div className="editorial-visual-copy"><p className="eyebrow">Why C1 exists</p><h2>The car is the demo room.</h2><p>Walk around one vehicle and compare a darker window with a better film, a louder stereo with a tuned system, and a tracker with a complete security strategy.</p></div></div></section>
+  <section className="section"><div className="shell editorial-visual-band concept-feature-media"><ConceptMedia compact eyebrow="C1 / EXTERIOR" caption="Matte-black reference coupe"/><div className="editorial-visual-copy"><p className="eyebrow">Why C1 exists</p><h2>The car is the demo room.</h2><p>Walk around one vehicle and compare a darker window with a better film, a louder stereo with a tuned system, and a tracker with a complete security strategy.</p></div></div></section>
 
   <section className="section section--soft"><div className="shell"><div className="visual-stat-strip"><div className="visual-stat"><small>BODY</small><strong>Low-slung coupe</strong><p>Matte black, no unrelated manufacturer branding.</p></div><div className="visual-stat"><small>FRONT</small><strong>Clean face</strong><p>No front license plate.</p></div><div className="visual-stat"><small>REAR</small><strong>C1 identity</strong><p>C1 plate and canonical TTT vehicle badge.</p></div></div></div></section>
 
