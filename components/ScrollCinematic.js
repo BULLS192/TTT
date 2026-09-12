@@ -29,23 +29,39 @@ export default function ScrollCinematic() {
   const lastSeekAtRef = useRef(0);
   const unlockedRef = useRef(false);
   const unlockingRef = useRef(false);
+  const settlingRef = useRef(false);
   const [progress, setProgress] = useState(0);
   const [activeChapter, setActiveChapter] = useState(0);
   const [ready, setReady] = useState(false);
   const [decoderReady, setDecoderReady] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [needsActivation, setNeedsActivation] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [motionOverride, setMotionOverride] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const reducedMotion = prefersReducedMotion && !motionOverride;
 
   useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReducedMotion(media.matches);
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mobileWidth = window.matchMedia('(max-width: 900px)');
+    const coarse = window.matchMedia('(pointer: coarse)');
+    const sync = () => {
+      setPrefersReducedMotion(motion.matches);
+      setIsMobile(mobileWidth.matches || coarse.matches);
+    };
     sync();
-    media.addEventListener?.('change', sync);
-    return () => media.removeEventListener?.('change', sync);
+    motion.addEventListener?.('change', sync);
+    mobileWidth.addEventListener?.('change', sync);
+    coarse.addEventListener?.('change', sync);
+    return () => {
+      motion.removeEventListener?.('change', sync);
+      mobileWidth.removeEventListener?.('change', sync);
+      coarse.removeEventListener?.('change', sync);
+    };
   }, []);
 
-  const unlockVideo = useCallback(async () => {
+  const unlockVideo = useCallback(async (force = false) => {
     const video = videoRef.current;
-    if (!video || unlockedRef.current || unlockingRef.current || reducedMotion || video.readyState < 2) return;
+    if (!video || unlockedRef.current || unlockingRef.current || (!force && reducedMotion) || video.readyState < 2) return false;
     unlockingRef.current = true;
     video.muted = true;
     video.defaultMuted = true;
@@ -65,33 +81,33 @@ export default function ScrollCinematic() {
           resolve();
         };
         if (typeof video.requestVideoFrameCallback === 'function') video.requestVideoFrameCallback(done);
-        window.setTimeout(done, 120);
+        window.setTimeout(done, 160);
       });
 
       video.pause();
-      if (video.currentTime > 0.12 || video.currentTime === 0) {
-        try { video.currentTime = 0.001; } catch (_) {}
-      }
+      try { video.currentTime = Math.max(video.currentTime, 0.001); } catch (_) {}
       unlockedRef.current = true;
       setDecoderReady(true);
+      setNeedsActivation(false);
+      return true;
     } catch (_) {
-      // Safari may require the first touch gesture. The gesture listeners below retry this path.
+      if (isMobile) setNeedsActivation(true);
+      return false;
     } finally {
       unlockingRef.current = false;
     }
-  }, [reducedMotion]);
+  }, [isMobile, reducedMotion]);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video || reducedMotion) return;
 
     const onLoadedData = () => { unlockVideo(); };
-    const onFirstGesture = () => { unlockVideo(); };
+    const onFirstGesture = () => { unlockVideo(true); };
 
     video.addEventListener('loadeddata', onLoadedData);
     window.addEventListener('touchstart', onFirstGesture, { passive: true });
     window.addEventListener('pointerdown', onFirstGesture, { passive: true });
-    window.addEventListener('click', onFirstGesture, { passive: true });
 
     if (video.readyState >= 2) unlockVideo();
 
@@ -99,7 +115,6 @@ export default function ScrollCinematic() {
       video.removeEventListener('loadeddata', onLoadedData);
       window.removeEventListener('touchstart', onFirstGesture);
       window.removeEventListener('pointerdown', onFirstGesture);
-      window.removeEventListener('click', onFirstGesture);
     };
   }, [reducedMotion, unlockVideo]);
 
@@ -108,12 +123,24 @@ export default function ScrollCinematic() {
     const video = videoRef.current;
     if (!section || !video || reducedMotion) return;
 
-    const readScrollTarget = () => {
-      const rect = section.getBoundingClientRect();
-      const scrollable = Math.max(section.offsetHeight - window.innerHeight, 1);
-      targetProgressRef.current = clamp(clamp(-rect.top, 0, scrollable) / scrollable, 0, 1);
-      if (!unlockedRef.current && video.readyState >= 2) unlockVideo();
-      if (!rafRef.current) rafRef.current = window.requestAnimationFrame(tick);
+    const ensureMobilePlayback = () => {
+      if (!isMobile || !unlockedRef.current || !video.paused) return;
+      const playback = video.play();
+      playback?.catch?.(() => setNeedsActivation(true));
+    };
+
+    const settleMobileFrame = () => {
+      if (!isMobile || !unlockedRef.current || settlingRef.current) return;
+      settlingRef.current = true;
+      const exactTime = clamp(targetProgressRef.current * video.duration, 0.001, Math.max(video.duration - 0.04, 0.001));
+      try { video.currentTime = exactTime; } catch (_) {}
+
+      const finish = () => {
+        video.pause();
+        settlingRef.current = false;
+      };
+      if (typeof video.requestVideoFrameCallback === 'function') video.requestVideoFrameCallback(finish);
+      else window.setTimeout(finish, 90);
     };
 
     const tick = (now) => {
@@ -121,8 +148,7 @@ export default function ScrollCinematic() {
       const target = targetProgressRef.current;
       let current = smoothProgressRef.current;
       const distance = target - current;
-
-      current = Math.abs(distance) < 0.00035 ? target : current + distance * 0.18;
+      current = Math.abs(distance) < 0.00035 ? target : current + distance * (isMobile ? 0.22 : 0.18);
       smoothProgressRef.current = current;
 
       if (Math.abs(current - renderedProgressRef.current) > 0.001 || current === target) {
@@ -132,11 +158,14 @@ export default function ScrollCinematic() {
       }
 
       if (unlockedRef.current && video.readyState >= 2 && Number.isFinite(video.duration) && video.duration > 0) {
+        if (isMobile) ensureMobilePlayback();
         const targetTime = clamp(current * video.duration, 0.001, Math.max(video.duration - 0.04, 0.001));
         const delta = Math.abs(targetTime - video.currentTime);
-        const enoughTimePassed = now - lastSeekAtRef.current >= 34;
+        const seekInterval = isMobile ? 70 : 34;
+        const seekThreshold = isMobile ? 0.045 : 0.028;
+        const enoughTimePassed = now - lastSeekAtRef.current >= seekInterval;
 
-        if (delta > 0.028 && enoughTimePassed && !video.seeking) {
+        if (delta > seekThreshold && enoughTimePassed && !video.seeking) {
           try {
             video.currentTime = targetTime;
             lastSeekAtRef.current = now;
@@ -144,7 +173,19 @@ export default function ScrollCinematic() {
         }
       }
 
-      if (Math.abs(target - current) > 0.00035) rafRef.current = window.requestAnimationFrame(tick);
+      if (Math.abs(target - current) > 0.00035) {
+        rafRef.current = window.requestAnimationFrame(tick);
+      } else if (isMobile && unlockedRef.current && video.readyState >= 2) {
+        settleMobileFrame();
+      }
+    };
+
+    const readScrollTarget = () => {
+      const rect = section.getBoundingClientRect();
+      const scrollable = Math.max(section.offsetHeight - window.innerHeight, 1);
+      targetProgressRef.current = clamp(clamp(-rect.top, 0, scrollable) / scrollable, 0, 1);
+      if (!unlockedRef.current && video.readyState >= 2) unlockVideo();
+      if (!rafRef.current) rafRef.current = window.requestAnimationFrame(tick);
     };
 
     video.pause();
@@ -158,10 +199,18 @@ export default function ScrollCinematic() {
       window.removeEventListener('resize', readScrollTarget);
       window.removeEventListener('orientationchange', readScrollTarget);
       if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+      video.pause();
     };
-  }, [reducedMotion, unlockVideo]);
+  }, [isMobile, reducedMotion, unlockVideo]);
 
   const securityProgress = clamp((progress - 0.58) / 0.26, 0, 1);
+  const showActivation = isMobile && (needsActivation || reducedMotion);
+
+  const activateCinematic = () => {
+    setMotionOverride(true);
+    setNeedsActivation(false);
+    unlockVideo(true);
+  };
 
   return (
     <section ref={sectionRef} className={`cinematic ${reducedMotion ? 'cinematic--reduced' : ''}`} aria-label="TTT vehicle technology experience">
@@ -169,8 +218,7 @@ export default function ScrollCinematic() {
         <video
           ref={videoRef}
           className={`cinematic__video ${ready ? 'is-ready' : ''} ${decoderReady ? 'is-unlocked' : ''}`}
-          src={homepageCinematic.video}
-          poster={homepageCinematic.poster}
+          poster={homepageCinematic.sourcePoster || homepageCinematic.poster}
           muted
           playsInline
           preload="auto"
@@ -180,7 +228,10 @@ export default function ScrollCinematic() {
           tabIndex={-1}
           onLoadedMetadata={(event) => { event.currentTarget.pause(); setReady(true); }}
           onCanPlay={() => unlockVideo()}
-        />
+        >
+          <source media="(max-width: 900px)" src={homepageCinematic.mobileVideo} type="video/mp4" />
+          <source src={homepageCinematic.video} type="video/mp4" />
+        </video>
         <div className="cinematic__shade cinematic__shade--left" />
         <div className="cinematic__shade cinematic__shade--top" />
         <div className="cinematic__shade cinematic__shade--bottom" />
@@ -198,6 +249,7 @@ export default function ScrollCinematic() {
           ))}
         </div>
 
+        {showActivation ? <button className="cinematic__activate" type="button" onClick={activateCinematic}>{reducedMotion ? 'Play cinematic' : 'Tap to enable cinematic'}</button> : null}
         <div className={`cinematic__scroll-hint ${progress > 0.08 ? 'is-hidden' : ''}`}><span>Scroll to explore</span><b>↓</b></div>
         <div className="cinematic__rail" aria-hidden="true">{chapters.map((item, index) => <span key={item.key} className={index === activeChapter ? 'is-active' : ''}>0{index + 1}</span>)}</div>
         <div className="cinematic__progress" aria-hidden="true"><span style={{ transform: `scaleX(${progress})` }} /></div>
