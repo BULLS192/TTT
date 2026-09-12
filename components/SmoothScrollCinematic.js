@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { canonicalLogoDataUri } from '../lib/brand/logoData';
+import { brandAssets } from '../lib/assets';
 import { homepageCinematic } from '../lib/cinematicMedia';
 
 const chapters = [
@@ -34,6 +34,7 @@ export default function SmoothScrollCinematic() {
   const [scrolled, setScrolled] = useState(false);
   const [ready, setReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [mediaFailed, setMediaFailed] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -46,7 +47,7 @@ export default function SmoothScrollCinematic() {
   useEffect(() => {
     const section = sectionRef.current;
     const video = videoRef.current;
-    if (!section || !video || reducedMotion) return;
+    if (!section || !video || reducedMotion || mediaFailed) return;
 
     const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const response = coarsePointer ? 9 : 12;
@@ -146,33 +147,49 @@ export default function SmoothScrollCinematic() {
       rafRef.current = null;
       initializedRef.current = false;
     };
-  }, [reducedMotion, ready]);
+  }, [reducedMotion, ready, mediaFailed]);
+
+  const showStaticFallback = reducedMotion || mediaFailed;
 
   return (
     <section ref={sectionRef} className={`cinematic ${reducedMotion ? 'cinematic--reduced' : ''}`} aria-label="TTT vehicle technology experience">
       <div className="cinematic__sticky">
-        <video
-          ref={videoRef}
-          className={`cinematic__video ${ready ? 'is-ready' : ''}`}
-          src={homepageCinematic.video}
-          poster={homepageCinematic.poster}
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          tabIndex={-1}
-          style={{ transform: 'translate3d(0,0,0)', backfaceVisibility: 'hidden', willChange: 'opacity, transform' }}
-          onLoadedMetadata={(event) => {
-            event.currentTarget.pause();
-            const value = smoothProgressRef.current;
-            if (Number.isFinite(event.currentTarget.duration) && event.currentTarget.duration > 0) {
-              try {
-                event.currentTarget.currentTime = clamp(value * event.currentTarget.duration, 0, Math.max(event.currentTarget.duration - 0.04, 0));
-              } catch (_) {}
-            }
-            setReady(true);
-          }}
-        />
+        {showStaticFallback ? (
+          <img
+            className="cinematic__video is-ready"
+            src={homepageCinematic.fallback}
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            className={`cinematic__video ${ready ? 'is-ready' : ''}`}
+            src={homepageCinematic.video}
+            poster={homepageCinematic.poster}
+            muted
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            tabIndex={-1}
+            style={{ transform: 'translate3d(0,0,0)', backfaceVisibility: 'hidden', willChange: 'opacity, transform' }}
+            onLoadedMetadata={(event) => {
+              event.currentTarget.pause();
+              const value = smoothProgressRef.current;
+              if (Number.isFinite(event.currentTarget.duration) && event.currentTarget.duration > 0) {
+                try {
+                  event.currentTarget.currentTime = clamp(value * event.currentTarget.duration, 0, Math.max(event.currentTarget.duration - 0.04, 0));
+                } catch (_) {}
+              }
+              setReady(true);
+            }}
+            onError={() => {
+              setMediaFailed(true);
+              setReady(true);
+            }}
+          />
+        )}
         <div className="cinematic__shade cinematic__shade--left" />
         <div className="cinematic__shade cinematic__shade--top" />
         <div className="cinematic__shade cinematic__shade--bottom" />
@@ -180,7 +197,7 @@ export default function SmoothScrollCinematic() {
         <div className="cinematic__content shell">
           {chapters.map((item, index) => (
             <div className={`cinematic__chapter cinematic__chapter--${item.key} ${index === activeChapter ? 'is-active' : ''}`} key={item.key} aria-hidden={index !== activeChapter}>
-              {item.key === 'ecosystem' ? <img className="cinematic__logo" src={canonicalLogoDataUri} alt="Thompson Transportation Technologies" width="480" height="228" /> : null}
+              {item.key === 'ecosystem' ? <img className="cinematic__logo" src={brandAssets.logo} alt="Thompson Transportation Technologies" width="480" height="228" decoding="async" /> : null}
               <p className="cinematic__kicker">{item.kicker}</p>
               <h1>{item.title}</h1>
               <p className="cinematic__body">{item.body}</p>
