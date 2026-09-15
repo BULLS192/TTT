@@ -26,9 +26,9 @@ const menus = {
       ['Security', 'Layered protection without publishing sensitive install details.', '/services/security'],
       ['GPS & Tracking', 'Location, geofencing and telematics.', '/services/tracking'],
       ['Cameras', 'Dash, rear, parking and fleet video systems.', '/services/cameras'],
-      ['Lighting', 'Interior, exterior and work lighting.', '/services/lighting'],
+      ['SignalTrace™', 'Advanced root-cause diagnostics for difficult electrical and electronic faults.', '/services/signaltrace'],
       ['Electronics', 'Remote start, charging and vehicle accessories.', '/services/electronics'],
-      ['Custom Fabrication', 'Mounts, panels and enclosures built for the vehicle.', '/services/custom-fabrication'],
+      ['Custom Fabrication & Additive Manufacturing', 'CAD, 3D printing, mounts, panels, enclosures, jigs and fixtures.', '/services/custom-fabrication'],
     ],
   },
   Business: {
