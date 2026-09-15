@@ -2,7 +2,7 @@ import Link from 'next/link';
 import AutoVisual from '../../../components/AutoVisual';
 
 export const metadata = {
-  title: 'SignalTrace™ Advanced Vehicle Electronics Diagnostics | TTT',
+  title: 'SignalTrace™ Advanced Vehicle Electronics Diagnostics',
   description: 'TTT SignalTrace™ diagnoses difficult automotive electrical and electronic faults, intermittent issues, aftermarket integration problems, battery drains, no-starts and module communication issues.'
 };
 
