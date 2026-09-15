@@ -2,7 +2,7 @@ import Link from 'next/link';
 import AutoVisual from '../../../components/AutoVisual';
 
 export const metadata = {
-  title: 'Custom Fabrication & Additive Manufacturing | TTT',
+  title: 'Custom Fabrication & Additive Manufacturing',
   description: 'Custom automotive fabrication, CAD and 3D printing for vehicle-specific mounts, brackets, panels, enclosures, jigs, fixtures and integration components.'
 };
 
