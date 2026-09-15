@@ -2,7 +2,7 @@ import Link from 'next/link';
 import AutoVisual from '../../components/AutoVisual';
 import { services } from '../../lib/siteData';
 
-export const metadata={title:'Vehicle Technology Services | TTT',description:'Automotive audio, tint, security, GPS tracking, cameras, SignalTrace™ electronics diagnostics, custom fabrication and additive manufacturing, planned around the vehicle and installed as complete systems.'};
+export const metadata={title:'Vehicle Technology Services',description:'Automotive audio, tint, security, GPS tracking, cameras, SignalTrace™ electronics diagnostics, custom fabrication and additive manufacturing, planned around the vehicle and installed as complete systems.'};
 
 const promise={
   audio:'Keep the factory screen. Rebuild the signal path. Tune the cabin.',
