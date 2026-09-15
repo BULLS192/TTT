@@ -4,7 +4,7 @@ import BrandMark from './BrandMark';
 const groups = [
   ['TTT', [['About', '/about'], ['The TTT Standard', '/standards'], ['Concept One', '/concept-one'], ['Projects', '/projects'], ['Contact', '/contact']]],
   ['Solutions', [['Premium Vehicle', '/solutions/premium-vehicle-experience'], ['Security', '/solutions/vehicle-security'], ['Connected Vehicle', '/solutions/connected-vehicle'], ['Fleet Intelligence', '/solutions/fleet-intelligence']]],
-  ['Services', [['Audio', '/services/audio'], ['Window Tint', '/services/window-tint'], ['Tracking', '/services/tracking'], ['Cameras', '/services/cameras']]],
+  ['Services', [['Audio', '/services/audio'], ['Window Tint', '/services/window-tint'], ['SignalTrace™ Diagnostics', '/services/signaltrace'], ['Custom Fabrication & Additive Manufacturing', '/services/custom-fabrication'], ['Tracking', '/services/tracking'], ['Cameras', '/services/cameras']]],
   ['Business', [['Dealerships', '/industries/dealerships'], ['Fleets', '/industries/fleets'], ['Commercial', '/industries/commercial-vehicles'], ['Greater Houston', '/service-area'], ['Work With Us', '/work-with-us']]],
   ['Resources', [['Articles', '/articles'], ['FAQ', '/resources/faq'], ['Technology', '/technology'], ['Brands & Partners', '/technology/brands'], ['Vehicle Fitment', '/vehicles']]],
 ];
