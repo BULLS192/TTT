@@ -273,8 +273,8 @@ export default function WindowTintPage() {
         <div className={styles.shell}>
           <div className={styles.finalCtaInner}>
             <div>
-              <p className={styles.eyebrow}>The easy way to start</p>
-              <h2>Tell us the vehicle. Tell us what bothers you. We’ll recommend the rest.</h2>
+              <p className={styles.eyebrow}>Start with the vehicle</p>
+              <h2>Tell us what you drive and what you want the tint to solve. We’ll take it from there.</h2>
             </div>
             <Link href="/start" className={styles.lightButton}>Build my tint quote →</Link>
           </div>
