@@ -3,7 +3,7 @@ import TintVisualizer from './TintVisualizer';
 import styles from './window-tint.module.css';
 
 export const metadata = {
-  title: 'Automotive Window Tint Houston | TTT',
+  title: 'Automotive Window Tint Houston',
   description: 'Automotive window tint in Houston with practical guidance on ceramic film, heat rejection, VLT, privacy, Texas tint rules, windshield film and vehicle-specific coverage.',
 };
 
