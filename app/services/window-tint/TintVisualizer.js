@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import styles from './TintVisualizer.module.css';
 
 const shades = [
-  { value: 70, label: '70%', note: 'Very light' },
+  { value: 70, label: '70%', note: 'Nearly clear' },
   { value: 50, label: '50%', note: 'Light' },
   { value: 35, label: '35%', note: 'Balanced' },
   { value: 20, label: '20%', note: 'Dark' },
@@ -88,8 +88,8 @@ export default function TintVisualizer() {
     <div className={styles.visualizer}>
       <div className={styles.header}>
         <div>
-          <small>TTT / SHADE LAB</small>
-          <strong>See the difference before you choose.</strong>
+          <small>TTT / SHADE PREVIEW</small>
+          <strong>Move the line. Try a shade.</strong>
         </div>
         <span>{shade}% VLT</span>
       </div>
@@ -107,7 +107,7 @@ export default function TintVisualizer() {
           <i />
         </div>
         <span className={`${styles.stageLabel} ${styles.stageLabelLeft}`}>Tinted</span>
-        <span className={`${styles.stageLabel} ${styles.stageLabelRight}`}>Untinted</span>
+        <span className={`${styles.stageLabel} ${styles.stageLabelRight}`}>Factory glass</span>
         <input
           className={styles.splitControl}
           type="range"
@@ -135,8 +135,8 @@ export default function TintVisualizer() {
       </div>
 
       <div className={styles.footer}>
-        <p><strong>{current?.label} VLT</strong> means roughly {current?.label} of visible light is transmitted by the film rating. The finished result is affected by the vehicle's original glass.</p>
-        <small>Visual simulation only. Real tint appearance changes with factory glass, interior color, lighting, viewing angle and the selected film.</small>
+        <p><strong>{current?.label} VLT</strong> is the film's visible-light rating. Your factory glass changes the final measured VLT and the way the shade actually looks on the vehicle.</p>
+        <small>This is a shade preview, not a legal recommendation. Actual appearance changes with factory glass, interior color, lighting, viewing angle and film construction.</small>
       </div>
     </div>
   );
