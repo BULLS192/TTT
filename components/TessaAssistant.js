@@ -73,9 +73,36 @@ export default function TessaAssistant() {
       startLead();
       return;
     }
+    const serviceAnswer = TESSA_SERVICE_SUMMARIES[service];
     addMessage('user', service);
-    addMessage('assistant', TESSA_SERVICE_SUMMARIES[service]);
+    addMessage('assistant', serviceAnswer);
     setLeadSuggestion(true);
+    if (typeof window !== 'undefined') {
+      let sessionId = sessionStorage.getItem('ttt-tessa-session');
+      if (!sessionId) {
+        sessionId = 'TS-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+        sessionStorage.setItem('ttt-tessa-session', sessionId);
+      }
+      fetch('/api/tessa/question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          question: service,
+          matched: true,
+          matchedIntentId: '',
+          confidence: 1,
+          category: 'Quick action',
+          service,
+          mode: 'qualify',
+          answer: serviceAnswer,
+          pagePath: window.location.pathname,
+          referrer: document.referrer,
+          knowledgeVersion: TESSA_KNOWLEDGE_VERSION
+        }),
+        keepalive: true
+      }).catch(() => {});
+    }
   };
 
   const askQuestion = (event) => {
