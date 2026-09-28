@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { brandAssets } from '../lib/assets';
 import { TESSA_KNOWLEDGE_COUNT, TESSA_KNOWLEDGE_VERSION } from '../lib/tessa/knowledge';
 import { matchTessaQuestion } from '../lib/tessa/matcher';
-import { TESSA_QUICK_ACTIONS, TESSA_SERVICES, TESSA_SERVICE_SUMMARIES } from '../lib/tessa/services';\nimport { getTessaSessionId, getVisitorContext, trackWebsiteEvent } from '../lib/visitor';
+import { TESSA_QUICK_ACTIONS, TESSA_SERVICES, TESSA_SERVICE_SUMMARIES } from '../lib/tessa/services';
+import { getTessaSessionId, getVisitorContext, trackWebsiteEvent } from '../lib/visitor';
 
 const TESSA_AVATAR_SRC = brandAssets.tessaAvatar;
 
@@ -28,7 +29,8 @@ export default function TessaAssistant() {
   const [question, setQuestion] = useState('');
   const [knowledge, setKnowledge] = useState(null);
   const [lead, setLead] = useState(INITIAL_LEAD);
-  const [busy, setBusy] = useState(false);\n  const [answering, setAnswering] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [answering, setAnswering] = useState(false);
   const [formStatus, setFormStatus] = useState('');
   const [messages, setMessages] = useState([
     { role: 'assistant', text: 'Hi, I’m Tessa 👋 I can answer common questions about TTT services or help you start a quote. What can I help with?' }
@@ -263,7 +265,8 @@ export default function TessaAssistant() {
       setLeadOpen(false);
       setLead(INITIAL_LEAD);
       setLeadSuggestion(false);
-      addMessage('assistant', 'Thanks, ' + firstName + '. I have sent your details to TTT. Your reference is ' + result.reference + '. A team member can take it from here.');\n      trackWebsiteEvent('conversion','tessa_lead_submit',{service:lead.service||'',reference:result.reference||''});
+      addMessage('assistant', 'Thanks, ' + firstName + '. I have sent your details to TTT. Your reference is ' + result.reference + '. A team member can take it from here.');
+      trackWebsiteEvent('conversion','tessa_lead_submit',{service:lead.service||'',reference:result.reference||''});
     } catch (error) {
       setFormStatus(error.message || 'I could not send your details right now. Please try again or use the Contact page.');
     } finally {
