@@ -56,6 +56,7 @@ export async function POST(request){
     const question=scrubTelemetry(body?.question);
     if(question.length<2) return Response.json({ok:false,error:'Question required.'},{status:400});
     const entries=await loadKnowledge();
+    const rankedFallback=rankTessaKnowledge(question,{path:String(body?.pagePath||''),knowledge:entries},1)[0]||null;
     const candidates=selectCandidates(question,String(body?.pagePath||''),entries);
     const candidateMap=new Map(candidates.map(x=>[x.id,x]));
     const compact=candidates.map(x=>({
@@ -84,6 +85,7 @@ export async function POST(request){
     ].filter(Boolean).join('\n');
 
     let parsed=null;
+    let aiCompleted=false;
     try{
       const result=await generateText({
         model:MODEL,
@@ -93,8 +95,47 @@ export async function POST(request){
         providerOptions:{gateway:{user:String(body?.visitorId||'anonymous'),tags:['tessa','website','grounded-rag']}}
       });
       parsed=jsonFromText(result.text);
+      aiCompleted=Boolean(parsed);
     }catch(error){
       console.error('Tessa AI Gateway call failed',error);
+    }
+
+    if(!aiCompleted && rankedFallback?.score>=0.56){
+      const answer=rankedFallback.answer+(rankedFallback.followUp||rankedFallback.follow_up?' '+(rankedFallback.followUp||rankedFallback.follow_up):'');
+      const latencyMs=Date.now()-started;
+      await logTessaQuestion({
+        sessionId:body?.sessionId,
+        visitorId:body?.visitorId,
+        websiteSessionId:body?.websiteSessionId,
+        question,
+        matched:true,
+        matchedIntentId:rankedFallback.id,
+        confidence:rankedFallback.score,
+        category:rankedFallback.category||'',
+        service:rankedFallback.service||'',
+        mode:rankedFallback.mode||'answer',
+        answer,
+        pagePath:body?.pagePath,
+        referrer:body?.referrer,
+        knowledgeVersion:TESSA_KNOWLEDGE_VERSION,
+        responseSource:'deterministic-fallback',
+        modelName:'',
+        latencyMs
+      });
+      return Response.json({
+        ok:true,
+        answer,
+        matched:true,
+        matchedIntentId:rankedFallback.id,
+        matchedIntentIds:[rankedFallback.id],
+        confidence:rankedFallback.score,
+        category:rankedFallback.category||'',
+        service:rankedFallback.service||'',
+        mode:rankedFallback.mode||'answer',
+        source:'deterministic-fallback',
+        model:'',
+        latencyMs
+      });
     }
 
     const validIds=Array.isArray(parsed?.intentIds)
