@@ -8,6 +8,19 @@ import { TESSA_QUICK_ACTIONS, TESSA_SERVICES, TESSA_SERVICE_SUMMARIES } from '..
 
 const TESSA_AVATAR_SRC = brandAssets.tessaAvatar;
 
+const INITIAL_LEAD = {
+  service: '',
+  year: '',
+  make: '',
+  model: '',
+  name: '',
+  email: '',
+  phone: '',
+  details: '',
+  consent: false,
+  website: ''
+};
+
 export default function TessaAssistant() {
   const [open, setOpen] = useState(false);
   const [leadOpen, setLeadOpen] = useState(false);
