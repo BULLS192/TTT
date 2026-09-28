@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { brandAssets } from '../lib/assets';
 
-const TESSA_AVATAR_SRC = `${brandAssets.tessaAvatar}?v=20260928a`;
+const TESSA_AVATAR_SRC = brandAssets.tessaAvatar;
 
 const SERVICES = [
   'Window tint',
