@@ -1,8 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { brandAssets } from '../lib/assets';
+
+const TESSA_AVATAR_SRC = `${brandAssets.tessaAvatar}?v=20260928a`;
 
 const SERVICES = [
   'Window tint',
@@ -218,7 +219,7 @@ export default function TessaAssistant() {
         <section className="tessa-panel" id="tessa-assistant" role="dialog" aria-label="Tessa, TTT website assistant">
           <header className="tessa-panel__header">
             <div className="tessa-avatar tessa-avatar--header">
-              <Image src={brandAssets.tessaAvatar} alt="" width={52} height={52} />
+              <img src={TESSA_AVATAR_SRC} alt="" width="52" height="52" loading="eager" decoding="async" onError={(event) => { event.currentTarget.src = brandAssets.appIcon; }} />
               <span className="tessa-presence" aria-hidden="true" />
             </div>
             <div>
@@ -272,7 +273,7 @@ export default function TessaAssistant() {
                   {messages.map((message, index) => (
                     <div className={'tessa-message tessa-message--' + message.role} key={index}>
                       {message.role === 'assistant' && (
-                        <span className="tessa-message__avatar"><Image src={brandAssets.tessaAvatar} alt="" width={30} height={30} /></span>
+                        <span className="tessa-message__avatar"><img src={TESSA_AVATAR_SRC} alt="" width="30" height="30" loading="eager" decoding="async" onError={(event) => { event.currentTarget.src = brandAssets.appIcon; }} /></span>
                       )}
                       <p>{message.text}</p>
                     </div>
@@ -307,7 +308,7 @@ export default function TessaAssistant() {
 
       <button className="tessa-launcher" type="button" onClick={() => setOpen((current) => !current)} aria-expanded={open} aria-controls="tessa-assistant">
         <span className="tessa-avatar">
-          <Image src={brandAssets.tessaAvatar} alt="" width={48} height={48} priority={false} />
+          <img src={TESSA_AVATAR_SRC} alt="" width="48" height="48" loading="eager" decoding="async" onError={(event) => { event.currentTarget.src = brandAssets.appIcon; }} />
           <span className="tessa-presence" aria-hidden="true" />
         </span>
         <span className="tessa-launcher__copy"><small>Need help?</small><strong>{open ? 'Close Tessa' : 'Ask Tessa'}</strong></span>
