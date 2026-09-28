@@ -2,7 +2,7 @@
 
 Version: **2026.09.28-kb2**
 Canonical intents: **210**
-Recognized example phrasings: **632**
+Recognized example phrasings: **636**
 
 Each entry is deterministic and approved. Modes are **answer**, **qualify**, or **handoff**. Tessa logs every typed question so the team can review what customers actually ask.
 
@@ -1594,9 +1594,9 @@ Each entry is deterministic and approved. Modes are **answer**, **qualify**, or 
 
 ### tint-ceramic
 
-**Typical questions:** do you offer ceramic tint · what is ceramic tint · can i get ceramic window film
+**Typical questions:** do you offer ceramic tint · what is ceramic tint · can i get ceramic window film · do you have ceramic tinting · do you have ceramic tint · do you guys do ceramic tint · do you install ceramic tint
 
-**Answer:** TTT offers vehicle-specific guidance including ceramic film options focused on heat performance, clarity, UV protection and long-term appearance.
+**Answer:** Yes — TTT offers ceramic window tint. Ceramic film is a strong option when you want heat rejection, UV protection, optical clarity and a clean factory-style appearance. The right film and shade depend on the vehicle and your priorities.
 
 **Follow-up:** Which vehicle and windows are you considering?
 
