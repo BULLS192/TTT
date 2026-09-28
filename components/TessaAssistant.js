@@ -26,6 +26,7 @@ export default function TessaAssistant() {
   const [leadOpen, setLeadOpen] = useState(false);
   const [leadSuggestion, setLeadSuggestion] = useState(false);
   const [question, setQuestion] = useState('');
+  const [knowledge, setKnowledge] = useState(null);
   const [lead, setLead] = useState(INITIAL_LEAD);
   const [busy, setBusy] = useState(false);
   const [formStatus, setFormStatus] = useState('');
@@ -33,6 +34,13 @@ export default function TessaAssistant() {
     { role: 'assistant', text: 'Hi, I’m Tessa 👋 I can answer common questions about TTT services or help you start a quote. What can I help with?' }
   ]);
   const messageEndRef = useRef(null);
+
+  useEffect(() => {
+    fetch('/api/tessa/knowledge', { cache: 'no-store' })
+      .then((response) => response.ok ? response.json() : null)
+      .then((result) => { if (result?.entries?.length) setKnowledge(result.entries); })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -77,21 +85,32 @@ export default function TessaAssistant() {
     addMessage('user', value);
     setQuestion('');
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : '';
-    const match = matchTessaQuestion(value, { path: pagePath });
-    if (match) {
-      addMessage('assistant', match.answer + (match.followUp ? ' ' + match.followUp : ''));
-      if (match.service) setLead((current) => ({ ...current, service: match.service }));
-      setLeadSuggestion(match.mode !== 'answer' || Boolean(match.service));
-      return;
-    }
-    addMessage('assistant', 'That is more specific than the approved answers I have right now, and I do not want to guess. I can collect a few details and have the TTT team follow up with you.');
-    setLeadSuggestion(true);
+    const match = matchTessaQuestion(value, { path: pagePath, knowledge });
+    const responseText = match
+      ? match.answer + (match.followUp ? ' ' + match.followUp : '')
+      : 'That is more specific than the approved answers I have right now, and I do not want to guess. I can collect a few details and have the TTT team follow up with you.';
+    addMessage('assistant', responseText);
+    if (match?.service) setLead((current) => ({ ...current, service: match.service }));
+    setLeadSuggestion(!match || match.mode !== 'answer' || Boolean(match.service));
     if (typeof window !== 'undefined') {
-      fetch('/api/tessa/unanswered', {
+      let sessionId = sessionStorage.getItem('ttt-tessa-session');
+      if (!sessionId) {
+        sessionId = 'TS-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+        sessionStorage.setItem('ttt-tessa-session', sessionId);
+      }
+      fetch('/api/tessa/question', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          sessionId,
           question: value,
+          matched: Boolean(match),
+          matchedIntentId: match?.id || '',
+          confidence: match?.score ?? null,
+          category: match?.category || '',
+          service: match?.service || '',
+          mode: match?.mode || '',
+          answer: responseText,
           pagePath: window.location.pathname,
           referrer: document.referrer,
           knowledgeVersion: TESSA_KNOWLEDGE_VERSION

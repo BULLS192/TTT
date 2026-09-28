@@ -1,0 +1,40 @@
+import { deliverLead } from '../../../../lib/server/leadDelivery';
+
+function clean(value,max=1000){return typeof value==='string'?value.trim().slice(0,max):''}
+function scrub(value){
+  return clean(value,1000)
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,'[email]')
+    .replace(/(?:\+?\d[\d\s().-]{7,}\d)/g,'[phone]');
+}
+function normalize(value){
+  return value.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+}
+export async function POST(request){
+  try{
+    const body=await request.json();
+    const question=scrub(body?.question);
+    if(question.length<2) return Response.json({ok:true});
+    const answer=scrub(body?.answer);
+    const record={
+      session_id:clean(body?.sessionId,100),
+      question,
+      normalized_question:normalize(question).slice(0,1000),
+      matched:Boolean(body?.matched),
+      matched_intent_id:clean(body?.matchedIntentId,160)||null,
+      confidence:Number.isFinite(Number(body?.confidence))?Math.max(0,Math.min(1,Number(body.confidence))):null,
+      category:clean(body?.category,120)||null,
+      service:clean(body?.service,120)||null,
+      mode:clean(body?.mode,40)||null,
+      answer:answer||null,
+      page_path:clean(body?.pagePath,300),
+      referrer:clean(body?.referrer,500),
+      knowledge_version:clean(body?.knowledgeVersion,80),
+      created_at:new Date().toISOString()
+    };
+    await deliverLead({table:'tessa_question_log',event:'tessa.question',record});
+    return Response.json({ok:true});
+  }catch(error){
+    console.error('Tessa question logging failed',error);
+    return Response.json({ok:true});
+  }
+}
