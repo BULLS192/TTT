@@ -41,20 +41,10 @@ function selectCandidates(question,path,entries){
   return Array.from(selected.values()).slice(0,40);
 }
 
-export async function GET(request){
-  const probe=new URL(request.url).searchParams.get('probe')==='1';
-  if(probe){
-    try{
-      const result=await generateText({model:MODEL,prompt:'Reply with exactly OK.',maxOutputTokens:8});
-      return Response.json({ok:true,probe:true,model:MODEL,text:String(result.text||'').trim().slice(0,20)});
-    }catch(error){
-      return Response.json({ok:false,probe:true,model:MODEL,error:String(error?.message||error).slice(0,500)});
-    }
-  }
+export async function GET(){
   return Response.json({
     ok:true,
     model:MODEL,
-    modelAuthAvailable:Boolean(process.env.AI_GATEWAY_API_KEY||process.env.VERCEL_OIDC_TOKEN),
     mode:'grounded-hybrid'
   });
 }
