@@ -12,9 +12,11 @@ import './cinematic-mobile.css';
 import './launch-hardening.css';
 import './agency-pass.css';
 import './home-refinement.css';
+import './tessa.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import SiteTelemetry from '../components/SiteTelemetry';
+import TessaAssistant from '../components/TessaAssistant';
 import { organizationSchema, siteDescription, siteName, siteUrl } from '../lib/siteConfig';
 
 export const metadata = {
@@ -51,6 +53,7 @@ export default function RootLayout({ children }) {
     <SiteHeader />
     <div id="main-content">{children}</div>
     <SiteFooter />
+    <TessaAssistant />
     <SiteTelemetry />
   </body></html>;
 }
