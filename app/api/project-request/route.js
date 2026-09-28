@@ -20,7 +20,7 @@ export async function POST(request){
       year:clean(body?.year,20),make:clean(body?.make,100),model:clean(body?.model,100),trim:clean(body?.trim,100),vin:clean(body?.vin,32),
       services:Array.isArray(body?.services)?body.services.slice(0,12).map((x)=>clean(x,100)).filter(Boolean):[],
       priority:clean(body?.priority,120),budget:clean(body?.budget,120),timeline:clean(body?.timeline,160),notes:clean(body?.notes,5000),
-      name,email,phone:clean(body?.phone,80),consent_at:new Date().toISOString(),created_at:new Date().toISOString()
+      name,email,phone:clean(body?.phone,80),consent_at:new Date().toISOString(),created_at:new Date().toISOString(),\n      visitor_id:clean(body?.visitorId,100)||null,website_session_id:clean(body?.websiteSessionId,100)||null,\n      page_path:clean(body?.pagePath,300)||null,referrer:clean(body?.referrer,500)||null,\n      utm_source:clean(body?.utmSource,160)||null,utm_medium:clean(body?.utmMedium,160)||null,utm_campaign:clean(body?.utmCampaign,200)||null
     };
 
     const delivery=await deliverLead({table:'project_requests',event:'project_request.created',record});

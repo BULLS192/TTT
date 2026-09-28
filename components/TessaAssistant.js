@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { brandAssets } from '../lib/assets';
 import { TESSA_KNOWLEDGE_COUNT, TESSA_KNOWLEDGE_VERSION } from '../lib/tessa/knowledge';
 import { matchTessaQuestion } from '../lib/tessa/matcher';
-import { TESSA_QUICK_ACTIONS, TESSA_SERVICES, TESSA_SERVICE_SUMMARIES } from '../lib/tessa/services';
+import { TESSA_QUICK_ACTIONS, TESSA_SERVICES, TESSA_SERVICE_SUMMARIES } from '../lib/tessa/services';\nimport { getTessaSessionId, getVisitorContext, trackWebsiteEvent } from '../lib/visitor';
 
 const TESSA_AVATAR_SRC = brandAssets.tessaAvatar;
 
@@ -28,7 +28,7 @@ export default function TessaAssistant() {
   const [question, setQuestion] = useState('');
   const [knowledge, setKnowledge] = useState(null);
   const [lead, setLead] = useState(INITIAL_LEAD);
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState(false);\n  const [answering, setAnswering] = useState(false);
   const [formStatus, setFormStatus] = useState('');
   const [messages, setMessages] = useState([
     { role: 'assistant', text: 'Hi, I’m Tessa 👋 I can answer common questions about TTT services or help you start a quote. What can I help with?' }
@@ -66,6 +66,7 @@ export default function TessaAssistant() {
     setFormStatus('');
     setLeadOpen(true);
     setLeadSuggestion(false);
+    trackWebsiteEvent('tessa','lead_start',{service:service||lead.service||''});
   };
 
   const answerService = (service) => {
@@ -77,73 +78,137 @@ export default function TessaAssistant() {
     addMessage('user', service);
     addMessage('assistant', serviceAnswer);
     setLeadSuggestion(true);
-    if (typeof window !== 'undefined') {
-      let sessionId = sessionStorage.getItem('ttt-tessa-session');
-      if (!sessionId) {
-        sessionId = 'TS-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
-        sessionStorage.setItem('ttt-tessa-session', sessionId);
-      }
-      fetch('/api/tessa/question', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          question: service,
-          matched: true,
-          matchedIntentId: '',
-          confidence: 1,
-          category: 'Quick action',
-          service,
-          mode: 'qualify',
-          answer: serviceAnswer,
-          pagePath: window.location.pathname,
-          referrer: document.referrer,
-          knowledgeVersion: TESSA_KNOWLEDGE_VERSION
-        }),
-        keepalive: true
-      }).catch(() => {});
-    }
+    const ctx=getVisitorContext();
+    const sessionId=getTessaSessionId();
+    trackWebsiteEvent('tessa','quick_action',{service});
+    fetch('/api/tessa/question', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...ctx,
+        sessionId,
+        question: service,
+        matched: true,
+        matchedIntentId: '',
+        confidence: 1,
+        category: 'Quick action',
+        service,
+        mode: 'qualify',
+        answer: serviceAnswer,
+        pagePath: window.location.pathname,
+        knowledgeVersion: TESSA_KNOWLEDGE_VERSION,
+        responseSource:'deterministic-quick-action',
+        latencyMs:0
+      }),
+      keepalive: true
+    }).catch(() => {});
   };
 
-  const askQuestion = (event) => {
+  const askQuestion = async (event) => {
     event.preventDefault();
     const value = question.trim();
-    if (!value) return;
+    if (!value || answering) return;
+    const ctx=getVisitorContext();
+    const sessionId=getTessaSessionId();
+    const pagePath=window.location.pathname;
+    const localMatch=matchTessaQuestion(value,{path:pagePath,knowledge});
     addMessage('user', value);
     setQuestion('');
-    const pagePath = typeof window !== 'undefined' ? window.location.pathname : '';
-    const match = matchTessaQuestion(value, { path: pagePath, knowledge });
-    const responseText = match
-      ? match.answer + (match.followUp ? ' ' + match.followUp : '')
-      : 'That is more specific than the approved answers I have right now, and I do not want to guess. I can collect a few details and have the TTT team follow up with you.';
-    addMessage('assistant', responseText);
-    if (match?.service) setLead((current) => ({ ...current, service: match.service }));
-    setLeadSuggestion(!match || match.mode !== 'answer' || Boolean(match.service));
-    if (typeof window !== 'undefined') {
-      let sessionId = sessionStorage.getItem('ttt-tessa-session');
-      if (!sessionId) {
-        sessionId = 'TS-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
-        sessionStorage.setItem('ttt-tessa-session', sessionId);
-      }
-      fetch('/api/tessa/question', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+
+    const applyResult=(result)=>{
+      addMessage('assistant', result.answer);
+      if (result.service) setLead((current) => ({ ...current, service: result.service }));
+      setLeadSuggestion(!result.matched || result.mode !== 'answer' || Boolean(result.service));
+      trackWebsiteEvent('tessa','question',{
+        responseSource:result.source||'deterministic',
+        service:result.service||'',
+        matched:Boolean(result.matched)
+      });
+    };
+
+    if(localMatch?.score>=0.82){
+      const responseText=localMatch.answer+(localMatch.followUp?' '+localMatch.followUp:'');
+      applyResult({
+        answer:responseText,
+        matched:true,
+        service:localMatch.service||'',
+        mode:localMatch.mode||'answer',
+        source:'deterministic'
+      });
+      fetch('/api/tessa/question',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          ...ctx,
           sessionId,
-          question: value,
-          matched: Boolean(match),
-          matchedIntentId: match?.id || '',
-          confidence: match?.score ?? null,
-          category: match?.category || '',
-          service: match?.service || '',
-          mode: match?.mode || '',
-          answer: responseText,
-          pagePath: window.location.pathname,
-          referrer: document.referrer,
-          knowledgeVersion: TESSA_KNOWLEDGE_VERSION
+          question:value,
+          matched:true,
+          matchedIntentId:localMatch.id,
+          confidence:localMatch.score,
+          category:localMatch.category||'',
+          service:localMatch.service||'',
+          mode:localMatch.mode||'answer',
+          answer:responseText,
+          pagePath,
+          knowledgeVersion:TESSA_KNOWLEDGE_VERSION,
+          responseSource:'deterministic',
+          latencyMs:0
         }),
-        keepalive: true
-      }).catch(() => {});
+        keepalive:true
+      }).catch(()=>{});
+      return;
+    }
+
+    setAnswering(true);
+    try{
+      const response=await fetch('/api/tessa/answer',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          ...ctx,
+          sessionId,
+          question:value,
+          pagePath,
+          history:[...messages,{role:'user',text:value}].slice(-6)
+        })
+      });
+      const result=await response.json();
+      if(!response.ok||!result?.answer) throw new Error(result?.error||'Tessa answer failed');
+      applyResult(result);
+    }catch{
+      const responseText=localMatch
+        ? localMatch.answer+(localMatch.followUp?' '+localMatch.followUp:'')
+        : 'That is more specific than the approved answers I have right now, and I do not want to guess. I can collect a few details and have the TTT team follow up with you.';
+      const fallback={
+        answer:responseText,
+        matched:Boolean(localMatch),
+        service:localMatch?.service||'',
+        mode:localMatch?.mode||'handoff',
+        source:localMatch?'deterministic-fallback':'fallback'
+      };
+      applyResult(fallback);
+      fetch('/api/tessa/question',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          ...ctx,
+          sessionId,
+          question:value,
+          matched:Boolean(localMatch),
+          matchedIntentId:localMatch?.id||'',
+          confidence:localMatch?.score??0,
+          category:localMatch?.category||'',
+          service:localMatch?.service||'',
+          mode:localMatch?.mode||'handoff',
+          answer:responseText,
+          pagePath,
+          knowledgeVersion:TESSA_KNOWLEDGE_VERSION,
+          responseSource:fallback.source
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    }finally{
+      setAnswering(false);
     }
   };
 
@@ -166,10 +231,13 @@ export default function TessaAssistant() {
         'Conversation:\n' + transcript
       ].filter(Boolean).join('\n\n').slice(0, 5000);
 
+      const ctx=getVisitorContext();
       const response = await fetch('/api/project-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          ...ctx,
+          pagePath:window.location.pathname,
           type: 'Tessa website assistant',
           year: lead.year,
           make: lead.make,
@@ -195,7 +263,7 @@ export default function TessaAssistant() {
       setLeadOpen(false);
       setLead(INITIAL_LEAD);
       setLeadSuggestion(false);
-      addMessage('assistant', 'Thanks, ' + firstName + '. I have sent your details to TTT. Your reference is ' + result.reference + '. A team member can take it from here.');
+      addMessage('assistant', 'Thanks, ' + firstName + '. I have sent your details to TTT. Your reference is ' + result.reference + '. A team member can take it from here.');\n      trackWebsiteEvent('conversion','tessa_lead_submit',{service:lead.service||'',reference:result.reference||''});
     } catch (error) {
       setFormStatus(error.message || 'I could not send your details right now. Please try again or use the Contact page.');
     } finally {
@@ -287,16 +355,16 @@ export default function TessaAssistant() {
 
               <form className="tessa-question" onSubmit={askQuestion}>
                 <label className="tessa-sr-only" htmlFor="tessa-question-input">Ask Tessa a question</label>
-                <input id="tessa-question-input" value={question} onChange={(event) => setQuestion(event.target.value)} maxLength="500" placeholder="Ask about tint, audio, security…" autoComplete="off" />
-                <button type="submit" aria-label="Send question">→</button>
+                <input id="tessa-question-input" value={question} onChange={(event) => setQuestion(event.target.value)} maxLength="500" placeholder={answering ? 'Tessa is checking approved TTT knowledge…' : 'Ask about tint, audio, security…'} autoComplete="off" disabled={answering} />
+                <button type="submit" aria-label="Send question" disabled={answering}>{answering ? '…' : '→'}</button>
               </form>
-              <div className="tessa-footer">{TESSA_KNOWLEDGE_COUNT} approved TTT answers · Complex questions go to a person</div>
+              <div className="tessa-footer">{TESSA_KNOWLEDGE_COUNT} approved TTT answers · AI-grounded help for harder questions</div>
             </>
           )}
         </section>
       )}
 
-      <button className="tessa-launcher" type="button" onClick={() => setOpen((current) => !current)} aria-expanded={open} aria-controls="tessa-assistant">
+      <button className="tessa-launcher" type="button" onClick={() => { const next=!open; setOpen(next); trackWebsiteEvent('tessa',next?'open':'close'); }} aria-expanded={open} aria-controls="tessa-assistant">
         <span className="tessa-avatar">
           <img src={TESSA_AVATAR_SRC} alt="" width="48" height="48" loading="eager" decoding="async" onError={(event) => { event.currentTarget.src = brandAssets.appIcon; }} />
           <span className="tessa-presence" aria-hidden="true" />

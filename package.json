@@ -13,7 +13,8 @@
     "@vercel/speed-insights": "latest",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "ai": "latest"
   },
   "devDependencies": {}
 }
