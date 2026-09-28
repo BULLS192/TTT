@@ -2,94 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { brandAssets } from '../lib/assets';
+import { TESSA_KNOWLEDGE_COUNT, TESSA_KNOWLEDGE_VERSION } from '../lib/tessa/knowledge';
+import { matchTessaQuestion } from '../lib/tessa/matcher';
+import { TESSA_QUICK_ACTIONS, TESSA_SERVICES, TESSA_SERVICE_SUMMARIES } from '../lib/tessa/services';
 
 const TESSA_AVATAR_SRC = brandAssets.tessaAvatar;
-
-const SERVICES = [
-  'Window tint',
-  'Audio & DSP',
-  'Security / kill switch',
-  'GPS & tracking',
-  'SignalTrace™ diagnostics',
-  'Cameras',
-  'Electronics',
-  'Custom fabrication'
-];
-
-const QUICK_ACTIONS = [
-  ['quote', 'Get a quote'],
-  ['Window tint', 'Window tint'],
-  ['Audio & DSP', 'Audio'],
-  ['Security / kill switch', 'Security'],
-  ['SignalTrace™ diagnostics', 'SignalTrace™'],
-  ['GPS & tracking', 'GPS / tracking']
-];
-
-const SERVICE_ANSWERS = {
-  'Window tint': 'TTT offers vehicle-specific window film guidance, including ceramic options, heat rejection, UV protection, privacy and appearance. The right film and shade depend on the vehicle, glass and your priorities.',
-  'Audio & DSP': 'TTT plans audio upgrades around the complete signal path: factory integration, speakers, amplification, subwoofers, DSP, sound treatment and tuning. The goal is a system that works together rather than a pile of parts.',
-  'Security / kill switch': 'TTT approaches vehicle security in layers: detection, alerts, carefully integrated immobilization strategies, cameras and recovery support. Exact installation details are kept discreet.',
-  'GPS & tracking': 'TTT can help with GPS tracking, geofencing, trip history and multi-vehicle platforms for personal vehicles, dealerships and fleets. Platform features and subscriptions vary by use case.',
-  'SignalTrace™ diagnostics': 'SignalTrace™ is TTT’s advanced root-cause diagnostics service for difficult vehicle electronics issues such as intermittent faults, parasitic drain, no-start concerns, aftermarket conflicts, wiring or grounding faults and module communication problems.',
-  'Cameras': 'TTT integrates dash cameras, rear and parking cameras, multi-channel systems and commercial video solutions around visibility, evidence capture, storage and clean power integration.',
-  'Electronics': 'TTT integrates vehicle electronics such as remote-start-compatible accessories, charging, interfaces and related upgrades while preserving factory functions where practical.',
-  'Custom fabrication': 'TTT can engineer vehicle-specific mounts, brackets, panels, enclosures, jigs and fixtures using CAD, fabrication and additive manufacturing when an off-the-shelf solution does not fit.'
-};
-
-const FAQ_RULES = [
-  { terms: ['signaltrace', 'signal trace', 'battery drain', 'parasitic', 'no start', 'no-start', 'electrical problem', 'electrical issue', 'intermittent'], service: 'SignalTrace™ diagnostics' },
-  { terms: ['tint', 'ceramic film', 'window film', 'heat rejection', 'uv'], service: 'Window tint' },
-  { terms: ['audio', 'speaker', 'speakers', 'subwoofer', 'sub', 'amplifier', 'amp', 'dsp', 'sound system'], service: 'Audio & DSP' },
-  { terms: ['kill switch', 'security', 'alarm', 'immobilizer', 'immobilisation', 'immobilization', 'theft'], service: 'Security / kill switch' },
-  { terms: ['gps', 'tracking', 'tracker', 'geofence', 'telematics'], service: 'GPS & tracking' },
-  { terms: ['camera', 'dashcam', 'dash cam', 'rear camera', 'parking camera'], service: 'Cameras' },
-  { terms: ['fabrication', '3d print', '3d printing', 'cad', 'custom mount', 'enclosure'], service: 'Custom fabrication' }
-];
-
-const GENERAL_RULES = [
-  {
-    terms: ['price', 'pricing', 'cost', 'how much', 'quote', 'estimate'],
-    answer: 'Pricing depends on the vehicle, the system, product selection and installation scope. I can collect the vehicle and service details now so the TTT team can prepare the right next step.'
-  },
-  {
-    terms: ['where', 'location', 'area', 'houston', 'katy', 'sugar land', 'cypress', 'woodlands', 'pearland'],
-    answer: 'TTT serves the Greater Houston area, including Houston, Katy, Sugar Land, Cypress, The Woodlands and Pearland. For a specific project or service-area question, I can pass your details to the team.'
-  },
-  {
-    terms: ['hours', 'open', 'closing', 'close'],
-    answer: 'TTT does not currently publish fixed shop hours on the website. Leave your details and the team can confirm availability for your project.'
-  },
-  {
-    terms: ['appointment', 'schedule', 'booking', 'book', 'availability'],
-    answer: 'I can collect your vehicle and contact details for the TTT team to arrange timing. Project duration and availability depend on the service and vehicle.'
-  },
-  {
-    terms: ['warranty', 'support', 'existing customer'],
-    answer: 'For an existing installation or support question, tell me what happened and I can route it to the TTT team. You can also use the Contact page for a detailed support request.'
-  }
-];
-
-const INITIAL_LEAD = {
-  service: '',
-  year: '',
-  make: '',
-  model: '',
-  name: '',
-  email: '',
-  phone: '',
-  details: '',
-  consent: false,
-  website: ''
-};
-
-function faqMatch(value) {
-  const query = value.toLowerCase();
-  const serviceRule = FAQ_RULES.find((rule) => rule.terms.some((term) => query.includes(term)));
-  if (serviceRule) return { answer: SERVICE_ANSWERS[serviceRule.service], service: serviceRule.service };
-  const generalRule = GENERAL_RULES.find((rule) => rule.terms.some((term) => query.includes(term)));
-  if (generalRule) return { answer: generalRule.answer, service: '' };
-  return null;
-}
 
 export default function TessaAssistant() {
   const [open, setOpen] = useState(false);
@@ -136,7 +53,7 @@ export default function TessaAssistant() {
       return;
     }
     addMessage('user', service);
-    addMessage('assistant', SERVICE_ANSWERS[service]);
+    addMessage('assistant', TESSA_SERVICE_SUMMARIES[service]);
     setLeadSuggestion(true);
   };
 
@@ -146,15 +63,29 @@ export default function TessaAssistant() {
     if (!value) return;
     addMessage('user', value);
     setQuestion('');
-    const match = faqMatch(value);
+    const pagePath = typeof window !== 'undefined' ? window.location.pathname : '';
+    const match = matchTessaQuestion(value, { path: pagePath });
     if (match) {
-      addMessage('assistant', match.answer);
+      addMessage('assistant', match.answer + (match.followUp ? ' ' + match.followUp : ''));
       if (match.service) setLead((current) => ({ ...current, service: match.service }));
-      setLeadSuggestion(true);
+      setLeadSuggestion(match.mode !== 'answer' || Boolean(match.service));
       return;
     }
-    addMessage('assistant', 'That is more specific than the answers I have been given, and I do not want to guess. I can collect a few details and have the TTT team follow up with you.');
+    addMessage('assistant', 'That is more specific than the approved answers I have right now, and I do not want to guess. I can collect a few details and have the TTT team follow up with you.');
     setLeadSuggestion(true);
+    if (typeof window !== 'undefined') {
+      fetch('/api/tessa/unanswered', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: value,
+          pagePath: window.location.pathname,
+          referrer: document.referrer,
+          knowledgeVersion: TESSA_KNOWLEDGE_VERSION
+        }),
+        keepalive: true
+      }).catch(() => {});
+    }
   };
 
   const updateLead = (key, value) => {
@@ -241,7 +172,7 @@ export default function TessaAssistant() {
                 <label>Service
                   <select value={lead.service} onChange={(event) => updateLead('service', event.target.value)}>
                     <option value="">Not sure yet</option>
-                    {SERVICES.map((service) => <option value={service} key={service}>{service}</option>)}
+                    {TESSA_SERVICES.map((service) => <option value={service} key={service}>{service}</option>)}
                   </select>
                 </label>
                 <div className="tessa-form-row tessa-form-row--3">
@@ -282,7 +213,7 @@ export default function TessaAssistant() {
                 </div>
 
                 <div className="tessa-actions" aria-label="Popular questions">
-                  {QUICK_ACTIONS.map(([value, label]) => (
+                  {TESSA_QUICK_ACTIONS.map(([value, label]) => (
                     <button type="button" key={value} onClick={() => answerService(value)}>{label}</button>
                   ))}
                 </div>
@@ -300,7 +231,7 @@ export default function TessaAssistant() {
                 <input id="tessa-question-input" value={question} onChange={(event) => setQuestion(event.target.value)} maxLength="500" placeholder="Ask about tint, audio, security…" autoComplete="off" />
                 <button type="submit" aria-label="Send question">→</button>
               </form>
-              <div className="tessa-footer">Preloaded TTT answers · Complex questions go to a person</div>
+              <div className="tessa-footer">{TESSA_KNOWLEDGE_COUNT} approved TTT answers · Complex questions go to a person</div>
             </>
           )}
         </section>
