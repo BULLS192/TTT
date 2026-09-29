@@ -4,7 +4,7 @@ import { inferTessaDomain, rankTessaKnowledge } from '../../../../lib/tessa/matc
 import { callPublicRpc } from '../../../../lib/server/tttPublicApi';
 import { logTessaQuestion, scrubTelemetry } from '../../../../lib/server/tessaTelemetry';
 
-const MODEL='openai/gpt-6-luna';
+const MODEL='openai/gpt-5.4-nano';
 const FALLBACK='That is more specific than the approved answers I have right now, and I do not want to guess. I can collect a few details and have the TTT team follow up with you.';
 
 async function loadKnowledge(){
@@ -41,19 +41,7 @@ function selectCandidates(question,path,entries){
   return Array.from(selected.values()).slice(0,40);
 }
 
-export async function GET(request){
-  const probe=new URL(request.url).searchParams.get('probe')==='1';
-  if(probe){
-    try{
-      const requested=new URL(request.url).searchParams.get('model')||MODEL;
-      const allowed=new Set([MODEL,'moonshotai/kimi-k3','google/gemini-3.5-flash-lite','openai/gpt-5.4-nano']);
-      const probeModel=allowed.has(requested)?requested:MODEL;
-      const result=await generateText({model:probeModel,prompt:'Reply with exactly OK.',maxOutputTokens:8});
-      return Response.json({ok:true,probe:true,model:probeModel,text:String(result.text||'').trim().slice(0,20)});
-    }catch(error){
-      return Response.json({ok:false,probe:true,model:new URL(request.url).searchParams.get('model')||MODEL,error:String(error?.message||error).slice(0,500)});
-    }
-  }
+export async function GET(){
   return Response.json({
     ok:true,
     model:MODEL,
