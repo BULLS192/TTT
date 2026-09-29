@@ -1,6 +1,8 @@
 import { generateText } from 'ai';
 import { TESSA_KNOWLEDGE, TESSA_KNOWLEDGE_VERSION } from '../../../../lib/tessa/knowledge';
 import { inferTessaDomain, rankTessaKnowledge } from '../../../../lib/tessa/matcher';
+import { TESSA_SERVICES } from '../../../../lib/tessa/services';
+import { TESSA_QUALIFICATION, extractBasicContextFromText, mergeTessaContext, nextQualificationQuestion, sanitizeTessaContext } from '../../../../lib/tessa/qualification';
 import { callPublicRpc } from '../../../../lib/server/tttPublicApi';
 import { logTessaQuestion, scrubTelemetry } from '../../../../lib/server/tessaTelemetry';
 
@@ -14,14 +16,16 @@ async function loadKnowledge(){
   }catch{}
   return TESSA_KNOWLEDGE;
 }
+
 function jsonFromText(text=''){
-  const cleaned=String(text).trim().replace(/^\`\`\`(?:json)?/i,'').replace(/\`\`\`$/,'').trim();
+  const cleaned=String(text).trim().replace(/^```(?:json)?/i,'').replace(/```$/,'').trim();
   try{return JSON.parse(cleaned);}catch{
     const start=cleaned.indexOf('{'),end=cleaned.lastIndexOf('}');
     if(start>=0&&end>start){try{return JSON.parse(cleaned.slice(start,end+1));}catch{}}
   }
   return null;
 }
+
 function selectCandidates(question,path,entries){
   const ranked=rankTessaKnowledge(question,{path,knowledge:entries},40);
   const domain=inferTessaDomain(question);
@@ -41,12 +45,51 @@ function selectCandidates(question,path,entries){
   return Array.from(selected.values()).slice(0,40);
 }
 
-export async function GET(){
-  return Response.json({
-    ok:true,
-    model:MODEL,
-    mode:'grounded-hybrid'
+function canonicalService(value=''){
+  const raw=String(value||'').trim();
+  if(TESSA_SERVICES.includes(raw)) return raw;
+  const q=raw.toLowerCase();
+  if(/tint/.test(q)) return 'Window tint';
+  if(/audio|dsp|speaker|sub|stereo/.test(q)) return 'Audio & DSP';
+  if(/security|kill|alarm|immobil/.test(q)) return 'Security / kill switch';
+  if(/gps|track|telematics/.test(q)) return 'GPS & tracking';
+  if(/signal|diagnostic|electrical fault|battery drain|no.?start/.test(q)) return 'SignalTrace™ diagnostics';
+  if(/camera|dashcam/.test(q)) return 'Cameras';
+  if(/fabricat|3d|cad|bracket|mount/.test(q)) return 'Custom fabrication';
+  if(/electronic|accessor|lighting/.test(q)) return 'Electronics';
+  return '';
+}
+
+function withCanonicalService(context={}){
+  const clean=sanitizeTessaContext(context);
+  const service=canonicalService(clean.service);
+  return service?{...clean,service}:clean;
+}
+
+async function persistResult(body,question,result){
+  await logTessaQuestion({
+    sessionId:body?.sessionId,
+    visitorId:body?.visitorId,
+    websiteSessionId:body?.websiteSessionId,
+    question,
+    matched:Boolean(result.matched),
+    matchedIntentId:result.matchedIntentId||'',
+    confidence:result.confidence,
+    category:result.category||'',
+    service:result.service||'',
+    mode:result.mode||'',
+    answer:(result.answer+(result.nextQuestion?' '+result.nextQuestion:'')).trim(),
+    pagePath:body?.pagePath,
+    referrer:body?.referrer,
+    knowledgeVersion:TESSA_KNOWLEDGE_VERSION,
+    responseSource:result.source||'',
+    modelName:result.model||'',
+    latencyMs:result.latencyMs
   });
+}
+
+export async function GET(){
+  return Response.json({ok:true,model:MODEL,mode:'grounded-hybrid-qualification'});
 }
 
 export async function POST(request){
@@ -55,6 +98,9 @@ export async function POST(request){
     const body=await request.json();
     const question=scrubTelemetry(body?.question);
     if(question.length<2) return Response.json({ok:false,error:'Question required.'},{status:400});
+
+    const conversationContext=withCanonicalService(body?.conversationContext);
+    const qualificationActive=Boolean(body?.qualificationActive);
     const entries=await loadKnowledge();
     const rankedFallback=rankTessaKnowledge(question,{path:String(body?.pagePath||''),knowledge:entries},1)[0]||null;
     const candidates=selectCandidates(question,String(body?.pagePath||''),entries);
@@ -74,115 +120,125 @@ export async function POST(request){
     })).filter(m=>m.text):[];
 
     const prompt=[
-      'Customer question: '+question,
+      'Customer message: '+question,
       'Current website path: '+String(body?.pagePath||''),
       history.length?'Recent conversation: '+JSON.stringify(history):'',
+      'Known conversation context: '+JSON.stringify(conversationContext),
+      qualificationActive?'Qualification mode is ACTIVE. Qualification definitions: '+JSON.stringify(TESSA_QUALIFICATION):'Qualification mode is not active.',
       'Approved TTT knowledge candidates: '+JSON.stringify(compact),
       '',
       'Return ONLY JSON in this exact shape:',
-      '{"answer":"string","intentIds":["id"],"confidence":0.0,"handoff":false}',
-      'Rules: Use only facts contained in the approved candidates. You may paraphrase or combine up to three compatible entries. Do not invent pricing, product availability, hours, warranties, legal limits, diagnoses, or capabilities. If the candidates do not support a useful answer, set handoff=true, intentIds=[], confidence below 0.5, and use a brief handoff answer. Ask at most one useful follow-up question, and only when supported by the approved knowledge.'
+      '{"answer":"string","intentIds":["id"],"confidence":0.0,"handoff":false,"memory":{"service":"","year":"","make":"","model":"","trim":"","color":"","serviceDetail":"","projectGoal":"","symptom":""},"qualificationHandled":false,"qualificationComplete":false,"nextQuestion":""}',
+      'Rules: Factual claims about TTT must come only from the approved knowledge candidates. You may paraphrase or combine up to three compatible entries. Never invent pricing, stock, hours, warranties, legal limits, diagnoses, product compatibility, or TTT capabilities. Memory can contain only facts explicitly stated by the visitor in this turn or already present in known context; do not infer trim, color, budget, symptoms, or goals that were not stated. The memory.service value must be one of these canonical values when known: '+TESSA_SERVICES.join(' | ')+'. If qualification mode is active, qualification is a process task: acknowledge what the visitor supplied, preserve known context, and ask exactly one next missing qualification question. The required sequence is service, then vehicle year/make/model, then the service-specific detail from the definitions. When those are known, set qualificationComplete=true, nextQuestion="", and tell the visitor you have enough to start a request. For an ordinary unsupported factual question, set handoff=true, intentIds=[], confidence below 0.5, and give a short human-handoff answer.'
     ].filter(Boolean).join('\n');
 
     let parsed=null;
-    let aiCompleted=false;
     try{
       const result=await generateText({
         model:MODEL,
-        system:'You are Tessa, the customer-facing virtual assistant for Thompson Transportation Technologies (TTT). Be concise, warm and practical. Ground every factual claim in the supplied approved TTT knowledge. Never pretend that an unsupported fact is known.',
+        system:'You are Tessa, the customer-facing virtual assistant for Thompson Transportation Technologies (TTT). Be concise, warm and practical. Use approved TTT knowledge for factual claims. In qualification mode, collect only the missing project facts and do not make the visitor repeat information already in context.',
         prompt,
-        maxOutputTokens:350,
-        providerOptions:{gateway:{user:String(body?.visitorId||'anonymous'),tags:['tessa','website','grounded-rag']}}
+        maxOutputTokens:450,
+        providerOptions:{gateway:{user:String(body?.visitorId||'anonymous'),tags:['tessa','website','grounded-rag','qualification']}}
       });
       parsed=jsonFromText(result.text);
-      aiCompleted=Boolean(parsed);
     }catch(error){
       console.error('Tessa AI Gateway call failed',error);
     }
 
-    if(!aiCompleted && rankedFallback?.score>=0.56){
-      const answer=rankedFallback.answer+(rankedFallback.followUp||rankedFallback.follow_up?' '+(rankedFallback.followUp||rankedFallback.follow_up):'');
-      const latencyMs=Date.now()-started;
-      await logTessaQuestion({
-        sessionId:body?.sessionId,
-        visitorId:body?.visitorId,
-        websiteSessionId:body?.websiteSessionId,
-        question,
-        matched:true,
-        matchedIntentId:rankedFallback.id,
-        confidence:rankedFallback.score,
-        category:rankedFallback.category||'',
-        service:rankedFallback.service||'',
-        mode:rankedFallback.mode||'answer',
-        answer,
-        pagePath:body?.pagePath,
-        referrer:body?.referrer,
-        knowledgeVersion:TESSA_KNOWLEDGE_VERSION,
-        responseSource:'deterministic-fallback',
-        modelName:'',
-        latencyMs
-      });
-      return Response.json({
-        ok:true,
-        answer,
-        matched:true,
-        matchedIntentId:rankedFallback.id,
-        matchedIntentIds:[rankedFallback.id],
-        confidence:rankedFallback.score,
-        category:rankedFallback.category||'',
-        service:rankedFallback.service||'',
-        mode:rankedFallback.mode||'answer',
-        source:'deterministic-fallback',
-        model:'',
-        latencyMs
-      });
+    if(!parsed){
+      if(qualificationActive){
+        const memory=withCanonicalService(extractBasicContextFromText(question,conversationContext));
+        const next=nextQualificationQuestion(memory);
+        const complete=next.field==='complete';
+        const result={
+          ok:true,
+          answer:complete
+            ? 'Perfect — I have the basic project details. I can attach them to a TTT request so you do not have to repeat yourself.'
+            : 'Got it.',
+          matched:true,
+          matchedIntentId:'',
+          matchedIntentIds:[],
+          confidence:0.7,
+          category:'Qualification',
+          service:memory.service||'',
+          mode:'qualify',
+          source:'deterministic-qualification-fallback',
+          model:'',
+          latencyMs:Date.now()-started,
+          memory,
+          qualificationHandled:true,
+          qualificationComplete:complete,
+          nextQuestion:next.question
+        };
+        await persistResult(body,question,result);
+        return Response.json(result);
+      }
+
+      if(rankedFallback?.score>=0.56){
+        const answer=rankedFallback.answer+(rankedFallback.followUp||rankedFallback.follow_up?' '+(rankedFallback.followUp||rankedFallback.follow_up):'');
+        const result={
+          ok:true,answer,matched:true,matchedIntentId:rankedFallback.id,matchedIntentIds:[rankedFallback.id],
+          confidence:rankedFallback.score,category:rankedFallback.category||'',service:rankedFallback.service||'',
+          mode:rankedFallback.mode||'answer',source:'deterministic-fallback',model:'',latencyMs:Date.now()-started,
+          memory:withCanonicalService({...conversationContext,service:rankedFallback.service||conversationContext.service}),
+          qualificationHandled:false,qualificationComplete:false,nextQuestion:''
+        };
+        await persistResult(body,question,result);
+        return Response.json(result);
+      }
+
+      const result={
+        ok:true,answer:FALLBACK,matched:false,matchedIntentId:'',matchedIntentIds:[],confidence:0,
+        category:'',service:conversationContext.service||'',mode:'handoff',source:'fallback',model:'',
+        latencyMs:Date.now()-started,memory:conversationContext,qualificationHandled:false,qualificationComplete:false,nextQuestion:''
+      };
+      await persistResult(body,question,result);
+      return Response.json(result);
     }
 
+    let memory=withCanonicalService(mergeTessaContext(conversationContext,parsed?.memory||{}));
     const validIds=Array.isArray(parsed?.intentIds)
       ? parsed.intentIds.map(String).filter(id=>candidateMap.has(id)).slice(0,3)
       : [];
     const first=validIds.length?candidateMap.get(validIds[0]):null;
+    if(!memory.service && first?.service) memory={...memory,service:first.service};
+
     const confidence=Number.isFinite(Number(parsed?.confidence))?Math.max(0,Math.min(1,Number(parsed.confidence))):0;
-    const grounded=Boolean(first)&&confidence>=0.5&&!parsed?.handoff;
+    const qualificationState=nextQualificationQuestion(memory);
+    const qualificationHandled=qualificationActive&&Boolean(parsed?.qualificationHandled);
+    const qualificationComplete=qualificationActive&&(Boolean(parsed?.qualificationComplete)||qualificationState.field==='complete');
+    const nextQuestion=qualificationActive&&!qualificationComplete
+      ? String(parsed?.nextQuestion||qualificationState.question||'').trim().slice(0,500)
+      : '';
+    const knowledgeGrounded=Boolean(first)&&confidence>=0.5&&!parsed?.handoff;
+    const processGrounded=qualificationHandled&&confidence>=0.5&&!parsed?.handoff;
+    const grounded=knowledgeGrounded||processGrounded;
+
     const answer=grounded&&typeof parsed?.answer==='string'&&parsed.answer.trim()
       ? parsed.answer.trim().slice(0,1500)
       : FALLBACK;
-    const latencyMs=Date.now()-started;
-
-    await logTessaQuestion({
-      sessionId:body?.sessionId,
-      visitorId:body?.visitorId,
-      websiteSessionId:body?.websiteSessionId,
-      question,
-      matched:grounded,
-      matchedIntentId:first?.id||'',
-      confidence,
-      category:first?.category||'',
-      service:first?.service||'',
-      mode:grounded?(first?.mode||'answer'):'handoff',
-      answer,
-      pagePath:body?.pagePath,
-      referrer:body?.referrer,
-      knowledgeVersion:TESSA_KNOWLEDGE_VERSION,
-      responseSource:grounded?'model-grounded':'model-handoff',
-      modelName:MODEL,
-      latencyMs
-    });
-
-    return Response.json({
+    const source=processGrounded?'model-qualification':(grounded?'model-grounded':'model-handoff');
+    const result={
       ok:true,
       answer,
       matched:grounded,
       matchedIntentId:first?.id||'',
       matchedIntentIds:validIds,
       confidence,
-      category:first?.category||'',
-      service:first?.service||'',
-      mode:grounded?(first?.mode||'answer'):'handoff',
-      source:grounded?'model-grounded':'model-handoff',
+      category:processGrounded&&!first?'Qualification':(first?.category||''),
+      service:memory.service||first?.service||'',
+      mode:processGrounded?'qualify':(grounded?(first?.mode||'answer'):'handoff'),
+      source,
       model:MODEL,
-      latencyMs
-    });
+      latencyMs:Date.now()-started,
+      memory,
+      qualificationHandled,
+      qualificationComplete,
+      nextQuestion
+    };
+    await persistResult(body,question,result);
+    return Response.json(result);
   }catch(error){
     console.error('Tessa hybrid answer failed',error);
     return Response.json({ok:true,answer:FALLBACK,matched:false,confidence:0,source:'fallback',model:'',latencyMs:Date.now()-started});
