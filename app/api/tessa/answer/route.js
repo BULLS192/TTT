@@ -45,10 +45,13 @@ export async function GET(request){
   const probe=new URL(request.url).searchParams.get('probe')==='1';
   if(probe){
     try{
-      const result=await generateText({model:MODEL,prompt:'Reply with exactly OK.',maxOutputTokens:8});
-      return Response.json({ok:true,probe:true,model:MODEL,text:String(result.text||'').trim().slice(0,20)});
+      const requested=new URL(request.url).searchParams.get('model')||MODEL;
+      const allowed=new Set([MODEL,'moonshotai/kimi-k3','google/gemini-3.5-flash-lite','openai/gpt-5.4-nano']);
+      const probeModel=allowed.has(requested)?requested:MODEL;
+      const result=await generateText({model:probeModel,prompt:'Reply with exactly OK.',maxOutputTokens:8});
+      return Response.json({ok:true,probe:true,model:probeModel,text:String(result.text||'').trim().slice(0,20)});
     }catch(error){
-      return Response.json({ok:false,probe:true,model:MODEL,error:String(error?.message||error).slice(0,500)});
+      return Response.json({ok:false,probe:true,model:new URL(request.url).searchParams.get('model')||MODEL,error:String(error?.message||error).slice(0,500)});
     }
   }
   return Response.json({
