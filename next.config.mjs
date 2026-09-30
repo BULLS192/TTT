@@ -1,7 +1,3 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  poweredByHeader: false,
-  reactStrictMode: true,
-};
-
+const nextConfig={poweredByHeader:false,reactStrictMode:true,async redirects(){return[{source:'/start',destination:'/quote',permanent:true},{source:'/fleet-dealership',destination:'/solutions/fleet-dealership',permanent:true},{source:'/solutions/dealership-technology',destination:'/solutions/fleet-dealership#dealerships',permanent:true},{source:'/solutions/fleet-intelligence',destination:'/solutions/fleet-dealership#fleets',permanent:true}]}};
 export default nextConfig;
