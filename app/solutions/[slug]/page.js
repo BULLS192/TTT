@@ -1,22 +1,6 @@
 import { notFound } from 'next/navigation';
-import DetailPage from '../../../components/DetailPage';
-import { solutions, findItem } from '../../../lib/siteData';
-
-export function generateStaticParams(){return solutions.map(({slug})=>({slug}));}
-
-export async function generateMetadata({params}){
-  const {slug}=await params;
-  const item=findItem(solutions,slug);
-  if(!item) return {};
-  return {
-    title: `${item.title} | TTT`,
-    description: item.seoDescription || item.summary
-  };
-}
-
-export default async function Page({params}){
-  const {slug}=await params;
-  const item=findItem(solutions,slug);
-  if(!item) notFound();
-  return <DetailPage item={item} kind="Solution"/>;
-}
+import SolutionV2Page from '../../../components/SolutionV2Page';
+import { solutionPages, solutionList } from '../../../lib/solutionCopyV2';
+export function generateStaticParams(){return solutionList.map(({slug})=>({slug}))}
+export async function generateMetadata({params}){const {slug}=await params;const page=solutionPages[slug];if(!page)return {};return {title:page.seoTitle,description:page.meta}}
+export default async function Page({params}){const {slug}=await params;const page=solutionPages[slug];if(!page)notFound();return <SolutionV2Page page={page}/>}
