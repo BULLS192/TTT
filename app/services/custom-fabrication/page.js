@@ -2,8 +2,8 @@ import Link from 'next/link';
 import AutoVisual from '../../../components/AutoVisual';
 
 export const metadata = {
-  title: 'Custom Fabrication & Additive Manufacturing',
-  description: 'Custom automotive fabrication, CAD and 3D printing for vehicle-specific mounts, brackets, panels, enclosures, jigs, fixtures and integration components.'
+  title: 'Custom Automotive Fabrication & 3D Printing | TTT',
+  description: 'Custom brackets, mounts, adapters, switch panels and enclosures designed and made for your vehicle. Practical additive manufacturing by TTT in Houston.'
 };
 
 const applications = [
@@ -30,10 +30,10 @@ export default function Page() {
     <section className="detail-hero dark-section grid-bg">
       <div className="shell visual-hero-grid">
         <div>
-          <p className="eyebrow">SERVICE / ENGINEERING & FABRICATION</p>
-          <h1>Custom Fabrication & Additive Manufacturing</h1>
-          <p className="lead lead--dark">When the correct part does not exist, design the part the vehicle actually needs.</p>
-          <div className="button-row"><Link className="button" href="/start">Start a custom project →</Link><Link className="button button--ghost-dark" href="/services">All services</Link></div>
+          <p className="eyebrow">Custom Fabrication & Additive Manufacturing</p>
+          <h1>When the right part doesn’t exist, we make it</h1>
+          <p className="lead lead--dark">Brackets, mounts, adapters and enclosures designed around your vehicle and your equipment, then refined until they fit properly.</p>
+          <div className="button-row"><Link className="button" href="/quote?service=fabrication">Start a Project Inquiry</Link><a className="button button--ghost-dark" href="#fabrication-process">See the Process</a></div>
         </div>
         <AutoVisual variant="custom-fabrication" eyebrow="TTT / DIGITAL FABRICATION" title="Design. Fit. Validate." />
       </div>
@@ -50,7 +50,7 @@ export default function Page() {
       <div className="visual-stat-strip">{applications.slice(3).map(([title,body],i)=><div className="visual-stat" key={title}><small>0{i+4}</small><strong>{title}</strong><p>{body}</p></div>)}</div>
     </div></section>
 
-    <section className="section section--dark"><div className="shell">
+    <section id="fabrication-process" className="section section--dark"><div className="shell">
       <div className="section-heading"><div><p className="eyebrow">TTT fabrication workflow</p><h2>DEFINE → DESIGN → PROTOTYPE → FIT → PRODUCE → INSTALL → CATALOG</h2></div></div>
       <div className="process-line">{stages.map(([n,title,body])=><div className="process-step" key={title}><span>{n}</span><b>{title}</b><p>{body}</p></div>)}</div>
     </div></section>
@@ -65,6 +65,6 @@ export default function Page() {
       <div className="section-copy"><p>3D scanning can be valuable for complex geometry, but capture is only one part of the job. Mesh cleanup, reverse engineering, CAD reconstruction, prototype iterations and fit validation can consume substantial time.</p><p>TTT should therefore use scanning selectively. Calipers, templates, photographs and direct CAD measurement are often faster for simpler brackets and mounts. Scanning becomes appropriate when the geometry is complex enough to justify the additional workflow.</p></div>
     </div></section>
 
-    <section className="cta-band"><div className="shell"><h2>Need a part that does not exist?</h2><Link className="button button--light" href="/start">Build it with TTT →</Link></div></section>
+    <section className="cta-band"><div className="shell"><h2>Have a part in mind that doesn’t exist yet?</h2><p>Tell us what it needs to do and where it goes. Photos and rough measurements help us give you a useful answer.</p><Link className="button button--light" href="/quote?service=fabrication">Start a Project Inquiry</Link></div></section>
   </main>;
 }

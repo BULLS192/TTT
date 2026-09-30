@@ -3,8 +3,8 @@ import TintVisualizer from './TintVisualizer';
 import styles from './window-tint.module.css';
 
 export const metadata = {
-  title: 'Automotive Window Tint in Houston',
-  description: 'Automotive window tint for Houston drivers, selected around heat rejection, glare, visibility, privacy, glass coverage and current Texas requirements.',
+  title: 'Ceramic Window Tint in Houston | TTT',
+  description: 'Window tint chosen for heat, glare and UV control, not just shade. TTT explains film types and darkness options, then installs with care in Houston.',
 };
 
 const filmFamilies = [
@@ -99,14 +99,14 @@ export default function WindowTintPage() {
         <div className={styles.shell}>
           <div className={styles.heroGrid}>
             <div className={styles.heroCopy}>
-              <p className={styles.eyebrow}>Services / Window Tint</p>
-              <h1>Tint should make the cabin better, not just the glass darker.</h1>
+              <p className={styles.eyebrow}>Window Tint</p>
+              <h1>Window tint chosen for how you drive</h1>
               <p className={styles.heroLead}>
-                Houston sun can turn a parked vehicle into an oven. The right film helps manage that heat without forcing you into glass that is darker than you actually want. We match the film, shade and coverage to the vehicle — and to how you drive it.
+                A cooler cabin, less glare and more privacy. We help you pick the right film and shade for your vehicle, then fit it cleanly to every window you choose.
               </p>
               <div className={styles.heroActions}>
-                <Link href="/start" className={styles.primaryButton}>Build my tint plan →</Link>
-                <a href="#shade-lab" className={styles.secondaryButton}>See the shades</a>
+                <Link href="/quote?service=tint" className={styles.primaryButton}>Request a Tint Quote</Link>
+                <a href="#shade-lab" className={styles.secondaryButton}>Compare Film Options</a>
               </div>
               <div className={styles.heroMeta} aria-label="Window tint priorities">
                 <span>Heat</span><span>Glare</span><span>Visibility</span><span>Privacy</span><span>Appearance</span>

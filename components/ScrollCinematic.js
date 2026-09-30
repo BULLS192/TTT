@@ -6,11 +6,11 @@ import { canonicalLogoDataUri } from '../lib/brand/logoData';
 import { homepageCinematic } from '../lib/cinematicMedia';
 
 const chapters = [
-  { key: 'hero', start: 0, end: 0.15, kicker: 'Thompson Transportation Technologies', title: 'Technology, Integrated.', body: 'Designed into the vehicle. Tuned to the driver. Built to work as one system.' },
-  { key: 'tint', start: 0.15, end: 0.31, kicker: '01 / Glass', title: 'Precision Tint', body: 'Heat rejection, privacy and optical clarity — selected for the vehicle, not just the shade.' },
-  { key: 'audio', start: 0.31, end: 0.58, kicker: '02 / Audio', title: 'Audio, Engineered.', body: 'OEM integration, DSP, amplification and speakers tuned as one cabin system.' },
-  { key: 'security', start: 0.58, end: 0.85, kicker: '03 / Security + Tracking', title: 'Track. Protect. Control.', body: 'Tracking, immobilization and layered protection integrated discreetly into the vehicle.' },
-  { key: 'ecosystem', start: 0.85, end: 1.01, kicker: '04 / TTT Ecosystem', title: 'One standard. Every vehicle.', body: 'Personal vehicles, dealership programs and fleets — one integration philosophy.' },
+  { key: 'hero', start: 0, end: 0.15, kicker: 'Thompson Transportation Technologies · Houston', title: 'Vehicle technology, properly integrated.', body: 'Window tint, audio, tracking, security and electrical diagnostics from a Houston team that plans the work first and verifies it before handover.' },
+  { key: 'tint', start: 0.15, end: 0.31, kicker: '01 / Window Tint', title: 'Window tint chosen for how you drive', body: 'A cooler cabin, less glare and more privacy. Film chosen for heat, glare and privacy, not just shade.' },
+  { key: 'audio', start: 0.31, end: 0.58, kicker: '02 / Automotive Audio', title: 'Car audio built around how you listen', body: 'Clearer vocals, tighter bass and sound that fills the cabin evenly, planned around the factory features you rely on.' },
+  { key: 'security', start: 0.58, end: 0.85, kicker: '03 / Tracking + Security', title: 'Tracking shows where. Immobilization helps control whether it moves.', body: 'Location, alerts and layered theft deterrence integrated carefully so new technology does not create new electrical problems.' },
+  { key: 'ecosystem', start: 0.85, end: 1.01, kicker: '04 / TTT Ecosystem', title: 'Every system, considered together', body: 'A modern vehicle is a network of electronics, not a set of separate parts. TTT plans each addition around the systems already there.' },
 ];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -246,7 +246,7 @@ export default function ScrollCinematic() {
               <h1>{item.title}</h1>
               <p className="cinematic__body">{item.body}</p>
               {item.key === 'security' ? <div className="cinematic__callouts" aria-label="Vehicle security capabilities"><span className={securityProgress > 0.08 ? 'is-on' : ''}>GPS Tracking</span><span className={securityProgress > 0.35 ? 'is-on' : ''}>Immobilization</span><span className={securityProgress > 0.62 ? 'is-on' : ''}>Security Control</span></div> : null}
-              {item.key === 'ecosystem' ? <div className="cinematic__actions"><Link className="button" href="/start">Start a project →</Link><Link className="button button--ghost-dark" href="/solutions">Explore solutions</Link></div> : null}
+              {item.key === 'ecosystem' ? <div className="cinematic__actions"><Link className="button" href="/quote">Request a Quote</Link><Link className="button button--ghost-dark" href="/services">Explore Services</Link></div> : null}
             </div>
           ))}
         </div>
