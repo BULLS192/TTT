@@ -1,42 +1,7 @@
 'use client';
-
 import { useState } from 'react';
-
-export default function InquiryForm({ type = 'general', title = 'Send us a message', intro = 'Tell us what you need and the right TTT conversation can start from there.' }) {
-  const [status, setStatus] = useState('');
-  const [busy, setBusy] = useState(false);
-
-  async function submit(event) {
-    event.preventDefault();
-    setBusy(true);
-    setStatus('');
-    const data = Object.fromEntries(new FormData(event.currentTarget));
-    try {
-      const response = await fetch('/api/inquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, inquiryType: type }) });
-      const result = await response.json();
-      setStatus(result.message || (response.ok ? 'Message sent.' : 'We could not send your message.'));
-      if (response.ok) event.currentTarget.reset();
-    } catch {
-      setStatus('We could not send your message. Please try again later.');
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  return (
-    <div className="inquiry-panel">
-      <div className="inquiry-panel__head"><p className="eyebrow">Contact TTT</p><h2>{title}</h2><p>{intro}</p></div>
-      <form className="inquiry-form" onSubmit={submit}>
-        <div className="form-grid form-grid--2"><label>First name<input name="firstName" autoComplete="given-name" maxLength="80" required /></label><label>Last name<input name="lastName" autoComplete="family-name" maxLength="80" required /></label></div>
-        <div className="form-grid form-grid--2"><label>Email<input type="email" name="email" autoComplete="email" maxLength="180" required /></label><label>Phone <span>(optional)</span><input type="tel" name="phone" autoComplete="tel" maxLength="80" /></label></div>
-        <label>Company <span>(optional)</span><input name="company" autoComplete="organization" maxLength="160" /></label>
-        <label>What can we help with?<select name="topic" defaultValue={type}><option value="general">General question</option><option value="project">Vehicle / project inquiry</option><option value="business">Dealership / fleet inquiry</option><option value="vendor">Vendor / manufacturer partnership</option><option value="support">Existing customer support</option><option value="privacy">Privacy request</option><option value="accessibility">Accessibility feedback</option></select></label>
-        <label>Message<textarea name="message" rows="6" maxLength="5000" required /></label>
-        <label aria-hidden="true" style={{position:'absolute',left:'-10000px',width:1,height:1,overflow:'hidden'}}>Website<input name="website" tabIndex="-1" autoComplete="off" /></label>
-        <label className="consent-check"><input type="checkbox" name="consent" value="yes" required /><span>I agree that TTT may use the information I submit to respond to this inquiry. See the <a href="/privacy">Privacy Policy</a>.</span></label>
-        <button className="button" type="submit" disabled={busy}>{busy ? 'Sending…' : 'Send message →'}</button>
-        {status && <p className="form-status" role="status" aria-live="polite">{status}</p>}
-      </form>
-    </div>
-  );
+export default function InquiryForm({type='general',title='Send us a message',intro='Tell us what you need and the right TTT conversation can start from there.'}){
+ const[status,setStatus]=useState('');const[busy,setBusy]=useState(false);
+ async function submit(event){event.preventDefault();setBusy(true);setStatus('');const data=Object.fromEntries(new FormData(event.currentTarget));if(!data.firstName){setStatus('Please enter your name.');setBusy(false);return}if(!data.email&&!data.phone){setStatus('Please add an email or phone number so we can reply.');setBusy(false);return}try{const response=await fetch('/api/inquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...data,inquiryType:type})});const result=await response.json();setStatus(result.message||(response.ok?'Message sent.':'We could not send your message.'));if(response.ok)event.currentTarget.reset()}catch{setStatus('We could not send your message. Please try again later.')}finally{setBusy(false)}}
+ return <div className="inquiry-panel"><div className="inquiry-panel__head"><p className="eyebrow">{type==='business'?'Business inquiry':'Contact TTT'}</p><h2>{title}</h2><p>{intro}</p></div><form className="inquiry-form" onSubmit={submit}><div className="form-grid form-grid--2"><label>First name<input name="firstName" autoComplete="given-name" maxLength="80" required/></label><label>Last name <span>(optional)</span><input name="lastName" autoComplete="family-name" maxLength="80"/></label></div><div className="form-grid form-grid--2"><label>Email<input type="email" name="email" autoComplete="email" maxLength="180"/></label><label>Phone<input type="tel" name="phone" autoComplete="tel" maxLength="80"/></label></div>{type==='business'?<><div className="form-grid form-grid--2"><label>Company or dealership<input name="company" autoComplete="organization" maxLength="160" required/></label><label>Your role <span>(optional)</span><input name="role" maxLength="120"/></label></div><div className="form-grid form-grid--2"><label>Type<select name="businessType" required><option value="">Select</option><option>Dealership</option><option>Fleet</option><option>Automotive business</option><option>Other</option></select></label><label>About how many vehicles?<input name="vehicleCount" required/></label></div><label>Vehicle types <span>(optional)</span><input name="vehicleTypes" placeholder="e.g. half-ton pickups, cargo vans"/></label><label>Interest<select name="topic" required><option>Tracking</option><option>Security</option><option>Tint</option><option>Diagnostics</option><option>Fabrication</option><option>Not sure</option></select></label><label>Timing <span>(optional)</span><select name="timing"><option value="">Select</option><option>Now</option><option>1–3 months</option><option>Planning ahead</option></select></label></>:<label>What’s this about?<select name="topic" defaultValue="general"><option value="general">General question</option><option value="support">Existing job or aftercare</option><option value="vendor">Supplier or partnership</option><option value="press">Press</option><option value="privacy">Privacy request</option><option value="accessibility">Accessibility feedback</option></select></label>}<label>{type==='business'?'Anything else we should know':'Your message'}<textarea name="message" rows="6" maxLength="5000" required={type!=='business'}/></label><label aria-hidden="true" style={{position:'absolute',left:'-10000px',width:1,height:1,overflow:'hidden'}}>Website<input name="website" tabIndex="-1" autoComplete="off"/></label><label className="consent-check"><input type="checkbox" name="consent" value="yes" required/><span>I agree that TTT may use the information I submit to respond to this inquiry. See the <a href="/privacy">Privacy Policy</a>.</span></label><button className="button" type="submit" disabled={busy}>{busy?'Sending…':type==='business'?'Send Business Inquiry →':'Send Message →'}</button>{status&&<p className="form-status" role="status" aria-live="polite">{status}</p>}</form></div>
 }
