@@ -84,6 +84,18 @@ export default function TessaAssistant() {
   }, []);
 
   useEffect(() => {
+    const onOpen = (event) => {
+      setLeadOpen(false);
+      setOpen(true);
+      const prompt=event?.detail?.prompt;
+      if(prompt) setQuestion(prompt);
+      trackWebsiteEvent('tessa','open',{source:'contextual-cta'});
+    };
+    window.addEventListener('ttt:tessa-open',onOpen);
+    return () => window.removeEventListener('ttt:tessa-open',onOpen);
+  }, []);
+
+  useEffect(() => {
     if (open && !leadOpen) messageEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [messages, open, leadOpen]);
 
