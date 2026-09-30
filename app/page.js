@@ -3,6 +3,7 @@ import ScrollCinematic from '../components/ScrollCinematic';
 import AssetMedia from '../components/AssetMedia';
 import InteractiveVehicle from '../components/InteractiveVehicle';
 import ServiceIcon from '../components/ServiceIcon';
+import TessaTrigger from '../components/TessaTrigger';
 
 export const metadata={
   title:'Automotive Technology & Installation in Houston | TTT',
@@ -67,7 +68,7 @@ export default function HomePage(){
 
   <section className="section"><div className="shell editorial-media-band editorial-media-band--reverse">
    <AssetMedia visual="homeHeroMinimal"/>
-   <div><p className="eyebrow">Tessa</p><h2>Questions before you call? Ask Tessa.</h2><p>Tessa is TTT’s virtual service assistant. She can explain services, answer common questions, help you work out whether TTT is likely to be able to help, and guide you toward the right quote details.</p><div className="prompt-chips"><span>Do you offer ceramic tint?</span><span>Can you upgrade my factory audio?</span><span>Can you install a GPS tracker?</span><span>My battery keeps dying.</span></div><p className="small-note">Tessa is a virtual assistant. Vehicle-specific recommendations can be handed to the TTT team.</p></div>
+   <div><p className="eyebrow">Tessa</p><h2>Questions before you call? Ask Tessa.</h2><p>Tessa is TTT’s virtual service assistant. She can explain services, answer common questions, help you work out whether TTT is likely to be able to help, and guide you toward the right quote details.</p><div className="prompt-chips"><span>Do you offer ceramic tint?</span><span>Can you upgrade my factory audio?</span><span>Can you install a GPS tracker?</span><span>My battery keeps dying.</span></div><TessaTrigger className="button button--ghost" prompt="I have a question about TTT services.">Ask Tessa →</TessaTrigger><p className="small-note">Tessa is a virtual assistant. Vehicle-specific recommendations can be handed to the TTT team.</p></div>
   </div></section>
 
   <section className="cta-band"><div className="shell cta-band__inner"><div><p className="eyebrow">Start here</p><h2>Tell us what you have in mind.</h2><p>Share your vehicle and what you want done. We will start with options that fit the vehicle, not a one-size answer.</p></div><Link className="button button--light" href="/quote">Request a Quote →</Link></div></section>
