@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import TintVisualizer from './TintVisualizer';
+import AssetMedia from '../../../components/AssetMedia';
 import styles from './window-tint.module.css';
 
 export const metadata = {
@@ -118,6 +119,8 @@ export default function WindowTintPage() {
           </div>
         </div>
       </section>
+
+      <section className="visual-library-strip"><div className="shell"><AssetMedia visual="tintHero" priority /></div></section>
 
       <section className={styles.editorialSection}>
         <div className={styles.shell}>
@@ -248,6 +251,8 @@ export default function WindowTintPage() {
           </div>
         </div>
       </section>
+
+      <section className="section section--soft"><div className="shell visual-library-pair"><AssetMedia visual="tintLayers"/><AssetMedia visual="tintInstall"/></div></section>
 
       <section className={styles.faqSection}>
         <div className={styles.shell}>

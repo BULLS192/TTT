@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import AutoVisual from '../../../components/AutoVisual';
+import AssetMedia from '../../../components/AssetMedia';
 
 export const metadata = {
   title: 'Custom Automotive Fabrication & 3D Printing | TTT',
@@ -35,7 +35,7 @@ export default function Page() {
           <p className="lead lead--dark">Brackets, mounts, adapters and enclosures designed around your vehicle and your equipment, then refined until they fit properly.</p>
           <div className="button-row"><Link className="button" href="/quote?service=fabrication">Start a Project Inquiry</Link><a className="button button--ghost-dark" href="#fabrication-process">See the Process</a></div>
         </div>
-        <AutoVisual variant="custom-fabrication" eyebrow="TTT / DIGITAL FABRICATION" title="Design. Fit. Validate." />
+        <AssetMedia visual="fabricationHero" className="asset-media--hero" priority />
       </div>
     </section>
 
@@ -56,7 +56,7 @@ export default function Page() {
     </div></section>
 
     <section className="section"><div className="shell editorial-visual-band">
-      <AutoVisual variant="custom-fabrication" eyebrow="TTT / ADDITIVE MANUFACTURING" title="Print the solution, not the commodity." />
+      <AssetMedia visual="fabricationExamples" />
       <div className="editorial-visual-copy"><p className="eyebrow">3D printing</p><h2>The value is in engineering, fitment and repeatability.</h2><p>A printed mount may use very little material while eliminating hours of adaptation or enabling an installation that otherwise has no clean solution. Pricing should therefore reflect design effort, validation, production time and the value of the finished component—not filament cost alone.</p><p>Once a design is validated, it can become a reusable TTT digital part with a part number, revision and vehicle-fitment record.</p></div>
     </div></section>
 
@@ -65,6 +65,6 @@ export default function Page() {
       <div className="section-copy"><p>3D scanning can be valuable for complex geometry, but capture is only one part of the job. Mesh cleanup, reverse engineering, CAD reconstruction, prototype iterations and fit validation can consume substantial time.</p><p>TTT should therefore use scanning selectively. Calipers, templates, photographs and direct CAD measurement are often faster for simpler brackets and mounts. Scanning becomes appropriate when the geometry is complex enough to justify the additional workflow.</p></div>
     </div></section>
 
-    <section className="cta-band"><div className="shell"><h2>Have a part in mind that doesn’t exist yet?</h2><p>Tell us what it needs to do and where it goes. Photos and rough measurements help us give you a useful answer.</p><Link className="button button--light" href="/quote?service=fabrication">Start a Project Inquiry</Link></div></section>
+    <section className="section section--soft"><div className="shell visual-library-strip"><AssetMedia visual="fabricationProcess" /></div></section>\n\n    <section className="cta-band"><div className="shell"><h2>Have a part in mind that doesn’t exist yet?</h2><p>Tell us what it needs to do and where it goes. Photos and rough measurements help us give you a useful answer.</p><Link className="button button--light" href="/quote?service=fabrication">Start a Project Inquiry</Link></div></section>
   </main>;
 }

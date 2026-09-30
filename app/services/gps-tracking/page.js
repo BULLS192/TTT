@@ -42,5 +42,5 @@ const data={
     ['Can tracking work with a kill switch?','Yes. Many owners combine the two for layered security. We plan both together so they don’t conflict.']
   ],
   final:{title:'Set up tracking that works when it matters.',body:'Tell us about your vehicle or vehicles and what you want to monitor. We’ll recommend an option and explain what it involves.',primary:['Request a Tracking Quote','/quote?service=gps'],secondary:['Fleet & Dealership Solutions','/fleet-dealership']}
-};
+,\n  visuals:{hero:'gpsHero',sections:{1:'gpsUseCases',4:'gpsHardware'}}\n};
 export default function Page(){return <ServiceCopyPage data={data}/>;}

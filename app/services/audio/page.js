@@ -44,6 +44,6 @@ const data={
     ['Can I upgrade in stages?','Yes. We can plan a system so each stage builds on the last, without redoing earlier work.']
   ],
   final:{title:'Let’s plan a system that fits your vehicle.',body:'Tell us what you drive, what you listen to and what you’d like to change. We’ll suggest a direction and explain what’s involved.',primary:['Request an Audio Quote','/quote?service=audio'],secondary:['Ask Tessa','/faq#audio']}
-};
+,\n  visuals:{hero:'audioHero',sections:{1:'audioComponents',3:'audioFlow',5:'audioPlacement'}}\n};
 
 export default function Page(){return <ServiceCopyPage data={data}/>;}

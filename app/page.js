@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ScrollCinematic from '../components/ScrollCinematic';
+import AssetMedia from '../components/AssetMedia';\nimport InteractiveVehicle from '../components/InteractiveVehicle';\nimport ServiceIcon from '../components/ServiceIcon';
 
 export const metadata = {
   title: 'Automotive Technology & Installation in Houston | TTT',
@@ -15,7 +15,7 @@ const services = [
   ['Custom Fabrication','When the right bracket, mount or enclosure doesn’t exist, we can design and make one to fit.','/services/custom-fabrication','Custom fabrication →']
 ];
 
-const journey = [
+const iconMap={\n  'Window Tint':'tint','Audio':'audio','GPS Tracking':'gps','Kill Switches':'security','TTT SignalTrace™':'signal','Custom Fabrication':'fabrication'\n};\n\nconst journey = [
   ['01','Tell us about your vehicle.','Share the year, make, model and what you want done or what’s going wrong. Photos help.'],
   ['02','Discuss the solution.','We talk through the options, what each involves and anything specific to your vehicle. If something isn’t a good fit, we’ll say so.'],
   ['03','Approve the work.','You get a clear scope before we start. Nothing is added without your agreement.'],
@@ -25,7 +25,17 @@ const journey = [
 
 export default function HomePage() {
   return <main>
-    <ScrollCinematic />
+    <section className="home-asset-hero">
+      <AssetMedia visual="homeHero" className="home-asset-hero__media" priority />
+      <div className="home-asset-hero__shade"/>
+      <div className="shell home-asset-hero__copy">
+        <p className="eyebrow">Thompson Transportation Technologies · Houston</p>
+        <h1>Vehicle technology, properly integrated.</h1>
+        <p className="lead">Window tint, audio, tracking, security and electrical diagnostics from a Houston team that plans the work first and verifies it before handover.</p>
+        <div className="button-row"><Link className="button" href="/quote">Request a Quote</Link><a className="button button--ghost-dark" href="#services">Explore Services</a></div>
+        <p><button className="button-link" data-tessa-open="true">Have a question first? Ask Tessa →</button></p>
+      </div>
+    </section>
 
     <section className="section">
       <div className="shell section-heading">
@@ -33,7 +43,7 @@ export default function HomePage() {
         <Link href="/services">Explore Services →</Link>
       </div>
       <div className="shell card-grid card-grid--3">
-        {services.map(([title,body,href,label])=><Link className="feature-card" href={href} key={href}><h3>{title}</h3><p>{body}</p><b>{label}</b></Link>)}
+        {services.map(([title,body,href,label])=><Link className="feature-card" href={href} key={href}><ServiceIcon name={iconMap[title]}/><h3>{title}</h3><p>{body}</p><b>{label}</b></Link>)}
       </div>
     </section>
 
@@ -46,6 +56,7 @@ export default function HomePage() {
           <div><span>03</span><b>Location + starting system</b><p>GPS tracking and immobilization planned as complementary layers.</p></div>
           <div><span>04</span><b>Wiring + modules</b><p>SignalTrace diagnostics for faults that are hard to find.</p></div>
         </div>
+        <InteractiveVehicle/>
       </div>
     </section>
 
@@ -62,7 +73,7 @@ export default function HomePage() {
     <section className="section dark-section">
       <div className="shell two-col">
         <div><p className="eyebrow">TTT SignalTrace™</p><h2>For the electrical problem nobody has pinned down</h2></div>
-        <div><p className="lead lead--dark">A battery that goes flat overnight. A no-start that happens once a week. An alarm that triggers on its own. SignalTrace moves through five stages: Scan, Isolate, Trace, Verify and Resolve, narrowing the problem until the evidence points to a cause.</p><p>Diagnostic time is approved in stages, so you decide how far to go before more time is spent. You receive a written summary of what we tested, what we found and what we recommend.</p><div className="button-row"><Link className="button" href="/services/signaltrace">Explore SignalTrace</Link><Link className="button button--ghost-dark" href="/quote?service=signaltrace">Start an Intake</Link></div></div>
+        <div><AssetMedia visual="signalProcess" className="copy-visual"/><p className="lead lead--dark">A battery that goes flat overnight. A no-start that happens once a week. An alarm that triggers on its own. SignalTrace moves through five stages: Scan, Isolate, Trace, Verify and Resolve, narrowing the problem until the evidence points to a cause.</p><p>Diagnostic time is approved in stages, so you decide how far to go before more time is spent. You receive a written summary of what we tested, what we found and what we recommend.</p><div className="button-row"><Link className="button" href="/services/signaltrace">Explore SignalTrace</Link><Link className="button button--ghost-dark" href="/quote?service=signaltrace">Start an Intake</Link></div></div>
       </div>
     </section>
 

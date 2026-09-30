@@ -44,5 +44,5 @@ const data={
     ['Where do you install it?','We don’t share installation details. Keeping them private is part of the security.']
   ],
   final:{title:'Talk through your vehicle’s security.',body:'Tell us what you drive and where it’s usually parked. We’ll recommend a layered approach that fits.',primary:['Request a Security Consultation','/quote?service=kill-switch'],secondary:['Explore GPS Tracking','/services/gps-tracking']}
-};
+,\n  visuals:{hero:'securityHero',sections:{1:'securityLayers',3:'securityComponents'}}\n};
 export default function Page(){return <ServiceCopyPage data={data}/>;}

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import AutoVisual from '../../../components/AutoVisual';
+import AssetMedia from '../../../components/AssetMedia';
 
 export const metadata = {
   title: 'Vehicle Electrical Diagnostics in Houston | TTT SignalTrace™',
@@ -33,7 +33,7 @@ export default function Page() {
           <p className="lead lead--dark"><strong>Advanced Vehicle Electronics Diagnostics.</strong> When the problem isn’t obvious, trace it. For electrical faults that come and go, drain batteries or have already been through a code reader and a parts counter.</p>
           <div className="button-row"><Link className="button" href="/quote?service=signaltrace">Start a SignalTrace Intake</Link><a className="button button--ghost-dark" href="#signaltrace-process">How SignalTrace Works</a></div>
         </div>
-        <AutoVisual variant="electronics" eyebrow="TTT / SIGNALTRACE™" title="Find the root cause." />
+        <AssetMedia visual="signalHero" className="asset-media--hero" priority />
       </div>
     </section>
 
@@ -54,7 +54,7 @@ export default function Page() {
     </div></section>
 
     <section className="section"><div className="shell editorial-visual-band">
-      <AutoVisual variant="electronics" eyebrow="TTT / DIAGNOSTIC RECORD" title="Evidence before replacement." />
+      <AssetMedia visual="signalNetwork" />
       <div className="editorial-visual-copy"><p className="eyebrow">What you receive</p><h2>A diagnosis you can understand and act on.</h2><p>SignalTrace™ jobs are designed to document the complaint, relevant aftermarket equipment, tests performed, findings, confirmed root cause or current conclusion, recommended correction and post-repair verification where applicable.</p><p>If more investigation is required, the work can proceed in authorized diagnostic blocks instead of becoming open-ended labor.</p><Link className="button button--ghost" href="/quote?service=signaltrace">Start a SignalTrace Intake →</Link></div>
     </div></section>
 
@@ -63,6 +63,6 @@ export default function Page() {
       <div className="section-copy"><p>SignalTrace™ can be appropriate for powered running boards that malfunction, unexplained no-starts, parasitic battery drain, repeated fuse failures, alarms or remote starts that behave intermittently, GPS or immobilizer integration issues, accessory wiring faults, grounding problems, warning messages, and module communication symptoms.</p><p>When third-party equipment is involved, the objective is to determine whether it actually caused the problem—and if so, exactly how—rather than treating its presence as the diagnosis.</p></div>
     </div></section>
 
-    <section className="cta-band"><div className="shell"><h2>Tell us what your vehicle is doing.</h2><p>The more we know about the symptoms, the better we can plan the first stage.</p><Link className="button button--light" href="/quote?service=signaltrace">Start a SignalTrace Intake</Link></div></section>
+    <section className="section section--soft"><div className="shell visual-library-strip"><AssetMedia visual="signalTools" /></div></section>\n\n    <section className="cta-band"><div className="shell"><h2>Tell us what your vehicle is doing.</h2><p>The more we know about the symptoms, the better we can plan the first stage.</p><Link className="button button--light" href="/quote?service=signaltrace">Start a SignalTrace Intake</Link></div></section>
   </main>;
 }

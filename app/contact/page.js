@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import AssetMedia from '../../components/AssetMedia';\nimport Link from 'next/link';
 import InquiryForm from '../../components/InquiryForm';
 
 export const metadata={
@@ -7,7 +7,7 @@ export const metadata={
 };
 
 export default function Page(){return <main>
- <section className="page-hero"><div className="shell"><p className="eyebrow">Contact</p><h1>Contact TTT</h1><p className="lead">Send a message, request a quote or ask Tessa. However you get in touch, a few details about your vehicle help us give you a useful answer the first time.</p></div></section>
+ <section className="page-hero"><div className="shell"><p className="eyebrow">Contact</p><h1>Contact TTT</h1><p className="lead">Send a message, request a quote or ask Tessa. However you get in touch, a few details about your vehicle help us give you a useful answer the first time.</p></div></section>\n <section className="visual-library-strip"><div className="shell"><AssetMedia visual="consultationReal" priority /></div></section>
  <section className="section"><div className="shell"><p className="eyebrow">Ways to reach us</p><h2>Choose the right starting point</h2><div className="card-grid card-grid--3">
    <article className="feature-card"><h3>Online inquiry</h3><p>Send a message with your details and we’ll follow up.</p><a href="#message">Send a Message →</a></article>
    <Link className="feature-card" href="/quote"><h3>Request a Quote</h3><p>The fastest route to pricing. A short, step-by-step form.</p><b>Request a Quote →</b></Link>
