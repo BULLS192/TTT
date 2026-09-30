@@ -1,24 +1,9 @@
 import Link from 'next/link';
 import BrandMark from './BrandMark';
-
-const groups = [
-  ['TTT', [['About', '/about'], ['The TTT Standard', '/standards'], ['Concept One', '/concept-one'], ['Projects', '/projects'], ['Contact', '/contact']]],
-  ['Solutions', [['Premium Vehicle', '/solutions/premium-vehicle-experience'], ['Security', '/solutions/vehicle-security'], ['Connected Vehicle', '/solutions/connected-vehicle'], ['Fleet Intelligence', '/solutions/fleet-intelligence']]],
-  ['Services', [['Audio', '/services/audio'], ['Window Tint', '/services/window-tint'], ['SignalTrace™ Diagnostics', '/services/signaltrace'], ['Custom Fabrication & Additive Manufacturing', '/services/custom-fabrication'], ['Tracking', '/services/tracking'], ['Cameras', '/services/cameras']]],
-  ['Business', [['Dealerships', '/industries/dealerships'], ['Fleets', '/industries/fleets'], ['Commercial', '/industries/commercial-vehicles'], ['Greater Houston', '/service-area'], ['Work With Us', '/work-with-us']]],
-  ['Resources', [['Articles', '/articles'], ['FAQ', '/resources/faq'], ['Technology', '/technology'], ['Brands & Partners', '/technology/brands'], ['Vehicle Fitment', '/vehicles']]],
-];
-
-export default function SiteFooter() {
-  const year = new Date().getFullYear();
-  return (
-    <footer className="site-footer site-footer--refined">
-      <div className="shell">
-        <div className="footer-top"><BrandMark /><p>Automotive technology consulting, integration and installation for vehicle owners, dealerships and fleets.</p></div>
-        <div className="footer-grid">{groups.map(([title, links]) => <div key={title}><h3>{title}</h3>{links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}</div>)}</div>
-        <div className="footer-cta"><div><p className="eyebrow">Start here</p><h2>Tell us what you want the vehicle to do better.</h2></div><Link className="button button--light" href="/start">Start a project →</Link></div>
-        <div className="footer-bottom"><span>© {year} Thompson Transportation Technologies LLC. All Rights Reserved.</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/accessibility">Accessibility</Link></div></div>
-      </div>
-    </footer>
-  );
-}
+const serviceLinks=[['Window Tint','/services/window-tint'],['Audio','/services/audio'],['GPS Tracking','/services/gps-tracking'],['Kill Switches','/services/kill-switches'],['SignalTrace™','/services/signaltrace'],['Custom Fabrication','/services/custom-fabrication']];
+const companyLinks=[['About TTT','/about'],['Our Work','/portfolio'],['FAQ','/faq'],['Fleet & Dealership Solutions','/fleet-dealership'],['Contact','/contact']];
+export default function SiteFooter(){const year=new Date().getFullYear();return <footer className="site-footer production-footer"><div className="shell">
+ <div className="footer-top"><BrandMark/><p>Automotive technology for Houston drivers and businesses. Window tint, audio, tracking, security, SignalTrace™ diagnostics and custom fabrication, planned carefully and verified before handover.</p><Link className="button button--light" href="/quote">Request a Quote</Link></div>
+ <div className="production-footer__grid"><div><h3>Services</h3>{serviceLinks.map(([l,h])=><Link href={h} key={h}>{l}</Link>)}</div><div><h3>Company</h3>{companyLinks.map(([l,h])=><Link href={h} key={h}>{l}</Link>)}</div><div><h3>Start here</h3><Link href="/quote">Request a Quote</Link><Link href="/contact">Send a Message</Link><p className="small-note">Phone, text, address and hours will appear here once confirmed.</p></div></div>
+ <div className="footer-bottom"><span>© {year} Thompson Transportation Technologies. All rights reserved.</span><div><Link href="/privacy">Privacy Policy</Link><Link href="/terms">Terms of Use</Link><Link href="/accessibility">Accessibility</Link></div></div>
+ </div></footer>}
