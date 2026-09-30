@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ScrollCinematic from '../components/ScrollCinematic';
 import AssetMedia from '../components/AssetMedia';
 import InteractiveVehicle from '../components/InteractiveVehicle';
 import ServiceIcon from '../components/ServiceIcon';
@@ -27,17 +28,7 @@ const journey=[
 
 export default function HomePage(){
  return <main className="production-page">
-  <section className="review-hero review-hero--home">
-   <AssetMedia visual="homeHero" className="review-hero__media" priority />
-   <div className="review-hero__overlay"/>
-   <div className="shell review-hero__copy">
-    <p className="eyebrow">Thompson Transportation Technologies · Houston</p>
-    <h1>Vehicle technology, properly integrated.</h1>
-    <p className="lead lead--dark">Window tint, audio, tracking, security and electrical diagnostics from a Houston team that plans the work first and verifies it before handover.</p>
-    <div className="button-row"><Link className="button" href="/quote">Request a Quote →</Link><a className="button button--ghost-dark" href="#services">Explore Services</a></div>
-    <p className="hero-tessa">Have a question first? Ask Tessa using the assistant on this page.</p>
-   </div>
-  </section>
+  <ScrollCinematic />
 
   <section id="services" className="section"><div className="shell">
    <div className="section-heading"><div><p className="eyebrow">What TTT does</p><h2>What we work on</h2><p className="lead">Six services, one standard. Whether we are tinting glass or tracing a fault through a wiring harness, the job is planned around your vehicle and checked before it goes back to you.</p></div></div>
@@ -67,6 +58,11 @@ export default function HomePage(){
   <section className="section section--dark"><div className="shell">
    <div className="section-heading"><div><p className="eyebrow">Customer journey</p><h2>What working with TTT looks like</h2></div></div>
    <div className="journey-grid">{journey.map(([n,title,body])=><article key={n}><span>{n}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
+  </div></section>
+
+  <section className="section section--dark"><div className="shell editorial-media-band">
+   <AssetMedia visual="homeHero"/>
+   <div><p className="eyebrow">Concept One</p><h2>The visual anchor behind the TTT experience.</h2><p>Concept One brings the TTT approach together in one vehicle: glass, audio, tracking, security and electronics considered as a single system. The cinematic experience above introduces that idea; this studio view gives it a quieter place elsewhere on the site.</p><Link className="button button--ghost-dark" href="/concept-one">Explore Concept One →</Link></div>
   </div></section>
 
   <section className="section"><div className="shell editorial-media-band editorial-media-band--reverse">
