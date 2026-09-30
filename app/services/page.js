@@ -1,51 +1,22 @@
 import Link from 'next/link';
-import AutoVisual from '../../components/AutoVisual';
-import { services } from '../../lib/siteData';
 
-export const metadata={title:'Vehicle Technology Services',description:'Automotive audio, tint, security, GPS tracking, cameras, SignalTrace™ electronics diagnostics, custom fabrication and additive manufacturing, planned around the vehicle and installed as complete systems.'};
-
-const promise={
-  audio:'Keep the factory screen. Rebuild the signal path. Tune the cabin.',
-  'window-tint':'Choose film for heat, visibility and privacy — not darkness alone.',
-  security:'Use layers: deter, detect, immobilize and locate.',
-  tracking:'Know where the vehicle is and who actually needs that data.',
-  cameras:'Design coverage around the event you need to see.',
-  lighting:'Add light where it serves a purpose.',
-  electronics:'Integrate power, controls and accessories cleanly.',
-  'custom-fabrication':'Design, prototype and produce the mount, panel, enclosure, jig or fixture the vehicle actually needs.',
-  signaltrace:'Trace difficult electrical and electronic faults to the real root cause.'
+export const metadata={
+  title:'Automotive Technology Services in Houston | TTT',
+  description:'Window tint, automotive audio, GPS tracking, kill switches, SignalTrace™ electrical diagnostics and custom fabrication in Houston.'
 };
 
-const signalTrace = {
-  slug:'signaltrace',
-  title:'SignalTrace™ Diagnostics',
-  eyebrow:'Advanced Diagnostics'
-};
+const services=[
+ ['Window Tint','Film chosen for heat, glare and privacy, not just shade.','/services/window-tint'],
+ ['Automotive Audio','Better sound from the system you have, or a new one built around how you listen.','/services/audio'],
+ ['GPS Tracking','Know where your vehicle is and get alerts when something changes.','/services/gps-tracking'],
+ ['Kill Switches','An added layer of theft deterrence that controls whether the vehicle can start.','/services/kill-switches'],
+ ['TTT SignalTrace™','Structured diagnostics for electrical problems that come and go, drain batteries or have already beaten a code reader.','/services/signaltrace'],
+ ['Custom Fabrication & Additive Manufacturing','When the right bracket, mount or enclosure doesn’t exist, we can design and make one to fit.','/services/custom-fabrication']
+];
 
-export default function Page(){
-  const core=services.slice(0,5);
-  const secondary=services.slice(5).map((x)=>x.slug==='custom-fabrication'?{...x,title:'Custom Fabrication & Additive Manufacturing',eyebrow:'Fabrication + 3D Printing'}:x);
-  const supporting=[signalTrace,...secondary];
-  return <main>
-    <section className="page-hero page-hero--visual"><div className="shell"><div><p className="eyebrow">Services</p><h1>Upgrade the vehicle. Keep it feeling like a vehicle.</h1><p className="lead">Audio, glass, security, tracking, diagnostics, electronics and fabrication all touch different systems. TTT plans the interaction before the work begins.</p><Link className="button" href="/start">Start a project →</Link></div><AutoVisual variant="concept" eyebrow="TTT / CORE SERVICES"/></div></section>
-
-    <section className="section"><div className="shell"><div className="section-intro-grid"><div><span className="visual-kicker">Core work</span><h2>Five places customers usually start.</h2></div><div className="section-copy"><p>Choose the part of the vehicle you want to improve. We will deal with the systems behind it.</p></div></div>
-      <div className="visual-feature-grid">{core.slice(0,3).map((x)=><Link className="visual-feature" href={`/services/${x.slug}`} key={x.slug}><AutoVisual variant={x.slug}/><div className="visual-feature__content"><small>{x.eyebrow}</small><h3>{x.title}</h3><p>{promise[x.slug]}</p></div></Link>)}</div>
-    </div></section>
-
-    <section className="section section--dark"><div className="shell editorial-visual-band">
-      <AutoVisual variant="electronics" eyebrow="TTT / SIGNALTRACE™" title="Find the root cause."/>
-      <div className="editorial-visual-copy"><p className="eyebrow">Advanced diagnostics</p><h2>When “remove the aftermarket equipment” is not a diagnosis.</h2><p>TTT SignalTrace™ is built for difficult electrical and electronic faults, intermittent problems, battery drains, no-starts, module communication issues and aftermarket integration conflicts.</p><p>SCAN → ISOLATE → TRACE → VERIFY → RESOLVE.</p><Link className="button button--light" href="/services/signaltrace">Explore SignalTrace™ →</Link></div>
-    </div></section>
-
-    <section className="section section--soft"><div className="shell media-mosaic">
-      <Link href="/services/tracking"><AutoVisual variant="tracking" eyebrow="GPS / TELEMATICS" title="GPS & Tracking"/></Link>
-      <Link href="/services/cameras"><AutoVisual variant="cameras" eyebrow="VISION / RECORDING" title="Cameras"/></Link>
-      <div className="editorial-visual-copy"><p className="eyebrow">Tracking + Cameras</p><h2>See what happened. Know where the vehicle is.</h2><p>These systems become more useful when power, storage, connectivity and access are planned together.</p><Link className="button button--ghost" href="/solutions/connected-vehicle">Connected Vehicle →</Link></div>
-    </div></section>
-
-    <section className="section"><div className="shell"><div className="section-intro-grid"><div><p className="eyebrow">Supporting work</p><h2>The details behind a clean build.</h2></div><div className="section-copy"><p>Diagnostics, lighting, electronics, CAD, 3D printing and fabrication often solve the problems that standard installations cannot.</p></div></div><div className="secondary-service-list">{supporting.map(x=><Link href={`/services/${x.slug}`} key={x.slug}><b>{x.title}</b><span>{promise[x.slug]}</span></Link>)}</div></div></section>
-
-    <section className="cta-band"><div className="shell"><h2>Tell us what you want the vehicle to do better.</h2><Link className="button button--light" href="/start">Start with the vehicle →</Link></div></section>
-  </main>;
-}
+export default function Page(){return <main>
+ <section className="page-hero"><div className="shell"><p className="eyebrow">Services</p><h1>Vehicle technology, properly integrated.</h1><p className="lead">Six services, one standard. Every job is planned around your vehicle and checked before it goes back to you.</p><Link className="button" href="/quote">Request a Quote</Link></div></section>
+ <section className="section"><div className="shell card-grid card-grid--3">{services.map(([title,body,href])=><Link className="feature-card" href={href} key={href}><h3>{title}</h3><p>{body}</p><b>View service →</b></Link>)}</div></section>
+ <section className="section section--soft"><div className="shell two-col"><div><p className="eyebrow">One vehicle, connected systems</p><h2>Every system, considered together</h2></div><div><p className="lead">A modern vehicle is a network of electronics, not a set of separate parts. TTT considers how new equipment affects power, modules, factory features, serviceability and the way you use the vehicle.</p></div></div></section>
+ <section className="cta-band"><div className="shell"><h2>Not sure which service fits?</h2><p>Tell us what you want done or what the vehicle is doing. We’ll point you in the right direction.</p><Link className="button button--light" href="/quote?service=not-sure">Request a Quote</Link></div></section>
+ </main>}
