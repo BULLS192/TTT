@@ -67,7 +67,7 @@ export default function HomePage(){
   </div></section>
 
   <section className="section"><div className="shell editorial-media-band editorial-media-band--reverse">
-   <AssetMedia visual="homeHeroMinimal"/>
+   <AssetMedia visual="tessaPromo"/>
    <div><p className="eyebrow">Tessa</p><h2>Questions before you call? Ask Tessa.</h2><p>Tessa is TTT’s virtual service assistant. She can explain services, answer common questions, help you work out whether TTT is likely to be able to help, and guide you toward the right quote details.</p><div className="prompt-chips"><span>Do you offer ceramic tint?</span><span>Can you upgrade my factory audio?</span><span>Can you install a GPS tracker?</span><span>My battery keeps dying.</span></div><TessaTrigger className="button button--ghost" prompt="I have a question about TTT services.">Ask Tessa →</TessaTrigger><p className="small-note">Tessa is a virtual assistant. Vehicle-specific recommendations can be handed to the TTT team.</p></div>
   </div></section>
 
