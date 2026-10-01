@@ -195,3 +195,7 @@
 .xray-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.08)}.xray-principles button{display:grid;grid-template-columns:34px 1fr;gap:10px;min-height:104px;padding:18px;border:0;background:#0d1722;color:#9dabb9;text-align:left;cursor:pointer}.xray-principles button:hover,.xray-principles button.is-active{background:#11263c}.xray-principles button>small{color:#5f8ab5;font-weight:900}.xray-principles strong{display:block;color:#e4edf7;font-size:11px}.xray-principles em{display:block;margin-top:5px;color:#8494a5;font-size:10px;font-style:normal;line-height:1.4}.xray-principles button.is-active strong{color:#fff}.xray-principles button.is-active>small{color:#8cc6ff}
 @media(max-width:800px){.standards-xray__head{grid-template-columns:1fr}.xray-toggle{justify-self:start}.xray-principles{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.xray-stage{min-height:330px}.xray-principles{grid-template-columns:1fr}}
+
+.tessa-build-context{display:grid;gap:5px;margin-top:14px;padding:12px;border:1px solid #c8dbee;border-radius:12px;background:#f2f7fc;color:#18324c}
+.tessa-build-context strong{font-size:11px;color:#174f84}
+.tessa-build-context small{font-size:10px;color:#5b6d7e}
