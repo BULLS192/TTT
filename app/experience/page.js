@@ -8,7 +8,8 @@ const experiences=[
  ['Vehicle Journey','GPS Tracking','Run a geofence and trip-history demonstration.','/services/gps-tracking#interactive'],
  ['Security Layers','Vehicle Security','Build a layered security concept.','/services/kill-switches#interactive'],
  ['SignalTrace Case 001','Diagnostics','Work through Scan → Isolate → Trace → Verify → Resolve.','/services/signaltrace#interactive'],
- ['Fabrication Lab','Custom Fabrication','Move a part from requirement to fitted component.','/services/custom-fabrication#interactive']
+ ['Fabrication Lab','Custom Fabrication','Move a part from requirement to fitted component.','/services/custom-fabrication#interactive'],
+ ['X-Ray Mode','The TTT Standard','Reveal the hidden work behind a finished installation.','/standards#xray']
 ];
 
 export default function Page(){return <main className="production-page wave2-hub">
