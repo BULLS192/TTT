@@ -15,6 +15,7 @@ import './home-refinement.css';
 import './tessa.css';
 import './production-review.css';
 import './wave1-content.css';
+import './wave1-5.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import SiteTelemetry from '../components/SiteTelemetry';

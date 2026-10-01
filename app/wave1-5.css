@@ -1,0 +1,131 @@
+/* Wave 1.5 — visual cleanup, contrast system and component hardening */
+:root{
+ --ttt-ink:#101722;
+ --ttt-ink-2:#182333;
+ --ttt-surface:#ffffff;
+ --ttt-surface-soft:#f3f6fa;
+ --ttt-blue:#0b4e99;
+ --ttt-blue-bright:#7fb4ff;
+ --ttt-text:#17202a;
+ --ttt-muted:#566372;
+ --ttt-dark-text:#d7e1ec;
+ --ttt-line:#d9e1ea;
+}
+
+/* Reliable contrast across all production dark surfaces */
+.production-page .section--dark,
+.production-page .dark-section,
+.production-page .cta-band,
+.production-page .page-hero--review{background:#101722;color:#fff}
+.production-page .section--dark h1,.production-page .section--dark h2,.production-page .section--dark h3,
+.production-page .dark-section h1,.production-page .dark-section h2,.production-page .dark-section h3,
+.production-page .cta-band h1,.production-page .cta-band h2,.production-page .cta-band h3,
+.production-page .page-hero--review h1,.production-page .page-hero--review h2,.production-page .page-hero--review h3{color:#fff!important}
+.production-page .section--dark p,.production-page .section--dark li,.production-page .section--dark small,
+.production-page .dark-section p,.production-page .dark-section li,.production-page .dark-section small,
+.production-page .cta-band p,.production-page .page-hero--review .lead{color:var(--ttt-dark-text)!important}
+.production-page .section--dark .eyebrow,.production-page .dark-section .eyebrow,
+.production-page .cta-band .eyebrow,.production-page .page-hero--review .eyebrow{color:var(--ttt-blue-bright)!important}
+.production-page .section--dark .text-link,.production-page .dark-section .text-link,
+.production-page .cta-band .text-link{color:#9bc7ff!important}
+.production-page .page-hero--review .button--ghost,
+.production-page .section--dark .button--ghost,
+.production-page .dark-section .button--ghost,
+.production-page .review-hero .button--ghost-dark{color:#fff!important;border-color:rgba(255,255,255,.62)!important;background:rgba(6,12,20,.18)!important}
+.production-page .page-hero--review .button--ghost:hover,
+.production-page .section--dark .button--ghost:hover,
+.production-page .dark-section .button--ghost:hover,
+.production-page .review-hero .button--ghost-dark:hover{color:#111820!important;background:#fff!important}
+
+/* Technology Library: the system panel is deliberately dark with explicit light text. */
+.technology-library-page .technology-system-panel{padding:34px;border:1px solid #2b3c52;border-radius:22px;background:linear-gradient(145deg,#0d1520,#142238);color:#fff;box-shadow:0 20px 55px rgba(13,29,48,.11)}
+.technology-library-page .technology-system-panel h2{color:#fff!important}
+.technology-library-page .technology-system-panel p{color:#cbd7e4!important}
+.technology-library-page .technology-system-panel .eyebrow{color:#8fbeff!important}
+.technology-library-page .technology-system-panel .flow-node{background:#111d2b;border-color:#32465f;color:#fff}
+.technology-library-page .technology-system-panel .flow-node strong{color:#fff}
+.technology-library-page .technology-system-panel .flow-node small{color:#8fbeff}
+.technology-library-page .technology-system-panel .flow-node em{color:#6ea7f2}
+.technology-card{color:#17202a!important}
+.technology-card h3{color:#111820!important}
+.technology-card .eyebrow{color:#0b4e99!important}
+.technology-card b{color:#0b4e99!important}
+
+/* Footer: locked logo receives its own measured surface; legacy BrandMark CSS cannot affect it. */
+.production-footer{padding:50px 0 24px!important;background:#0a1018!important;color:#e8eef6!important}
+.footer-brand-row{display:grid!important;grid-template-columns:210px minmax(0,1fr) auto!important;gap:34px!important;align-items:center!important;padding:0 0 34px!important;border-bottom:1px solid rgba(255,255,255,.12)!important}
+.footer-logo-lockup{display:flex;width:210px;height:104px;padding:12px 14px;align-items:center;justify-content:center;border-radius:14px;background:#fff;overflow:hidden}
+.footer-logo-image{display:block!important;width:180px!important;max-width:180px!important;height:auto!important;max-height:82px!important;object-fit:contain!important}
+.footer-brand-message{min-width:0}
+.footer-brand-message .eyebrow{margin-bottom:8px;color:#7fb4ff!important}
+.footer-brand-message h2{margin:0 0 8px;color:#fff!important;font-size:clamp(24px,2.2vw,34px);line-height:1.04}
+.footer-brand-message p:last-child{margin:0;color:#aebbc9!important}
+.footer-brand-actions{display:flex;flex-direction:column;align-items:flex-end;gap:11px}
+.footer-brand-actions .footer-tessa{color:#a9ccff!important}
+.production-footer__grid{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:30px!important;padding:34px 0!important}
+.production-footer__grid h3{margin:0 0 4px;color:#fff!important;font-size:11px!important;text-transform:uppercase;letter-spacing:.12em}
+.production-footer__grid a{color:#bcc7d3!important;opacity:1!important;font-size:13px;line-height:1.45}
+.production-footer__grid a:hover{color:#fff!important}
+.production-footer .footer-bottom{padding:20px 0 0!important;border-top:1px solid rgba(255,255,255,.1)!important;color:#8492a2!important}
+
+/* Concept One hotspot stage uses a stable 16:9 reference frame. All controls stay on the vehicle. */
+.hotspot-stage{aspect-ratio:16/9!important;min-height:0!important;background:#07101a}
+.hotspot-stage__image,.hotspot-stage__image img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;border-radius:0!important;object-fit:cover!important;object-position:center!important}
+.hotspot-stage__grid{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 65%,rgba(5,10,16,.18)),repeating-linear-gradient(90deg,transparent 0 9.9%,rgba(120,170,230,.035) 10%)}
+.hotspot{z-index:2}
+
+/* Standard page: proprietary diagram-led treatment rather than generic stock-card repetition. */
+.standard-principle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.standard-principle-grid article{min-height:220px;padding:26px;border:1px solid var(--ttt-line);border-radius:18px;background:#fff}
+.standard-principle-grid small{color:#0b4e99;font-weight:900}
+.standard-principle-grid h3{margin:28px 0 10px;color:#111820}
+.standard-principle-grid p{margin:0;color:#596674;line-height:1.65}
+.standard-hidden-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.standard-hidden-grid article{min-height:180px;padding:24px;border:1px solid #2c3e54;border-radius:18px;background:linear-gradient(145deg,#111c29,#0c1520)}
+.standard-hidden-grid span{display:block;color:#7fb4ff;font-size:12px;font-weight:900}
+.standard-hidden-grid strong{display:block;margin:32px 0 8px;color:#fff;letter-spacing:.08em}
+.standard-hidden-grid p{margin:0;color:#cbd7e4!important;line-height:1.55}
+.technical-flow--light .flow-node{background:#fff;border-color:#d7e0e9;color:#111820}
+.technical-flow--light .flow-node strong{color:#111820}
+
+/* Articles: make long-form content readable and diagram/table-capable. */
+.journal-v3__table-wrap{margin:34px 0;overflow-x:auto;border:1px solid #d8e1ea;border-radius:16px;background:#fff}
+.journal-v3__table{width:100%;border-collapse:collapse;min-width:620px}
+.journal-v3__table th,.journal-v3__table td{padding:14px 16px;border-bottom:1px solid #e7edf3;border-right:1px solid #edf1f5;text-align:left;vertical-align:top;line-height:1.5}
+.journal-v3__table th{background:#101a27;color:#fff;font-size:13px}
+.journal-v3__table td{color:#33404d}
+.journal-v3__table tr:last-child td{border-bottom:0}
+.journal-v3__quote{margin:34px 0;padding:22px 26px;border-left:4px solid #1760ad;background:#eff5fb;color:#1a2b3c;font-size:21px;line-height:1.55}
+.journal-v3__inline-media{background:#0d1520}
+.journal-v3__inline-media img{display:block}
+
+/* Team portrait cards stay editorial, not oversized profile posters. */
+.team-editorial-card>img{max-height:390px;object-position:center 24%}
+
+/* Shared light surfaces always use dark body copy. */
+.section--soft,.section:not(.section--dark){color:var(--ttt-text)}
+.section--soft p,.section:not(.section--dark) .copy-section__body{color:var(--ttt-muted)}
+.section:not(.section--dark) .eyebrow{color:#0b4e99}
+
+/* Avoid card text inheriting dark-section white overrides. */
+.section--dark .content-table,.section--dark .content-table td,.section--dark .content-table p{color:#263341!important}
+.section--dark .content-table th{color:#fff!important}
+
+@media(max-width:1050px){
+ .footer-brand-row{grid-template-columns:190px 1fr!important}
+ .footer-logo-lockup{width:190px}
+ .footer-brand-actions{grid-column:1/-1;flex-direction:row;align-items:center}
+ .production-footer__grid{grid-template-columns:repeat(3,1fr)!important}
+ .standard-principle-grid,.standard-hidden-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+ .footer-brand-row{grid-template-columns:1fr!important;gap:22px!important}
+ .footer-logo-lockup{width:190px;height:96px}
+ .footer-logo-image{width:164px!important;max-width:164px!important}
+ .footer-brand-actions{grid-column:auto;align-items:flex-start;flex-wrap:wrap}
+ .production-footer__grid{grid-template-columns:1fr 1fr!important}
+ .standard-principle-grid,.standard-hidden-grid{grid-template-columns:1fr}
+ .technology-library-page .technology-system-panel{padding:22px}
+ .team-editorial-card>img{max-height:none}
+}
+@media(max-width:460px){.production-footer__grid{grid-template-columns:1fr!important}}

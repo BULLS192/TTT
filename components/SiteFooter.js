@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import BrandMark from './BrandMark';
 import TessaTrigger from './TessaTrigger';
+import { canonicalLogoDataUri } from '../lib/brand/logoData';
 
 const groups=[
  ['Solutions',[['Premium Vehicle Experience','/solutions/premium-vehicle-experience'],['Vehicle Security','/solutions/vehicle-security'],['Connected Vehicle','/solutions/connected-vehicle'],['Fleet & Dealership','/solutions/fleet-dealership'],['Custom Integration','/solutions/custom-integration']]],
@@ -14,7 +14,9 @@ export default function SiteFooter(){
  const year=new Date().getFullYear();
  return <footer className="site-footer production-footer"><div className="shell">
   <div className="footer-brand-row">
-    <div className="footer-brand-card"><BrandMark/></div>
+    <Link className="footer-logo-lockup" href="/" aria-label="Thompson Transportation Technologies home">
+      <img className="footer-logo-image" src={canonicalLogoDataUri} alt="Thompson Transportation Technologies LLC" width="480" height="228" decoding="async"/>
+    </Link>
     <div className="footer-brand-message"><p className="eyebrow">Thompson Transportation Technologies</p><h2>Vehicle technology, properly integrated.</h2><p>For vehicle owners, dealerships and fleets across Greater Houston.</p></div>
     <div className="footer-brand-actions"><Link className="button button--light" href="/quote">Request a Quote →</Link><TessaTrigger className="footer-tessa" prompt="I have a question about TTT.">Ask Tessa →</TessaTrigger></div>
   </div>
