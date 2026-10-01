@@ -6,9 +6,9 @@ import { useTTTBuild } from './TTTBuildContext';
 
 const shades=[70,50,35,20,5];
 const films={
-  Dyed:{heat:28,uv:92,copy:'Entry-level privacy and glare control.'},
-  Carbon:{heat:52,uv:96,copy:'A stable matte look with stronger heat control.'},
-  Ceramic:{heat:82,uv:99,copy:'High heat rejection without relying on very dark glass.'}
+  Dyed:{heat:'Baseline',copy:'Entry-level privacy and glare control.'},
+  Carbon:{heat:'Improved',copy:'A stable matte look with stronger heat-control potential.'},
+  Ceramic:{heat:'Higher',copy:'Higher heat-control potential without relying on very dark glass.'}
 };
 
 export default function GlassLab(){
@@ -22,8 +22,8 @@ export default function GlassLab(){
  const add=()=>{addItem({id:'tint',category:'Window Tint',title:shade+'% '+film,detail:'Concept selection · '+environment+' view'});setOpen(true)};
  const aside=<>
    <div className="lab-readout"><small>Current configuration</small><strong>{shade}% {film}</strong><p>{data.copy}</p></div>
-   <div className="lab-meters"><Meter label="Visible light" value={shade}/><Meter label="Heat control" value={data.heat}/><Meter label="UV control" value={data.uv}/></div>
-   <p className="lab-note">Illustrative education tool. Actual film performance depends on the selected product and vehicle glass.</p>
+   <div className="lab-meters"><Info label="Visible light" value={shade+'% VLT'} detail="Shade selection"/><Info label="Infrared heat" value={data.heat} detail="Relative film-family concept"/><Info label="UV filtering" value="Product-specific" detail="Verify the exact film specification"/></div>
+   <p className="lab-note">Darker does not necessarily mean cooler. This is an illustrative education tool; actual heat and UV performance depends on the exact film and vehicle glass.</p>
    <button className="button" onClick={add}>Add to My TTT Build →</button>
  </>;
  return <ExperienceShell eyebrow="TTT Glass Lab" title="See what the glass changes." description="Change shade, film family and environment. Darkness and heat rejection are separate decisions." aside={aside}>
@@ -51,4 +51,4 @@ export default function GlassLab(){
  </ExperienceShell>;
 }
 function ControlGroup({label,children}){return <div className="lab-control"><small>{label}</small><div>{children}</div></div>}
-function Meter({label,value}){return <div className="lab-meter"><span>{label}</span><i><b style={{width:value+'%'}}/></i><strong>{value}%</strong></div>}
+function Info({label,value,detail}){return <div className="signal-finding"><small>{label}</small><p><strong>{value}</strong> · {detail}</p></div>}
