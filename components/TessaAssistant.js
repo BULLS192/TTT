@@ -7,6 +7,7 @@ import { matchTessaQuestion } from '../lib/tessa/matcher';
 import { TESSA_QUICK_ACTIONS, TESSA_SERVICES, TESSA_SERVICE_SUMMARIES } from '../lib/tessa/services';
 import { EMPTY_TESSA_CONTEXT, contextToLeadDetails, extractBasicContextFromText, mergeTessaContext, nextQualificationQuestion, sanitizeTessaContext } from '../lib/tessa/qualification';
 import { getTessaSessionId, getVisitorContext, trackWebsiteEvent } from '../lib/visitor';
+import { useTTTBuild } from './wave2/TTTBuildContext';
 
 const TESSA_AVATAR_SRC = brandAssets.tessaAvatar;
 const PROJECT_STATE_KEY='ttt-tessa-project-context-v2';
@@ -26,6 +27,7 @@ const INITIAL_LEAD = {
 };
 
 export default function TessaAssistant() {
+  const {items:buildItems}=useTTTBuild();
   const [open, setOpen] = useState(false);
   const [leadOpen, setLeadOpen] = useState(false);
   const [leadSuggestion, setLeadSuggestion] = useState(false);
@@ -383,6 +385,7 @@ export default function TessaAssistant() {
         .slice(-8000);
       const notes = [
         'Submitted through Tessa, the TTT website assistant.',
+        buildItems.length ? 'My TTT Build:\n' + buildItems.map((item) => '- ' + item.category + ': ' + item.title + (item.detail ? ' — ' + item.detail : '')).join('\n') : '',
         lead.details ? 'Visitor notes: ' + lead.details : '',
         'Conversation:\n' + transcript
       ].filter(Boolean).join('\n\n').slice(0, 5000);
@@ -459,6 +462,7 @@ export default function TessaAssistant() {
                 <span>TTT lead request</span>
                 <h2>Tell me how the team should reach you.</h2>
                 <p>I’ve carried over the project details from our conversation so you do not have to repeat yourself.</p>
+                {buildItems.length?<div className="tessa-build-context"><strong>My TTT Build · {buildItems.length}</strong>{buildItems.map(item=><small key={item.id}>{item.category}: {item.title}</small>)}</div>:null}
               </div>
               <form className="tessa-lead-form" onSubmit={submitLead}>
                 <label>Service
