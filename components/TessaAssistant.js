@@ -27,7 +27,7 @@ const INITIAL_LEAD = {
 };
 
 export default function TessaAssistant() {
-  const {items:buildItems}=useTTTBuild();
+  const {items:buildItems,profile:buildProfile}=useTTTBuild();
   const [open, setOpen] = useState(false);
   const [leadOpen, setLeadOpen] = useState(false);
   const [leadSuggestion, setLeadSuggestion] = useState(false);
@@ -65,6 +65,20 @@ export default function TessaAssistant() {
     }catch{}
     setProjectStateReady(true);
   }, []);
+
+  useEffect(() => {
+    if(!projectStateReady) return;
+    const vehicleUpdate={
+      year:buildProfile?.year||'',
+      make:buildProfile?.make||'',
+      model:buildProfile?.model||'',
+      trim:buildProfile?.trim||''
+    };
+    if(vehicleUpdate.year||vehicleUpdate.make||vehicleUpdate.model||vehicleUpdate.trim){
+      setConversationContext(current=>mergeTessaContext(current,vehicleUpdate));
+      setLead(current=>({...current,year:current.year||vehicleUpdate.year,make:current.make||vehicleUpdate.make,model:current.model||vehicleUpdate.model}));
+    }
+  },[projectStateReady,buildProfile?.year,buildProfile?.make,buildProfile?.model,buildProfile?.trim]);
 
   useEffect(() => {
     if(!projectStateReady) return;
@@ -326,6 +340,11 @@ export default function TessaAssistant() {
           pagePath,
           history:[...messages,{role:'user',text:value}].slice(-6),
           conversationContext:provisional,
+          projectContext:{
+            vehicle:{year:buildProfile?.year||'',make:buildProfile?.make||'',model:buildProfile?.model||'',trim:buildProfile?.trim||''},
+            goals:Array.isArray(buildProfile?.goals)?buildProfile.goals:[],
+            selections:buildItems.slice(0,12).map(item=>({category:item.category||'',title:item.title||'',detail:item.detail||''}))
+          },
           qualificationActive
         })
       });
@@ -407,6 +426,8 @@ export default function TessaAssistant() {
         .slice(-8000);
       const notes = [
         'Submitted through Tessa, the TTT website assistant.',
+        [buildProfile?.year,buildProfile?.make,buildProfile?.model,buildProfile?.trim].filter(Boolean).length ? 'Saved vehicle: ' + [buildProfile.year,buildProfile.make,buildProfile.model,buildProfile.trim].filter(Boolean).join(' ') : '',
+        buildProfile?.goals?.length ? 'Saved priorities: ' + buildProfile.goals.join(', ') : '',
         buildItems.length ? 'My TTT Build:\n' + buildItems.map((item) => '- ' + item.category + ': ' + item.title + (item.detail ? ' — ' + item.detail : '')).join('\n') : '',
         lead.details ? 'Visitor notes: ' + lead.details : '',
         'Conversation:\n' + transcript
@@ -538,14 +559,22 @@ export default function TessaAssistant() {
                   <div ref={messageEndRef} />
                 </div>
 
-                {buildItems.length ? (
-                  <div className="tessa-build-context tessa-build-context--chat">
-                    <div><strong>My TTT Build · {buildItems.length}</strong><small>Use your saved interactive selections as context for the conversation.</small></div>
-                    <button type="button" onClick={() => {
-                      const summary=buildItems.slice(0,8).map(item=>item.category+': '+item.title).join('; ');
-                      setQuestion('Please review My TTT Build: '+summary+'. What should I consider before requesting a quote?');
-                      trackWebsiteEvent('tessa','use_build_context',{count:buildItems.length});
-                    }}>Use this build →</button>
+                {(buildItems.length||buildProfile?.year||buildProfile?.make||buildProfile?.model||buildProfile?.goals?.length) ? (
+                  <div className="tessa-build-context tessa-build-context--chat tessa-project-context">
+                    <div>
+                      <strong>{[buildProfile?.year,buildProfile?.make,buildProfile?.model,buildProfile?.trim].filter(Boolean).join(' ')||'My TTT Build'} · {buildItems.length} selection{buildItems.length===1?'':'s'}</strong>
+                      <small>{buildProfile?.goals?.length?'Priorities: '+buildProfile.goals.join(' · '):'Saved project context is available to this conversation.'}</small>
+                    </div>
+                    <div className="tessa-project-context__actions">
+                      <button type="button" onClick={() => {
+                        setQuestion('Please review my saved vehicle project and selected systems. What should I consider before requesting a quote?');
+                        trackWebsiteEvent('tessa','use_build_context',{count:buildItems.length,goalCount:buildProfile?.goals?.length||0});
+                      }}>Review project →</button>
+                      <button type="button" onClick={() => {
+                        setQuestion('Based on my saved vehicle, priorities and selected systems, what information is still missing before TTT can scope the project?');
+                        trackWebsiteEvent('tessa','project_missing_context',{count:buildItems.length});
+                      }}>What is missing? →</button>
+                    </div>
                   </div>
                 ) : null}
 

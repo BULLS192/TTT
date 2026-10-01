@@ -1,0 +1,7 @@
+/* Wave 2D — project-aware Tessa and build continuity */
+.ttt-build-project{display:grid;gap:4px;margin:14px 0;padding:13px 14px;border:1px solid rgba(91,151,210,.22);border-radius:12px;background:linear-gradient(135deg,rgba(23,62,99,.3),rgba(8,21,33,.5))}
+.ttt-build-project small{color:#6598c6;font-size:7px;font-weight:900;letter-spacing:.13em}.ttt-build-project strong{color:#eef7ff;font-size:12px}.ttt-build-project p{margin:2px 0;color:#8199b0;font-size:8px;line-height:1.4}.ttt-build-project a{margin-top:4px;color:#93c7f5;font-size:8px;font-weight:900;text-decoration:none}
+.tessa-project-context{align-items:start!important}.tessa-project-context__actions{display:grid;gap:6px}.tessa-project-context__actions button{width:100%}
+.tessa-project-context>div:first-child small{max-width:280px}
+.tessa-launcher__copy small:after{content:" · project-aware";color:#4d81ae}
+@media(max-width:700px){.tessa-project-context__actions{grid-template-columns:1fr 1fr}.tessa-launcher__copy small:after{display:none}}

@@ -6,7 +6,8 @@ import { useTTTBuild } from './TTTBuildContext';
 import { trackWebsiteEvent } from '../../lib/visitor';
 
 export default function BuildDock(){
- const{items,removeItem,clear,open,setOpen,ready}=useTTTBuild();
+ const{items,removeItem,clear,profile,open,setOpen,ready}=useTTTBuild();
+ const vehicle=[profile?.year,profile?.make,profile?.model,profile?.trim].filter(Boolean).join(' ');
  const drawerRef=useRef(null);
  const openerRef=useRef(null);
  const closeRef=useRef(null);
@@ -38,10 +39,11 @@ export default function BuildDock(){
  },[open,setOpen]);
 
  const askTessa=()=>{
-  const summary=items.slice(0,8).map(item=>item.category+': '+item.title).join('; ');
-  trackWebsiteEvent('wave2_build','handoff_tessa',{count:items.length});
+  const summary=items.slice(0,8).map(item=>item.category+': '+item.title+(item.detail?' ('+item.detail+')':'')).join('; ');
+  const context=[vehicle?'Vehicle: '+vehicle+'.':'',profile?.goals?.length?'Priorities: '+profile.goals.join(', ')+'.':'',summary?'Selections: '+summary+'.':''].filter(Boolean).join(' ');
+  trackWebsiteEvent('wave2_build','handoff_tessa',{count:items.length,goalCount:profile?.goals?.length||0,hasVehicle:Boolean(vehicle)});
   setOpen(false);
-  window.dispatchEvent(new CustomEvent('ttt:tessa-open',{detail:{prompt:'I want to discuss My TTT Build'+(summary?': '+summary:'')+'. Can you help me review these selections?'}}));
+  window.dispatchEvent(new CustomEvent('ttt:tessa-open',{detail:{prompt:'Please review my TTT vehicle project. '+context+' What should I consider next?'}}));
  };
  const quote=()=>{trackWebsiteEvent('wave2_build','handoff_quote',{count:items.length});setOpen(false)};
  if(!ready)return null;
@@ -57,7 +59,13 @@ export default function BuildDock(){
     <button ref={closeRef} onClick={()=>setOpen(false)} aria-label="Close My TTT Build">×</button>
    </div>
    <div className="ttt-build-drawer__journey" aria-label="TTT customer journey"><span className="is-complete">Explore</span><i/><span className={items.length?'is-complete':''}>Configure</span><i/><span>Discuss</span><i/><span>Quote</span></div>
-   <p className="ttt-build-drawer__intro">Your interactive selections stay together while you explore. Review the context here, then hand the same build to Tessa or the quote request.</p>
+   <p className="ttt-build-drawer__intro">Your vehicle, priorities and interactive selections stay together while you explore. Tessa and the quote request can use the same project context.</p>
+   {(vehicle||profile?.goals?.length)?<div className="ttt-build-project">
+    <small>PROJECT CONTEXT</small>
+    <strong>{vehicle||'Vehicle not selected yet'}</strong>
+    {profile?.goals?.length?<p>{profile.goals.join(' · ')}</p>:<p>Add priorities in Concept One to personalize the handoff.</p>}
+    <Link href="/concept-one#configure" onClick={()=>setOpen(false)}>Edit in Concept One →</Link>
+   </div>:null}
    <div className="ttt-build-items">
     {items.length?items.map((item,i)=><article key={item.id}>
      <span className="ttt-build-items__number">{String(i+1).padStart(2,'0')}</span>
