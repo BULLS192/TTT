@@ -150,3 +150,16 @@
 @media(max-width:900px){.wave2b-hub__feature,.wave2b-hub__continuity>.shell{grid-template-columns:1fr}.wave2b-hub__grid{grid-template-columns:1fr}.wave2b-hub__card:nth-child(1),.wave2b-hub__card:nth-child(5){grid-column:auto}.solution2b__layers{left:4%;right:4%}.standards2b__principles{grid-template-columns:1fr 1fr}}
 @media(max-width:700px){.wave2b-hub__hero{min-height:610px}.wave2b-hub__hero-copy{padding-top:120px;padding-bottom:52px}.wave2b-hub__hero-copy h1{font-size:48px}.wave2b-hub__flow i{display:none}.wave2b-hub__feature{padding:26px}.wave2b-hub__feature-stack{transform:none}.wave2b-hub__card{min-height:370px}.wave2b-hub__continuity-ui{grid-template-columns:1fr}.wave2b-hub__continuity-ui i{display:none}.solution2b{min-height:530px}.solution2b__core{top:31%}.solution2b__bus{display:none}.solution2b__layers{grid-template-columns:1fr 1fr;bottom:7%}.solution2b__layers button i{display:none}.standards2b__head{grid-template-columns:1fr;padding:25px 21px}.standards2b__stage{min-height:390px}.standards2b__principles{grid-template-columns:1fr}.ttt-build-drawer__journey{flex-wrap:wrap}.ttt-build-drawer__journey i{display:none}}
 @media(max-width:460px){.wave2b-hub__hero-copy h1{font-size:41px}.wave2b-hub__feature-stack{grid-template-columns:1fr}.wave2b-hub__feature-stack span:last-child{grid-column:auto}.solution2b__layers{grid-template-columns:1fr}.solution2b{min-height:650px}}
+
+
+/* Wave 2B — final interaction hardening */
+.concept2b button:focus-visible,.glass2b button:focus-visible,.audio2b button:focus-visible,.security2b button:focus-visible,.tracking2b button:focus-visible,.signal2b__steps button:focus-visible,.fabrication2b__steps button:focus-visible,.solution2b button:focus-visible,.standards2b button:focus-visible,.ttt-build-drawer button:focus-visible,.ttt-build-drawer a:focus-visible{outline:2px solid #d9ecff;outline-offset:3px}
+.wave2b-hub__card:focus-visible,.wave2b-hub__hero a:focus-visible,.wave2b-hub__feature a:focus-visible{outline:2px solid #579fe4;outline-offset:4px}
+.tessa-build-context--chat{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin:12px 0;padding:11px 12px;border-color:#b5d1eb;background:linear-gradient(135deg,#eff7ff,#f8fbfe)}
+.tessa-build-context--chat>div{display:grid;gap:2px}.tessa-build-context--chat strong{font-size:10px}.tessa-build-context--chat small{font-size:9px;line-height:1.35}.tessa-build-context--chat button{border:1px solid #8cb8df;border-radius:9px;background:#fff;color:#17538a;padding:8px 9px;font:inherit;font-size:9px;font-weight:900;white-space:nowrap;cursor:pointer}
+.tessa-build-context--chat button:hover{background:#e9f4ff}.tessa-build-context--chat button:focus-visible,.tessa-panel button:focus-visible,.tessa-panel input:focus-visible,.tessa-panel select:focus-visible,.tessa-panel textarea:focus-visible{outline:2px solid #1e6fb6;outline-offset:2px}
+@media(max-width:700px){
+ .concept2b button,.glass2b .lab-control button,.security2b__controls button,.signal2b__steps button,.fabrication2b__steps button,.solution2b__layers button,.standards2b__principles button{min-height:44px}
+ .tessa-build-context--chat{grid-template-columns:1fr}.tessa-build-context--chat button{justify-self:start}
+ .ttt-build-drawer{width:100vw;max-width:100vw}
+}

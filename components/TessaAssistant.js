@@ -45,6 +45,9 @@ export default function TessaAssistant() {
     { role: 'assistant', text: 'Hi, I’m Tessa 👋 I can answer common questions about TTT services or help you start a quote. What can I help with?' }
   ]);
   const messageEndRef = useRef(null);
+  const panelRef = useRef(null);
+  const launcherRef = useRef(null);
+  const lastFocusRef = useRef(null);
 
   useEffect(() => {
     fetch('/api/tessa/knowledge', { cache: 'no-store' })
@@ -75,15 +78,34 @@ export default function TessaAssistant() {
   }, [conversationContext, qualificationActive, qualificationComplete, projectStateReady]);
 
   useEffect(() => {
+    if(!open) return;
+    lastFocusRef.current=document.activeElement;
+    const previousOverflow=document.body.style.overflow;
+    document.body.style.overflow='hidden';
+    requestAnimationFrame(()=>panelRef.current?.querySelector('.tessa-close')?.focus());
+
     const onKeyDown = (event) => {
       if (event.key === 'Escape') {
         setLeadOpen(false);
         setOpen(false);
+        return;
       }
+      if(event.key!=='Tab') return;
+      const focusable=[...panelRef.current?.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')||[]];
+      if(!focusable.length) return;
+      const first=focusable[0],last=focusable[focusable.length-1];
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
     };
+
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow=previousOverflow;
+      const target=lastFocusRef.current;
+      if(target&&typeof target.focus==='function') requestAnimationFrame(()=>{if(document.querySelector('#ttt-build-drawer.is-open'))return;target.focus();});
+    };
+  }, [open]);
 
   useEffect(() => {
     const onOpen = (event) => {
@@ -442,7 +464,7 @@ export default function TessaAssistant() {
   return (
     <div className="tessa-root">
       {open && (
-        <section className="tessa-panel" id="tessa-assistant" role="dialog" aria-label="Tessa, TTT website assistant">
+        <section ref={panelRef} className="tessa-panel" id="tessa-assistant" role="dialog" aria-modal="true" aria-label="Tessa, TTT website assistant">
           <header className="tessa-panel__header">
             <div className="tessa-avatar tessa-avatar--header">
               <img src={TESSA_AVATAR_SRC} alt="" width="52" height="52" loading="eager" decoding="async" onError={(event) => { event.currentTarget.src = brandAssets.appIcon; }} />
@@ -516,6 +538,17 @@ export default function TessaAssistant() {
                   <div ref={messageEndRef} />
                 </div>
 
+                {buildItems.length ? (
+                  <div className="tessa-build-context tessa-build-context--chat">
+                    <div><strong>My TTT Build · {buildItems.length}</strong><small>Use your saved interactive selections as context for the conversation.</small></div>
+                    <button type="button" onClick={() => {
+                      const summary=buildItems.slice(0,8).map(item=>item.category+': '+item.title).join('; ');
+                      setQuestion('Please review My TTT Build: '+summary+'. What should I consider before requesting a quote?');
+                      trackWebsiteEvent('tessa','use_build_context',{count:buildItems.length});
+                    }}>Use this build →</button>
+                  </div>
+                ) : null}
+
                 <div className="tessa-actions" aria-label="Popular questions">
                   {TESSA_QUICK_ACTIONS.map(([value, label]) => (
                     <button type="button" key={value} onClick={() => answerService(value)}>{label}</button>
@@ -543,7 +576,7 @@ export default function TessaAssistant() {
         </section>
       )}
 
-      <button className="tessa-launcher" type="button" onClick={() => { const next=!open; setOpen(next); trackWebsiteEvent('tessa',next?'open':'close'); }} aria-expanded={open} aria-controls="tessa-assistant">
+      <button ref={launcherRef} className="tessa-launcher" type="button" onClick={() => { const next=!open; setOpen(next); trackWebsiteEvent('tessa',next?'open':'close'); }} aria-expanded={open} aria-controls="tessa-assistant">
         <span className="tessa-avatar">
           <img src={TESSA_AVATAR_SRC} alt="" width="48" height="48" loading="eager" decoding="async" onError={(event) => { event.currentTarget.src = brandAssets.appIcon; }} />
           <span className="tessa-presence" aria-hidden="true" />

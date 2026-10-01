@@ -33,7 +33,7 @@ export default function BuildDock(){
    window.removeEventListener('keydown',onKeyDown);
    document.body.style.overflow=previousOverflow;
    const target=lastFocusRef.current;
-   if(target&&typeof target.focus==='function')requestAnimationFrame(()=>target.focus());
+   if(target&&typeof target.focus==='function')requestAnimationFrame(()=>{if(document.querySelector('#tessa-assistant'))return;target.focus()});
   };
  },[open,setOpen]);
 
@@ -51,7 +51,7 @@ export default function BuildDock(){
    <span>MY TTT BUILD</span><b>{items.length}</b>
   </button>
   <div className={'ttt-build-scrim '+(open?'is-open':'')} onClick={()=>setOpen(false)} aria-hidden="true"/>
-  <aside ref={drawerRef} id="ttt-build-drawer" className={'ttt-build-drawer '+(open?'is-open':'')} aria-hidden={!open} role="dialog" aria-modal="true" aria-labelledby="ttt-build-title">
+  <aside ref={drawerRef} id="ttt-build-drawer" className={'ttt-build-drawer '+(open?'is-open':'')} aria-hidden={!open} inert={!open} role="dialog" aria-modal="true" aria-labelledby="ttt-build-title">
    <div className="ttt-build-drawer__head">
     <div><p className="eyebrow">TTT Digital Vehicle</p><h2 id="ttt-build-title">My TTT Build</h2></div>
     <button ref={closeRef} onClick={()=>setOpen(false)} aria-label="Close My TTT Build">×</button>
