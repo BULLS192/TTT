@@ -13,7 +13,7 @@ const experiences=[
 ];
 
 export default function Page(){return <main className="production-page wave2-hub">
- <section className="page-hero page-hero--review"><div className="shell"><p className="eyebrow">Wave 2 · TTT Digital Vehicle</p><h1>Explore the technology, not just the page.</h1><p className="lead">Six interactive service labs turn the core TTT ideas into something you can manipulate, compare and add to a build.</p></div></section>
+ <section className="page-hero page-hero--review"><div className="shell"><p className="eyebrow">TTT Digital Vehicle</p><h1>Explore the technology, not just the page.</h1><p className="lead">Six interactive service labs and The TTT Standard X-Ray turn core TTT ideas into experiences you can manipulate, compare and carry into a build.</p></div></section>
  <section className="section"><div className="shell"><div className="wave2-hub-grid">{experiences.map(([title,kicker,body,href],i)=><Link href={href} className="wave2-hub-card" key={title}><span>{String(i+1).padStart(2,'0')}</span><p className="eyebrow">{kicker}</p><h2>{title}</h2><p>{body}</p><b>Open experience →</b></Link>)}</div></div></section>
  <section className="cta-band"><div className="shell cta-band__inner"><div><p className="eyebrow">TTT Digital Vehicle</p><h2>Selections follow you through the site.</h2><p>Use My TTT Build to collect the configurations you want to discuss.</p></div><Link className="button button--light" href="/quote?from=build">Request a Quote →</Link></div></section>
  </main>}
