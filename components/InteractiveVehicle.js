@@ -3,12 +3,12 @@ import { useState } from 'react';
 import AssetMedia from './AssetMedia';
 
 const hotspots=[
- {id:'glass',label:'Glass',detail:'Window film for heat, UV and glare control.',x:68.5,y:35.0,href:'/services/window-tint'},
- {id:'audio',label:'Cabin audio',detail:'Speakers, amplification and tuning for the space you sit in.',x:56.0,y:43.5,href:'/services/audio'},
- {id:'location',label:'Location',detail:'GPS tracking with alerts you choose.',x:52.0,y:32.5,href:'/services/gps-tracking'},
- {id:'start',label:'Starting system',detail:'Immobilization that adds control over who can drive.',x:79.0,y:54.0,href:'/services/kill-switches'},
- {id:'wiring',label:'Wiring & modules',detail:'SignalTrace diagnostics for faults that are hard to find.',x:65.0,y:54.5,href:'/services/signaltrace'},
- {id:'mounts',label:'Mounts & interfaces',detail:"Custom parts made when off-the-shelf won't fit.",x:47.0,y:57.0,href:'/services/custom-fabrication'}
+ {id:'glass',label:'Glass',detail:'Film for heat, UV and glare, without affecting the signals the car relies on.',x:68.5,y:35.0,href:'/services/window-tint'},
+ {id:'audio',label:'Cabin audio',detail:'Sound tuned to where you sit, through the factory screen and controls.',x:56.0,y:43.5,href:'/services/audio'},
+ {id:'location',label:'Location',detail:'Tracking installed out of sight and powered so it keeps reporting.',x:52.0,y:32.5,href:'/services/gps-tracking'},
+ {id:'start',label:'Starting system',detail:'An independent barrier to unauthorized use. Details stay private.',x:79.0,y:54.0,href:'/services/kill-switches'},
+ {id:'wiring',label:'Wiring & modules',detail:'The network every other layer depends on, and where hard faults hide.',x:65.0,y:54.5,href:'/services/signaltrace'},
+ {id:'mounts',label:'Mounts & interfaces',detail:"Parts made for the space when nothing off the shelf fits.",x:47.0,y:57.0,href:'/services/custom-fabrication'}
 ];
 
 export default function InteractiveVehicle(){
