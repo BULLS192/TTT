@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import ExperienceShell from './ExperienceShell';
 import { useTTTBuild } from './TTTBuildContext';
 
@@ -43,11 +43,14 @@ export default function SolutionComposer({type}){
  const{addItem,setOpen}=useTTTBuild();
  if(!cfg)return null;
  const toggle=x=>setSelected(c=>c.includes(x)?c.filter(v=>v!==x):[...c,x]);
- const completeness=Math.round(selected.length/cfg.options.length*100);
- const aside=<>
+  const aside=<>
   <div className="lab-readout"><small>{cfg.category}</small><strong>{type==='fleet'?count+' vehicles':selected.length+' layers'}</strong><p>{selected.join(' · ')||'Choose a starting layer.'}</p></div>
-  <div className="lab-meters"><Meter label="Plan coverage" value={completeness}/><Meter label="Integration" value={Math.min(96,35+selected.length*14)}/><Meter label="Repeatability" value={type==='fleet'?Math.min(96,35+count*2.2):Math.min(90,42+selected.length*11)}/></div>
-  <p className="lab-note">Conceptual planning tool. Final scope depends on the vehicle, hardware and actual requirement.</p>
+  <div className="lab-meters">
+   <div className="signal-finding"><small>Concept coverage</small><p><strong>{selected.length} of {cfg.options.length}</strong> planning layers selected.</p></div>
+   <div className="signal-finding"><small>Integration</small><p>{selected.length>1?'Selected layers should be planned as one system.':'Add another layer to explore system interactions.'}</p></div>
+   <div className="signal-finding"><small>{type==='fleet'?'Program size':'Scope'}</small><p>{type==='fleet'?count+'-vehicle concept':'Vehicle-specific planning concept'}</p></div>
+  </div>
+  <p className="lab-note">Conceptual planning tool. These indicators are not performance scores. Final scope depends on the vehicle, hardware and actual requirement.</p>
   <button className="button" onClick={()=>{addItem({id:'solution-'+type,category:cfg.category,title:selected.join(' + ')||cfg.category,detail:type==='fleet'?count+'-vehicle concept':'Solution concept'});setOpen(true)}}>Add solution to My TTT Build →</button>
  </>;
  return <ExperienceShell eyebrow={cfg.eyebrow} title={cfg.title} description={cfg.description} aside={aside}>
@@ -59,4 +62,3 @@ export default function SolutionComposer({type}){
   <div className="solution-composer__legend">{cfg.options.map(x=><button key={x} className={selected.includes(x)?'is-active':''} onClick={()=>toggle(x)}><span>{selected.includes(x)?'✓':'+'}</span><div><strong>{x}</strong><small>{cfg.notes[x]}</small></div></button>)}</div>
  </ExperienceShell>;
 }
-function Meter({label,value}){return <div className="lab-meter"><span>{label}</span><i><b style={{width:value+'%'}}/></i><strong>{value}%</strong></div>}
