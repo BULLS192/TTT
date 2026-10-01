@@ -38,7 +38,8 @@ export default function AudioLab(){
    <button className="button" onClick={()=>{addItem({id:'audio',category:'Automotive Audio',title:mode,detail:'Conceptual audio path · '+selected});setOpen(true)}}>Add to My TTT Build →</button></>;
  return <ExperienceShell eyebrow="TTT Listening Room" title="Move the soundstage, not the dashboard." description="Explore what changes when speakers, amplification and DSP are treated as one system." aside={aside}>
   <div className="audio-cabin">
-    <div className="audio-windshield"><span className="audio-stage" style={{width:(25+m.stage*.65)+'%'}}>SOUNDSTAGE</span></div>
+    <div className="audio-windshield"/>
+    <span className="audio-stage" style={{width:(25+m.stage*.65)+'%',top:(64-m.stage*.34)+'%'}}>SOUNDSTAGE</span>
     <div className="audio-seat audio-seat--left">DRIVER</div><div className="audio-seat audio-seat--right">PASSENGER</div>
     {['Driver tweeter','Passenger tweeter','Driver door','Passenger door','Subwoofer'].map((name,i)=><button key={name} onClick={()=>setSelected(name)} className={'audio-speaker speaker-'+i+' '+(selected===name?'is-active':'')} aria-label={name}><span/></button>)}
     <div className={'audio-wave '+(mode==='DSP Tuned'?'is-aligned':'')}><i/><i/><i/></div>
