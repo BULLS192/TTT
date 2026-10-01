@@ -1,56 +1,19 @@
 import Link from 'next/link';
 import ScrollCinematic from '../components/ScrollCinematic';
-import ConceptMedia from '../components/ConceptMedia';
-import TestimonialStrip from '../components/TestimonialStrip';
-import { solutions, services } from '../lib/siteData';
-
-const process = [
-  ['01', 'Discover', 'Start with the vehicle, how it is used, and what needs to improve.'],
-  ['02', 'Architect', 'Map the signal, power, controls, mounting, products and service path before installation begins.'],
-  ['03', 'Integrate', 'Install, configure and tune the complete system with OEM+ fit, finish and serviceability.'],
-  ['04', 'Validate', 'Test the finished vehicle, document the build and hand over a system that can be supported later.'],
-];
-
-const bestFit = [
-  ['01', 'Vehicle owners', '/solutions/premium-vehicle-experience'],
-  ['02', 'Dealerships', '/solutions/dealership-technology'],
-  ['03', 'Fleets & commercial operators', '/solutions/fleet-intelligence'],
-];
-
-const principles = ['Consult', 'Architect', 'Integrate', 'Validate', 'Support'];
-
-export default function HomePage() {
-  return (
-    <main>
-      <ScrollCinematic />
-
-      <section className="section intro-statement home-handoff home-handoff--cinematic">
-        <div className="shell">
-          <p className="eyebrow">The TTT Standard</p>
-          <h2>The install should disappear. The capability should not.</h2>
-          <p className="lead">A finished vehicle should feel as though the technology belonged there from day one: clean fitment, preserved controls, deliberate wiring, documented systems and a clear path for future service.</p>
-          <div className="home-principles" aria-label="TTT integration process">
-            {principles.map((item, index) => <span key={item}><b>0{index + 1}</b>{item}</span>)}
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="shell section-heading"><div><p className="eyebrow">Start with the outcome</p><h2>What should the vehicle do better?</h2></div><Link href="/solutions">View all solutions →</Link></div>
-        <div className="shell card-grid card-grid--3">{solutions.slice(0,3).map((item) => <Link className="feature-card" href={`/solutions/${item.slug}`} key={item.slug}><span className="feature-card__index">{item.eyebrow}</span><h3>{item.title}</h3><p>{item.summary}</p><b>Explore →</b></Link>)}</div>
-      </section>
-
-      <section className="section section--soft"><div className="shell two-col"><div><p className="eyebrow">Capabilities</p><h2>One integration partner. Not a pile of disconnected installs.</h2><p className="lead">Audio, tint, security, tracking, cameras and electronics all compete for space, power, controls and attention. TTT plans those interactions before the first panel comes off.</p></div><div className="system-list">{services.slice(0,4).map((item, i) => <Link key={item.slug} href={`/services/${item.slug}`}><span>0{i+1}</span><b>{item.title}</b><p>{item.summary}</p></Link>)}</div></div></section>
-
-      <section className="section"><div className="shell homepage-best-fit"><div><p className="eyebrow">Best fit</p><h2>Some projects need more than an installer.</h2><p className="lead">TTT is built for vehicles where several technologies must share power, controls, space, data and service expectations — or where one successful install needs to become a repeatable program.</p></div><div className="homepage-best-fit__list">{bestFit.map(([n, title, href]) => <Link href={href} key={title}><span>{n}</span><b>{title}</b><i>Explore →</i></Link>)}</div></div></section>
-
-      <section className="section dark-section"><div className="shell section-heading"><div><p className="eyebrow">TTT process</p><h2>From requirement to documented vehicle.</h2></div><Link className="text-link" href="/start">Start a project →</Link></div><div className="shell home-process-grid">{process.map(([n,title,body]) => <article key={n}><span>{n}</span><h3>{title}</h3><p>{body}</p></article>)}</div></section>
-
-      <TestimonialStrip />
-
-      <section className="section dark-section concept-tease"><div className="shell two-col"><div><p className="eyebrow">Concept One</p><h2>A rolling proof of the TTT standard.</h2><p className="lead lead--dark">Concept One is our reference vehicle: glass, audio, security, tracking and connected systems planned as a single architecture rather than separate upgrades.</p><Link className="button" href="/concept-one">Explore Concept One →</Link></div><ConceptMedia compact eyebrow="TTT / C1 / 001" caption="Concept One"/></div></section>
-
-      <section className="cta-band"><div className="shell"><p className="eyebrow">Build with TTT</p><h2>Start with the vehicle. We will design the system.</h2><p>Tell us the year, make, model and what you want to improve. TTT will define the technology, architecture and integration path from there.</p><Link className="button button--light" href="/start">Start a project →</Link></div></section>
-    </main>
-  );
-}
+import AssetMedia from '../components/AssetMedia';
+import InteractiveVehicle from '../components/InteractiveVehicle';
+import ServiceIcon from '../components/ServiceIcon';
+import TessaTrigger from '../components/TessaTrigger';
+export const metadata={title:'Automotive Technology & Installation in Houston | TTT',description:'Window tint, audio, GPS tracking, kill switches, electrical diagnostics and custom parts, installed to work with the systems already in your vehicle.'};
+const services=[['tint','Window Tint','Cooler cabin. Less glare. More privacy.','Film chosen for heat rejection, not just darkness.','/services/window-tint'],['audio','Automotive Audio','Better sound built around how you listen.','Upgrades that keep your factory screen, controls and alerts.','/services/audio'],['gps','GPS Tracking','Know where the vehicle is.','Location, alerts and history, installed out of sight.','/services/gps-tracking'],['security','Kill Switches','Make unauthorized use harder.','An independent barrier to starting or driving.','/services/kill-switches'],['signal','TTT SignalTrace™','Find the cause of the electrical problem.','For faults that come and go or have beaten a code reader.','/services/signaltrace'],['fabrication','Custom Fabrication','Make the part that doesn’t exist.','Mounts, brackets and enclosures designed for your vehicle.','/services/custom-fabrication']];
+const solutions=[['Premium Vehicle Experience','“I want the car to feel finished, not modified.”','/solutions/premium-vehicle-experience'],['Vehicle Security','“I want it harder to take and easier to find.”','/solutions/vehicle-security'],['Connected Vehicle','“I want to know what it’s doing when I’m not in it.”','/solutions/connected-vehicle'],['Fleet & Dealership','“I need the same result on every vehicle.”','/solutions/fleet-dealership'],['Custom Integration','“What I need doesn’t come in a kit.”','/solutions/custom-integration']];
+const process=[['Tell us','The vehicle and what you want, in plain language.'],['Plan','Options, trade-offs and anything specific to your vehicle.'],['Approve','A clear scope before work begins.'],['Do the work','If something unexpected turns up, we stop and talk to you.'],['Check and hand over','We test the work, recheck what it touched and show you what changed.']];
+export default function HomePage(){return <main className="production-page"><ScrollCinematic/>
+<section id="services" className="section"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Services</p><h2>Six kinds of work. One way of doing it.</h2></div><Link className="text-link" href="/services">See all services →</Link></div><div className="service-card-grid">{services.map(([icon,title,outcome,support,href])=><Link href={href} className="service-card-production" key={title}><ServiceIcon name={icon}/><h3>{title}</h3><strong>{outcome}</strong><p>{support}</p><b>See {title} →</b></Link>)}</div></div></section>
+<section className="section section--soft"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Solutions</p><h2>Know the result you want, not what to buy?</h2><p className="lead">Start with the outcome. We’ll recommend the combination of work that gets you there.</p></div></div><div className="solution-card-grid">{solutions.map(([title,line,href])=><Link className="solution-card-v2" href={href} key={title}><p className="eyebrow">{title}</p><h3>{line}</h3><b>See {title} →</b></Link>)}</div></div></section>
+<section className="section section--dark"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Concept One</p><h2>Every system affects the others.</h2><p className="lead lead--dark">A modern vehicle is a network of modules, power and wiring. Add one thing carelessly and something else can stop working. Tap an area of Concept One to see where each kind of work lives and what it has to coexist with.</p></div></div><InteractiveVehicle/><p className="concept-disclosure concept-disclosure--below">3D REFERENCE CONCEPT. NOT A CUSTOMER VEHICLE.</p><Link className="text-link text-link--light" href="/concept-one">Explore Concept One →</Link></div></section>
+<section className="section"><div className="shell editorial-media-band"><AssetMedia visual="diagnosticReal"/><div><p className="eyebrow">TTT SignalTrace™</p><h2>For the electrical problem nobody has pinned down.</h2><p>A battery that goes flat overnight. A no-start once a week. An alarm that triggers itself. When a code reader and a new part haven’t fixed it, SignalTrace works through five stages to find the cause, and you approve each stage before it begins.</p><div className="method-strip"><span>Scan</span><span>Isolate</span><span>Trace</span><span>Verify</span><span>Resolve</span></div><div className="button-row"><Link className="button" href="/quote?service=signaltrace">Start a SignalTrace Intake →</Link><Link className="text-link" href="/services/signaltrace">How SignalTrace works →</Link></div></div></div></section>
+<section className="section section--dark"><div className="shell"><div className="section-heading"><div><p className="eyebrow">How we work</p><h2>You approve the plan. We prove the result.</h2></div></div><div className="journey-grid">{process.map(([title,body],i)=><article key={title}><span>{String(i+1).padStart(2,'0')}</span><h3>{title}</h3><p>{body}</p></article>)}</div><Link className="text-link text-link--light" href="/standards">Read The TTT Standard →</Link></div></section>
+<section className="section"><div className="shell editorial-media-band editorial-media-band--reverse"><AssetMedia visual="fleetReal"/><div><p className="eyebrow">Business</p><h2>One vehicle or a whole program.</h2><p>Dealers need predictable delivery. Fleets need every unit to match and a record of what’s in it. Work vehicles need technology that survives the job. The same written standard makes all three repeatable.</p><div className="button-row"><Link className="text-link" href="/business/dealerships">Dealerships →</Link><Link className="text-link" href="/business/fleets">Fleets →</Link><Link className="text-link" href="/business/commercial-vehicles">Commercial Vehicles →</Link><Link className="text-link" href="/solutions/fleet-dealership">Fleet & Dealership program →</Link></div></div></div></section>
+<section className="section section--soft tessa-home-section"><div className="shell editorial-media-band"><AssetMedia visual="tessaPromo" className="tessa-home-media"/><div><p className="eyebrow">Start here</p><h2>Tell us what you have in mind.</h2><p>Share the vehicle and what you want done. Plain language is perfect, and requesting a quote doesn’t commit you to anything.</p><div className="prompt-chips"><TessaTrigger prompt="Which tint is right for my vehicle?">Which tint is right for my vehicle?</TessaTrigger><TessaTrigger prompt="Can I keep my factory radio?">Can I keep my factory radio?</TessaTrigger><TessaTrigger prompt="My battery keeps dying.">My battery keeps dying.</TessaTrigger></div><div className="button-row"><Link className="button" href="/quote">Request a Quote →</Link><TessaTrigger className="text-link" prompt="I have a quick question about my vehicle.">Have a quick question first? Ask Tessa →</TessaTrigger></div><p className="small-note">Tessa is a virtual assistant. For anything specific to your vehicle, she can pass your details to the team.</p></div></div></section>
+</main>}

@@ -1,25 +1,27 @@
 import Link from 'next/link';
-import AutoVisual from '../../components/AutoVisual';
-
-export const metadata={title:'The TTT Standard',description:'The TTT standard for automotive technology integration: vehicle protection, clean installation, serviceability, documentation, validation and customer handoff.'};
-
+import AssetMedia from '../../components/AssetMedia';
+export const metadata={title:'The TTT Standard: How We Install and Integrate Vehicle Technology',description:'Six principles that govern every TTT install: protect the vehicle, protect the circuit, mount it properly, preserve what matters, document the work and validate before handover.'};
 const principles=[
- ['01','Protect the vehicle','Trim, surfaces, electrical systems and customer property.'],
- ['02','Protect the circuit','Appropriate power, grounding, fusing and routing.'],
- ['03','Mount it properly','Secure, deliberate and serviceable.'],
- ['04','Preserve what matters','Know which factory functions could be affected.'],
- ['05','Document the work','Scope, products, settings and relevant photos.'],
- ['06','Validate before handoff','Check the new system and the factory functions touched by the work.'],
+ ['01','Protect the vehicle','Panels, trim, paint and interior surfaces are protected during the work and returned the way they came off.'],
+ ['02','Protect the circuit','Added equipment gets an appropriate power source with correct fusing and wire size.'],
+ ['03','Mount it properly','Equipment is secured so it does not move, rattle or rub; wiring stays away from heat, sharp edges and moving parts.'],
+ ['04','Preserve what matters','Factory features you rely on are identified before the work starts and checked afterward.'],
+ ['05','Document the work','Added circuits, connection points and settings are recorded so future service does not begin with guesswork.'],
+ ['06','Validate before handover','The new system and the factory functions around it are checked before the vehicle is returned.']
 ];
-
-export default function Page(){return <main>
- <section className="page-hero page-hero--visual"><div className="shell"><div><p className="eyebrow">The TTT Standard</p><h1>Workmanship is part of the technology.</h1><p className="lead">A great product can still become a bad project if the mounting, wiring, configuration or handoff is careless.</p></div><AutoVisual variant="about" eyebrow="OEM+ / WORKMANSHIP"/></div></section>
-
- <section className="section"><div className="shell"><div className="visual-stat-strip">{principles.slice(0,3).map(([n,title,body])=><div className="visual-stat" key={title}><small>{n}</small><strong>{title}</strong><p>{body}</p></div>)}</div><div className="visual-stat-strip">{principles.slice(3).map(([n,title,body])=><div className="visual-stat" key={title}><small>{n}</small><strong>{title}</strong><p>{body}</p></div>)}</div></div></section>
-
- <section className="section section--soft"><div className="shell editorial-visual-band"><AutoVisual variant="technology" eyebrow="FACTORY + ADDED SYSTEM"/><div className="editorial-visual-copy"><p className="eyebrow">OEM+</p><h2>Intentional, understandable and supportable.</h2><p>The modification does not have to disappear. It does have to respect the vehicle, preserve useful factory behavior where practical and remain understandable later.</p><Link className="button button--ghost" href="/articles/what-oem-plus-vehicle-integration-means">What OEM+ means →</Link></div></div></section>
-
- <section className="section section--dark"><div className="shell"><div className="diagram-panel"><div className="diagram-panel__head"><div><p className="eyebrow">Handoff</p><h2>Installed is not finished.</h2></div><p>The project closes only after the system is checked, the affected factory functions are verified, and the customer knows what was changed.</p></div><div className="technical-flow"><div className="flow-node"><small>01</small><strong>Install</strong><em>→</em></div><div className="flow-node"><small>02</small><strong>Configure</strong><em>→</em></div><div className="flow-node"><small>03</small><strong>Test</strong><em>→</em></div><div className="flow-node"><small>04</small><strong>Document</strong><em>→</em></div><div className="flow-node"><small>05</small><strong>Handoff</strong></div></div></div></div></section>
-
- <section className="cta-band"><div className="shell"><h2>Start with the outcome. Build to the standard.</h2><Link className="button button--light" href="/start">Start a project →</Link></div></section>
-</main>}
+const hidden=[
+ ['POWER','Correct source, fuse and wire size.'],
+ ['ROUTING','Protected from heat, edges and moving parts.'],
+ ['MOUNTING','Secure, quiet and serviceable.'],
+ ['SIGNAL','Interfaces chosen for the actual factory system.'],
+ ['DOCUMENTATION','Added circuits and settings recorded.'],
+ ['VALIDATION','New and affected factory functions checked.']
+];
+export default function Page(){return <main className="production-page standard-page">
+ <section className="review-hero review-hero--compact"><AssetMedia visual="homeHeroTechnical" className="review-hero__media" priority/><div className="review-hero__overlay"/><div className="shell review-hero__copy"><p className="eyebrow">The TTT Standard</p><h1>Installed is not finished.</h1><p className="lead lead--dark">Most of the work that decides whether an install lasts is hidden behind panels: how a circuit is powered, how a wire is protected and how a part is mounted. The TTT Standard holds that hidden work to the same level as the parts you can see.</p><div className="button-row"><Link className="button" href="/quote">Start my quote →</Link><a className="button button--ghost-dark" href="#principles">See the six principles ↓</a></div></div></section>
+ <section id="principles" className="section"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Six principles</p><h2>What the work has to protect, preserve and prove.</h2></div></div><div className="standard-principle-grid">{principles.map(([n,t,b])=><article key={t}><small>{n}</small><h3>{t}</h3><p>{b}</p></article>)}</div></div></section>
+ <section className="section section--dark"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Show the work</p><h2>The quality of an installation is mostly hidden.</h2><p className="lead lead--dark">The finished cabin should look calm. Behind it, the system should be understandable, protected and serviceable.</p></div></div><div className="standard-hidden-grid">{hidden.map(([t,b],i)=><article key={t}><span>{String(i+1).padStart(2,'0')}</span><strong>{t}</strong><p>{b}</p></article>)}</div></div></section>
+ <section className="section section--soft"><div className="shell editorial-media-band"><AssetMedia visual="signalNetwork"/><div><p className="eyebrow">OEM+</p><h2>A result, not a product category.</h2><p>The added system should feel like it belongs in the vehicle: intentional in placement and function, understandable to the driver and supportable by whoever services it next.</p><Link className="text-link" href="/technology/oem-integration">How OEM integration works →</Link></div></div></section>
+ <section id="process" className="section"><div className="shell"><div className="section-heading"><div><p className="eyebrow">From install to handover</p><h2>Install → Configure → Test → Document → Handover.</h2></div></div><div className="technical-flow technical-flow--light">{['Install','Configure','Test','Document','Handover'].map((x,i)=><div className="flow-node" key={x}><small>{String(i+1).padStart(2,'0')}</small><strong>{x}</strong>{i<4?<em>→</em>:null}</div>)}</div><p className="small-note">The TTT Standard describes how we work. It is not a certification or a promise of a specific result.</p></div></section>
+ <section className="cta-band"><div className="shell cta-band__inner"><div><p className="eyebrow">The TTT Standard</p><h2>Start with the vehicle. Finish with proof.</h2></div><Link className="button button--light" href="/quote">Request a Quote →</Link></div></section>
+ </main>}

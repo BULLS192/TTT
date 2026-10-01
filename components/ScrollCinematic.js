@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { canonicalLogoDataUri } from '../lib/brand/logoData';
 import { homepageCinematic } from '../lib/cinematicMedia';
+import TessaTrigger from './TessaTrigger';
 
 const chapters = [
-  { key: 'hero', start: 0, end: 0.15, kicker: 'Thompson Transportation Technologies', title: 'Technology, Integrated.', body: 'Designed into the vehicle. Tuned to the driver. Built to work as one system.' },
-  { key: 'tint', start: 0.15, end: 0.31, kicker: '01 / Glass', title: 'Precision Tint', body: 'Heat rejection, privacy and optical clarity — selected for the vehicle, not just the shade.' },
-  { key: 'audio', start: 0.31, end: 0.58, kicker: '02 / Audio', title: 'Audio, Engineered.', body: 'OEM integration, DSP, amplification and speakers tuned as one cabin system.' },
-  { key: 'security', start: 0.58, end: 0.85, kicker: '03 / Security + Tracking', title: 'Track. Protect. Control.', body: 'Tracking, immobilization and layered protection integrated discreetly into the vehicle.' },
-  { key: 'ecosystem', start: 0.85, end: 1.01, kicker: '04 / TTT Ecosystem', title: 'One standard. Every vehicle.', body: 'Personal vehicles, dealership programs and fleets — one integration philosophy.' },
+  { key: 'hero', start: 0, end: 0.15, kicker: 'Thompson Transportation Technologies · Houston', title: 'Vehicle technology, properly integrated.', body: 'Tint, audio, tracking, security, diagnostics and custom parts for modern vehicles, installed to work with the systems already in the car.' },
+  { key: 'tint', start: 0.15, end: 0.31, kicker: '01 / Glass', title: 'Window Tint', body: 'Film chosen for heat, not just darkness.' },
+  { key: 'audio', start: 0.31, end: 0.58, kicker: '02 / Cabin', title: 'Automotive Audio', body: 'Better sound. Factory features kept.' },
+  { key: 'security', start: 0.58, end: 0.85, kicker: '03 / Security', title: 'Tracking + Immobilization', body: 'Harder to take. Easier to find.' },
+  { key: 'ecosystem', start: 0.85, end: 1.01, kicker: '04 / One standard', title: 'The same standard on every vehicle.', body: 'Owners, dealers and fleets.' },
 ];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -236,7 +237,7 @@ export default function ScrollCinematic() {
 
         <div className="cinematic__shade cinematic__shade--left" />
         <div className="cinematic__shade cinematic__shade--top" />
-        <div className="cinematic__shade cinematic__shade--bottom" />
+        <div className="cinematic__shade cinematic__shade--bottom" /><div className="cinematic__concept-label">3D REFERENCE CONCEPT · NOT A CUSTOMER VEHICLE</div>
 
         <div className="cinematic__content shell">
           {chapters.map((item, index) => (
@@ -246,7 +247,7 @@ export default function ScrollCinematic() {
               <h1>{item.title}</h1>
               <p className="cinematic__body">{item.body}</p>
               {item.key === 'security' ? <div className="cinematic__callouts" aria-label="Vehicle security capabilities"><span className={securityProgress > 0.08 ? 'is-on' : ''}>GPS Tracking</span><span className={securityProgress > 0.35 ? 'is-on' : ''}>Immobilization</span><span className={securityProgress > 0.62 ? 'is-on' : ''}>Security Control</span></div> : null}
-              {item.key === 'ecosystem' ? <div className="cinematic__actions"><Link className="button" href="/start">Start a project →</Link><Link className="button button--ghost-dark" href="/solutions">Explore solutions</Link></div> : null}
+              {item.key === 'hero' ? <><div className="cinematic__actions"><Link className="button" href="/quote">Request a Quote →</Link><a className="button button--ghost-dark" href="#services">See what we do ↓</a></div><TessaTrigger className="cinematic__tessa-link" prompt="I have a question about TTT services.">Have a question first? Ask Tessa →</TessaTrigger></> : null}{item.key === 'ecosystem' ? <div className="cinematic__actions"><Link className="button" href="/quote">Request a Quote →</Link><a className="button button--ghost-dark" href="#services">Explore Services</a></div> : null}
             </div>
           ))}
         </div>

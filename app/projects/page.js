@@ -1,26 +1,5 @@
 import Link from 'next/link';
-import AutoVisual from '../../components/AutoVisual';
-import ConceptMedia from '../../components/ConceptMedia';
-
-export const metadata={title:'Projects | TTT',description:'TTT projects document the vehicle, objective, integration work, validation and finished result.'};
-
-const record=[
-  ['01','Vehicle','What came in.'],
-  ['02','Goal','What needed to change.'],
-  ['03','Work','What was installed or modified.'],
-  ['04','Integration','What had to keep working.'],
-  ['05','Validation','What was checked.'],
-  ['06','Result','What changed for the customer.'],
-];
-
-export default function Page(){return <main>
-  <section className="page-hero page-hero--visual"><div className="shell"><div><p className="eyebrow">Projects</p><h1>Show the problem. Show the work. Show the result.</h1><p className="lead">TTT case studies are built around the vehicle and the decisions behind the install—not just a finished-car photo.</p></div><AutoVisual variant="concept" eyebrow="TTT / PROJECT RECORD"/></div></section>
-
-  <section className="section"><div className="shell editorial-visual-band concept-feature-media"><ConceptMedia compact eyebrow="TTT / C1 / FLAGSHIP" caption="Concept One"/><div className="editorial-visual-copy"><p className="eyebrow">Flagship demonstrator</p><h2>Concept One</h2><p>The C1 matte-black coupe shows glass, audio, security, tracking, cameras and connectivity on one coordinated platform.</p><Link className="button button--ghost" href="/concept-one">Explore Concept One →</Link></div></div></section>
-
-  <section className="section section--soft"><div className="shell"><div className="section-intro-grid"><div><span className="visual-kicker">Case-study format</span><h2>Six frames tell the story.</h2></div><div className="section-copy"><p>The finished photo matters more when the reader can see what was solved and how the vehicle was affected.</p></div></div><div className="visual-stat-strip">{record.slice(0,3).map(([n,title,body])=><div className="visual-stat" key={title}><small>{n}</small><strong>{title}</strong><p>{body}</p></div>)}</div><div className="visual-stat-strip">{record.slice(3).map(([n,title,body])=><div className="visual-stat" key={title}><small>{n}</small><strong>{title}</strong><p>{body}</p></div>)}</div></div></section>
-
-  <section className="section"><div className="shell media-mosaic"><AutoVisual variant="audio" eyebrow="DETAIL / AUDIO"/><AutoVisual variant="security" eyebrow="DETAIL / SECURITY"/><div className="editorial-visual-copy"><p className="eyebrow">Real work only</p><h2>Concepts stay labeled as concepts.</h2><p>Customer vehicles, quotes and results appear only when the work exists and permission allows it.</p></div></div></section>
-
-  <section className="cta-band"><div className="shell"><h2>Have a vehicle with a problem worth solving?</h2><Link className="button button--light" href="/start">Start a project →</Link></div></section>
-</main>}
+import AssetMedia from '../../components/AssetMedia';
+export const metadata={title:'Projects: Documented Vehicle Technology Work | TTT',description:'How TTT documents its work: the vehicle, goal, problem, work, integration, validation and result. Concept One is clearly labeled as a 3D reference concept.'};
+const frames=[['01','Vehicle','What came in and the relevant factory configuration.'],['02','Goal','What the customer needed the vehicle to do better.'],['03','Problem','The constraint, fault or fitment issue that shaped the plan.'],['04','Work','What was installed, removed, fabricated or changed.'],['05','Integration','What had to remain working and how the new system joined the vehicle.'],['06','Validation','What was checked before handover.'],['07','Result','What changed, supported by real evidence rather than invented claims.']];
+export default function Page(){return <main className="production-page"><section className="review-hero review-hero--compact"><AssetMedia visual="projectsDetail" className="review-hero__media" priority/><div className="review-hero__overlay"/><div className="shell review-hero__copy"><p className="eyebrow">Learn · Projects</p><h1>Every project should show its work.</h1><p className="lead lead--dark">A finished photo shows the result. It does not show the decisions behind the panels. TTT project write-ups use the same structure every time so future case studies show the vehicle, the goal, what changed and how the result was validated.</p></div></section><section className="section"><div className="shell editorial-media-band"><AssetMedia visual="homeHeroMinimal"/><div><p className="eyebrow">Reference concept</p><h2>Concept One</h2><p>Concept One is the current reference project, but it is not customer work. It is a 3D teaching model that demonstrates how TTT thinks about glass, audio, tracking, security, diagnostics and fabrication as one system.</p><p className="concept-disclosure">3D REFERENCE CONCEPT. NOT A CUSTOMER VEHICLE.</p><Link className="text-link" href="/concept-one">Explore Concept One →</Link></div></div></section><section className="section section--soft"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Future case studies</p><h2>Seven frames tell the story.</h2></div></div><div className="principle-grid">{frames.map(([n,t,b])=><article key={t}><small>{n}</small><h3>{t}</h3><p>{b}</p></article>)}</div></div></section><section className="section"><div className="shell copy-section__grid"><div><p className="eyebrow">Real work only</p><h2>Concepts stay labeled as concepts.</h2></div><div className="copy-section__body"><p>Customer vehicles, customer quotes and performance results appear only when the work exists and the customer has allowed it to be published. The visual library may explain a capability; it will not be presented as a completed TTT customer project.</p></div></div></section><section className="cta-band"><div className="shell cta-band__inner"><div><p className="eyebrow">Projects</p><h2>Have a vehicle with a problem worth solving?</h2></div><Link className="button button--light" href="/quote">Request a Quote →</Link></div></section></main>}

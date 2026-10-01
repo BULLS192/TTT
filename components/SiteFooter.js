@@ -1,24 +1,26 @@
 import Link from 'next/link';
-import BrandMark from './BrandMark';
+import TessaTrigger from './TessaTrigger';
+import { canonicalLogoDataUri } from '../lib/brand/logoData';
 
-const groups = [
-  ['TTT', [['About', '/about'], ['The TTT Standard', '/standards'], ['Concept One', '/concept-one'], ['Projects', '/projects'], ['Contact', '/contact']]],
-  ['Solutions', [['Premium Vehicle', '/solutions/premium-vehicle-experience'], ['Security', '/solutions/vehicle-security'], ['Connected Vehicle', '/solutions/connected-vehicle'], ['Fleet Intelligence', '/solutions/fleet-intelligence']]],
-  ['Services', [['Audio', '/services/audio'], ['Window Tint', '/services/window-tint'], ['SignalTrace™ Diagnostics', '/services/signaltrace'], ['Custom Fabrication & Additive Manufacturing', '/services/custom-fabrication'], ['Tracking', '/services/tracking'], ['Cameras', '/services/cameras']]],
-  ['Business', [['Dealerships', '/industries/dealerships'], ['Fleets', '/industries/fleets'], ['Commercial', '/industries/commercial-vehicles'], ['Greater Houston', '/service-area'], ['Work With Us', '/work-with-us']]],
-  ['Resources', [['Articles', '/articles'], ['FAQ', '/resources/faq'], ['Technology', '/technology'], ['Brands & Partners', '/technology/brands'], ['Vehicle Fitment', '/vehicles']]],
+const groups=[
+ ['Solutions',[['Premium Vehicle Experience','/solutions/premium-vehicle-experience'],['Vehicle Security','/solutions/vehicle-security'],['Connected Vehicle','/solutions/connected-vehicle'],['Fleet & Dealership','/solutions/fleet-dealership'],['Custom Integration','/solutions/custom-integration']]],
+ ['Services',[['Window Tint','/services/window-tint'],['Automotive Audio','/services/audio'],['GPS Tracking','/services/gps-tracking'],['Kill Switches','/services/kill-switches'],['SignalTrace™','/services/signaltrace'],['Custom Fabrication','/services/custom-fabrication']]],
+ ['Business',[['Dealerships','/business/dealerships'],['Fleets','/business/fleets'],['Commercial Vehicles','/business/commercial-vehicles'],['Greater Houston','/service-area'],['Work With Us','/work-with-us']]],
+ ['Learn',[['Technology Library','/technology'],['The TTT Standard','/standards'],['Articles','/articles'],['Projects','/projects'],['FAQ','/faq'],['Vehicle Fitment','/vehicles']]],
+ ['TTT',[['Concept One','/concept-one'],['About','/about'],['Contact','/contact']]]
 ];
 
-export default function SiteFooter() {
-  const year = new Date().getFullYear();
-  return (
-    <footer className="site-footer site-footer--refined">
-      <div className="shell">
-        <div className="footer-top"><BrandMark /><p>Automotive technology consulting, integration and installation for vehicle owners, dealerships and fleets.</p></div>
-        <div className="footer-grid">{groups.map(([title, links]) => <div key={title}><h3>{title}</h3>{links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}</div>)}</div>
-        <div className="footer-cta"><div><p className="eyebrow">Start here</p><h2>Tell us what you want the vehicle to do better.</h2></div><Link className="button button--light" href="/start">Start a project →</Link></div>
-        <div className="footer-bottom"><span>© {year} Thompson Transportation Technologies LLC. All Rights Reserved.</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/accessibility">Accessibility</Link></div></div>
-      </div>
-    </footer>
-  );
+export default function SiteFooter(){
+ const year=new Date().getFullYear();
+ return <footer className="site-footer production-footer"><div className="shell">
+  <div className="footer-brand-row">
+    <Link className="footer-logo-lockup" href="/" aria-label="Thompson Transportation Technologies home">
+      <img className="footer-logo-image" src={canonicalLogoDataUri} alt="Thompson Transportation Technologies LLC" width="480" height="228" decoding="async"/>
+    </Link>
+    <div className="footer-brand-message"><p className="eyebrow">Thompson Transportation Technologies</p><h2>Vehicle technology, properly integrated.</h2><p>For vehicle owners, dealerships and fleets across Greater Houston.</p></div>
+    <div className="footer-brand-actions"><Link className="button button--light" href="/quote">Request a Quote →</Link><TessaTrigger className="footer-tessa" prompt="I have a question about TTT.">Ask Tessa →</TessaTrigger></div>
+  </div>
+  <div className="production-footer__grid">{groups.map(([title,links])=><div key={title}><h3>{title}</h3>{links.map(([label,href])=><Link key={href} href={href}>{label}</Link>)}</div>)}</div>
+  <div className="footer-bottom"><span>© {year} Thompson Transportation Technologies LLC. All rights reserved.</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/accessibility">Accessibility</Link></div></div>
+ </div></footer>;
 }

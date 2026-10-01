@@ -1,24 +1,18 @@
 import Link from 'next/link';
-import AutoVisual from '../../components/AutoVisual';
+import AssetMedia from '../../components/AssetMedia';
 
-export const metadata={title:'Who TTT Serves | Vehicle Owners, Dealerships & Fleets',description:'TTT serves vehicle owners, dealerships, fleets, commercial operators and specialty vehicle projects with automotive technology integration.'};
+export const metadata={title:'Business & Vehicle Programs | TTT',description:'TTT supports vehicle owners, dealerships, fleets and commercial vehicles with automotive technology integration, repeatable installation standards and documented delivery.'};
 
 const lanes=[
-  ['Vehicle owners','One vehicle. Personal priorities.','concept','/industries/vehicle-owners'],
-  ['Dealerships','Sales, install and delivery have to stay predictable.','dealership','/industries/dealerships'],
-  ['Fleets','The fiftieth install should look like the first.','fleets','/industries/fleets']
+ ['Vehicle owners','One vehicle. Personal priorities.','/industries/vehicle-owners'],
+ ['Dealerships','Sales, installation and delivery have to stay predictable.','/industries/dealerships'],
+ ['Fleets','The twentieth install should look like the first.','/industries/fleets'],
+ ['Commercial vehicles','Technology for vehicles that have to earn their keep.','/industries/commercial-vehicles']
 ];
 
-export default function Page(){return <main>
-  <section className="page-hero page-hero--visual"><div className="shell"><div><p className="eyebrow">Who we serve</p><h1>Same technology. Different operating reality.</h1><p className="lead">A personal vehicle is built around one owner. Dealers need clean handoff. Fleets need repeatability and records.</p></div><AutoVisual variant="dealership" eyebrow="TTT / CUSTOMER ENVIRONMENTS"/></div></section>
-
-  <section className="section"><div className="shell"><div className="visual-feature-grid">{lanes.map(([title,body,variant,href])=><Link className="visual-feature" href={href} key={title}><AutoVisual variant={variant}/><div className="visual-feature__content"><small>TTT / INDUSTRY</small><h3>{title}</h3><p>{body}</p></div></Link>)}</div></div></section>
-
-  <section className="section section--soft"><div className="shell editorial-visual-band"><AutoVisual variant="fleets" eyebrow="COMMERCIAL / FIELD VEHICLES"/><div className="editorial-visual-copy"><p className="eyebrow">Commercial vehicles</p><h2>Technology for a vehicle that earns its keep.</h2><p>Power, cameras, tracking, lighting and electronics should support the workday without becoming another service problem.</p><Link className="button button--ghost" href="/industries/commercial-vehicles">Commercial Vehicles →</Link></div></div></section>
-
-  <section className="section"><div className="shell editorial-visual-band editorial-visual-band--reverse"><div className="editorial-visual-copy"><p className="eyebrow">Specialty vehicles</p><h2>When factory assumptions no longer apply.</h2><p>Restomods, unusual platforms and high-value vehicles need more planning before the first panel comes off.</p><Link className="button button--ghost" href="/industries/specialty-vehicles">Specialty Vehicles →</Link></div><AutoVisual variant="concept" eyebrow="SPECIALTY / CUSTOM"/></div></section>
-
-  <section className="section section--dark"><div className="shell section-intro-grid"><div><p className="eyebrow">Greater Houston</p><h2>Local owner work. Scalable business programs.</h2></div><div className="section-copy"><p>TTT is centered on Greater Houston, with project scope and travel requirements confirmed before scheduling.</p><Link className="button button--ghost-dark" href="/service-area">Service area →</Link></div></div></section>
-
-  <section className="cta-band"><div className="shell"><h2>Tell us who uses the vehicle and what has to happen next.</h2><Link className="button button--light" href="/start">Start a project →</Link></div></section>
-</main>}
+export default function Page(){return <main className="production-page">
+ <section className="review-hero review-hero--compact"><AssetMedia visual="industryHub" className="review-hero__media" priority/><div className="review-hero__overlay"/><div className="shell review-hero__copy"><p className="eyebrow">Business</p><h1>Same technology. Different operating reality.</h1><p className="lead lead--dark">A personal vehicle is built around one owner. Dealers need clean handoff. Fleets need repeatability and records. The technology only works when the operating model works too.</p><div className="button-row"><Link className="button" href="/quote">Request a Quote →</Link><Link className="button button--ghost-dark" href="/solutions/fleet-dealership">Fleet & Dealership Solution</Link></div></div></section>
+ <section className="section"><div className="shell"><div className="business-lane-grid">{lanes.map(([title,body,href],i)=><Link href={href} className="business-lane-card" key={title}><small>{String(i+1).padStart(2,'0')}</small><h2>{title}</h2><p>{body}</p><b>Explore →</b></Link>)}</div></div></section>
+ <section className="section section--soft"><div className="shell copy-section__grid"><div><p className="eyebrow">Programs</p><h2>Standardize what should repeat. Keep flexibility where the vehicle changes.</h2></div><div className="copy-section__body"><p>Business work needs defined equipment, installation rules, records and support. TTT can start with a pilot vehicle, document the approved approach and then repeat it across matching vehicles.</p><div className="button-row"><Link className="text-link" href="/solutions/fleet-dealership">Fleet & Dealership →</Link><Link className="text-link" href="/work-with-us">Work With Us →</Link></div></div></div></section>
+ <section className="section section--dark"><div className="shell copy-section__grid"><div><p className="eyebrow">Greater Houston</p><h2>Local owner work. Scalable business programs.</h2></div><div className="copy-section__body"><p>TTT is centered on Greater Houston. Project scope, location and any travel requirements are confirmed before scheduling.</p><Link className="text-link text-link--light" href="/service-area">See service area →</Link></div></div></section>
+ </main>}
