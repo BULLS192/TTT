@@ -226,3 +226,121 @@
 .review-hero__copy .small-note--dark{max-width:700px}
 @media(max-width:980px){.business-lane-grid{grid-template-columns:repeat(2,1fr)}.resource-card-grid,.technology-card-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.business-lane-grid,.resource-card-grid,.technology-card-grid{grid-template-columns:1fr}}
+
+
+/* Wave 1.5 alignment + footer hardening follow-up */
+
+/* Footer logo must stay inside its card regardless of older brand-mark overrides. */
+.production-footer .footer-brand-card{
+  width:100%;
+  max-width:220px;
+  min-height:0!important;
+  padding:14px 16px!important;
+  overflow:hidden!important;
+}
+.production-footer .footer-brand-card .brand-mark{
+  display:flex!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+}
+.production-footer .footer-brand-card .brand-mark__image{
+  display:block!important;
+  width:100%!important;
+  max-width:188px!important;
+  height:auto!important;
+  max-height:88px!important;
+  object-fit:contain!important;
+  margin:0 auto!important;
+}
+.footer-brand-row{
+  grid-template-columns:minmax(180px,220px) minmax(0,1fr) auto!important;
+  gap:30px!important;
+}
+
+/* Two-column process/principle layouts: center any final orphan card. */
+.process-cards>article:last-of-type:nth-of-type(odd),
+.principle-grid>article:last-of-type:nth-of-type(odd){
+  grid-column:1/-1;
+  width:calc(50% - 7px);
+  justify-self:center;
+}
+.process-cards>.text-link{
+  grid-column:1/-1;
+  justify-self:start;
+  margin-top:2px;
+}
+
+/* Tablet two-column grids should not leave the final card hanging on the left. */
+@media (min-width:641px) and (max-width:1100px){
+  .journey-grid>article:last-child:nth-child(odd),
+  .solution-card-grid>:last-child:nth-child(odd),
+  .technology-card-grid>:last-child:nth-child(odd),
+  .resource-card-grid>:last-child:nth-child(odd),
+  .business-lane-grid>:last-child:nth-child(odd){
+    grid-column:1/-1;
+    width:calc(50% - 8px);
+    justify-self:center;
+  }
+}
+
+/* Technology Library: explicit light/dark contrast contract. */
+.technology-library-page .review-hero__copy h1,
+.technology-library-page .review-hero__copy .lead{color:#fff!important}
+.technology-library-page .review-hero__copy .eyebrow{color:#8ebaff!important}
+.technology-system-panel{background:#08101e!important;color:#fff!important}
+.technology-system-panel h2{color:#fff!important}
+.technology-system-panel .eyebrow{color:#8ebaff!important}
+.technology-system-panel .diagram-panel__head>p{color:#c5d0dd!important}
+.technology-system-panel .technical-flow{background:#fff!important;color:#111820!important}
+.technology-system-panel .flow-node strong{color:#111820!important}
+.technology-system-panel .flow-node small{color:#556579!important}
+.technology-system-panel .flow-node em{color:#2b5fd9!important}
+
+/* Concept One hotspot geometry: remove responsive crop drift. */
+.hotspot-stage{
+  aspect-ratio:3/2;
+  min-height:0!important;
+  background:#070b11;
+}
+.hotspot-stage .asset-media,
+.hotspot-stage .asset-media img{
+  position:absolute;
+  inset:0;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+}
+
+/* Universal dark-surface legibility guardrail. */
+.section--dark h1,.section--dark h2,.section--dark h3,
+.dark-section h1,.dark-section h2,.dark-section h3,
+.cta-band h1,.cta-band h2,.cta-band h3{color:#fff!important}
+.section--dark p,.section--dark li,.section--dark small,
+.dark-section p,.dark-section li,.dark-section small,
+.cta-band p,.cta-band li{color:#cbd6e3!important}
+.section--dark .eyebrow,.dark-section .eyebrow,.cta-band .eyebrow{color:#8ebaff!important}
+.section--dark a:not(.button),.dark-section a:not(.button),.cta-band a:not(.button){color:#9fc7ff!important}
+
+/* Compact editorial team presentation. */
+.team-editorial-card img{
+  width:100%;
+  aspect-ratio:4/5;
+  max-height:390px;
+  object-fit:cover;
+  object-position:center top;
+  background:#e8edf3;
+}
+
+@media(max-width:700px){
+  .footer-brand-row{grid-template-columns:1fr!important}
+  .production-footer .footer-brand-card{max-width:220px}
+  .process-cards>article:last-of-type:nth-of-type(odd),
+  .principle-grid>article:last-of-type:nth-of-type(odd){
+    grid-column:auto;
+    width:100%;
+  }
+}
