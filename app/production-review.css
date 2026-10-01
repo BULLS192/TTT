@@ -199,3 +199,30 @@
  .tessa-home-media img{height:260px!important}
 }
 @media(max-width:480px){.production-footer__grid{grid-template-columns:1fr!important}}
+
+
+/* Whole-site visual wellness — restored Business / Learn architecture */
+.dark-section,.detail-hero,.cta-band{color:#fff}
+.dark-section h1,.dark-section h2,.dark-section h3,.detail-hero h1,.detail-hero h2,.detail-hero h3,.cta-band h2{color:#fff!important}
+.dark-section p,.detail-hero p,.cta-band p{color:#d4dde8!important}
+.dark-section .eyebrow,.detail-hero .eyebrow,.cta-band .eyebrow{color:#8ab8ff!important}
+.dark-section .button--ghost-dark,.detail-hero .button--ghost-dark{color:#fff!important;border-color:rgba(255,255,255,.52)!important}
+.dark-section a:not(.button),.detail-hero a:not(.button){color:#9bc5fb}
+
+.business-lane-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.business-lane-card,.resource-card,.technology-card{display:flex;flex-direction:column;min-height:230px;padding:26px;border:1px solid #dde4eb;border-radius:18px;background:#fff;color:#151b22;text-decoration:none;transition:.18s ease}
+.business-lane-card:hover,.resource-card:hover,.technology-card:hover{transform:translateY(-3px);box-shadow:0 18px 46px rgba(14,31,50,.08)}
+.business-lane-card small,.resource-card small{color:#2c68aa;font-weight:900;letter-spacing:.08em}
+.business-lane-card h2,.resource-card h2,.technology-card h3{color:#111820!important}
+.business-lane-card p,.resource-card p,.technology-card p{color:#5d6874}
+.business-lane-card b,.resource-card b,.technology-card b{margin-top:auto;padding-top:16px;color:#0d4c92}
+.resource-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.technology-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.vehicle-profile-visual{display:grid;place-items:center;align-content:center;min-height:260px;margin:18px 0 24px;border:1px solid #31445d;border-radius:18px;background:radial-gradient(circle at 50% 45%,#18365f 0,#0f1b2b 48%,#09111b 100%);color:#fff;text-align:center}
+.vehicle-profile-visual span{font-size:12px;letter-spacing:.16em;color:#83b2f4}
+.vehicle-profile-visual strong{font-size:34px;margin-top:8px}
+.vehicle-profile-visual b{font-size:22px;margin-top:2px}
+.vehicle-profile-visual small{margin-top:10px;color:#bdc9d8}
+.review-hero__copy .small-note--dark{max-width:700px}
+@media(max-width:980px){.business-lane-grid{grid-template-columns:repeat(2,1fr)}.resource-card-grid,.technology-card-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.business-lane-grid,.resource-card-grid,.technology-card-grid{grid-template-columns:1fr}}
