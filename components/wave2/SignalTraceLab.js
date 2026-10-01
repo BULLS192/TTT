@@ -19,7 +19,7 @@ export default function SignalTraceLab(){
  const aside=<><div className="lab-readout"><small>Case 001 · battery drain</small><strong>{current[0]}</strong><p>{current[1]}</p></div><div className="signal-finding"><small>Evidence</small><p>{current[2]}</p></div><p className="lab-note">This is a conceptual diagnostic story, not a diagnostic instruction set for a specific vehicle.</p><button className="button" onClick={()=>{addItem({id:'signaltrace',category:'TTT SignalTrace™',title:'Electrical diagnostic intake',detail:'Battery drain / intermittent electrical fault'});setOpen(true)}}>Add SignalTrace to My Build →</button></>;
  return <ExperienceShell eyebrow="TTT SignalTrace™" title="Codes point. Evidence narrows. Testing confirms." description="Work through a simplified battery-drain case using the same five-stage logic as SignalTrace." aside={aside}>
   <div className="signal-case">
-    <div className="signal-case__vehicle"><span>CONCEPT ONE</span><b>12.4V</b><small>{index<4?'ABNORMAL DRAW':'SLEEP STATE VERIFIED'}</small></div>
+    <div className="signal-case__vehicle"><span>CONCEPT ONE</span><b>{index<4?'ACTIVE DRAW':'SLEEP STATE'}</b><small>{index<4?'ABNORMAL CONDITION':'VERIFIED NORMAL'}</small></div>
     <div className="signal-network">
       <Node label="Battery" active/><Wire active/>
       <Node label="Fuse" active/><Wire active={index>=1}/>
