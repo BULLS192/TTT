@@ -49,7 +49,7 @@
 .signal-next .button[disabled]{opacity:.35;cursor:not-allowed}
 
 /* My TTT Build */
-.ttt-build-dock{position:fixed;right:20px;bottom:20px;z-index:180;display:flex;align-items:center;gap:10px;border:1px solid rgba(112,167,233,.4);border-radius:999px;background:rgba(8,17,28,.94);box-shadow:0 14px 42px rgba(0,0,0,.32);padding:10px 12px 10px 16px;color:#cfe4ff;font:inherit;cursor:pointer;backdrop-filter:blur(14px)}
+.ttt-build-dock{position:fixed;right:194px;bottom:22px;z-index:80;display:flex;align-items:center;gap:10px;border:1px solid rgba(112,167,233,.4);border-radius:999px;background:rgba(8,17,28,.94);box-shadow:0 14px 42px rgba(0,0,0,.32);padding:10px 12px 10px 16px;color:#cfe4ff;font:inherit;cursor:pointer;backdrop-filter:blur(14px)}
 .ttt-build-dock span{font-size:10px;font-weight:900;letter-spacing:.12em}
 .ttt-build-dock b{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#26384d;color:#fff;font-size:12px}
 .ttt-build-dock.has-items b{background:#2c74c6}
@@ -72,6 +72,7 @@
 .ttt-build-empty a{color:#9dc9ff}
 .ttt-build-drawer__actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:18px;border-top:1px solid rgba(255,255,255,.12)}
 .ttt-build-drawer__actions .text-link{border:0;background:none;color:#a9cffa;font:inherit;cursor:pointer}
+.ttt-build-drawer>.button{width:100%;justify-content:center;margin-top:4px}
 
 /* Glass Lab */
 .glass-lab-scene{position:relative;min-height:380px;overflow:hidden;border:1px solid rgba(159,190,225,.15);border-radius:20px;background:linear-gradient(#5e8ab6 0,#a6bdd0 47%,#253341 47%,#10151b 100%);transition:background .35s}
@@ -114,6 +115,7 @@
 .security-car{z-index:10;width:260px;height:90px;display:grid;place-items:center;border:1px solid #50677f;border-radius:48% 48% 26% 26%;background:linear-gradient(180deg,#232f3c,#11171e);color:#8192a4;font-size:10px;letter-spacing:.16em}
 .security-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);border:1px solid transparent;border-radius:50%;opacity:.12;transition:.28s}.security-ring span{position:absolute;right:-18px;top:50%;padding:4px 7px;border-radius:999px;background:#102033;color:#8da6bf;font-size:9px}.security-ring.is-on{opacity:1;border-color:#3979bd;box-shadow:0 0 24px rgba(52,119,190,.18)}.security-ring.is-on span{color:#cce5ff;background:#17385e}.ring-0{width:330px;height:150px}.ring-1{width:410px;height:210px}.ring-2{width:500px;height:280px}.ring-3{width:590px;height:350px}
 .security-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}.security-controls button{padding:15px;border:1px solid #304157;border-radius:12px;background:#0e1722;color:#9eacbb;text-align:left;cursor:pointer}.security-controls button strong{display:block;color:#d9e7f6;font-size:11px}.security-controls button span{display:block;margin-top:5px;font-size:10px;line-height:1.45}.security-controls button.is-active{border-color:#4b90d9;background:#122a44;box-shadow:inset 0 0 0 1px rgba(94,163,231,.15)}
+.security-ring.ring-0.is-on{border-color:rgba(255,255,255,.5);box-shadow:0 0 20px rgba(255,255,255,.08)}.security-ring.ring-0.is-on span{background:#202a35;color:#f4f7fb}.security-controls button.is-base{border-color:#596674;background:#171e26}
 .security-coverage{display:grid;grid-template-columns:1fr 1fr;gap:6px}.security-coverage span{padding:8px;border:1px solid #293a4e;border-radius:8px;color:#67788b;font-size:9px;font-weight:900;text-align:center;letter-spacing:.08em}.security-coverage span.is-on{border-color:#3f7cbc;background:#102742;color:#c9e4ff}
 
 /* Tracking */
@@ -148,6 +150,7 @@
  .security-controls{grid-template-columns:1fr}
  .ring-3{width:440px}.ring-2{width:380px}.ring-1{width:320px}.ring-0{width:270px}
  .wave2-hub-grid{grid-template-columns:1fr}
+ .ttt-build-dock{right:12px;bottom:84px}
  .ttt-build-dock span{display:none}
 }
 @media(prefers-reduced-motion:reduce){
