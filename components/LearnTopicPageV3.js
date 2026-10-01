@@ -1,0 +1,9 @@
+import Link from 'next/link';
+import AssetMedia from './AssetMedia';
+export default function LearnTopicPageV3({page}){return <main className="production-page">
+<section className="page-hero page-hero--review"><div className="shell"><p className="eyebrow">{page.eyebrow}</p><h1>{page.h1}</h1><p className="lead">{page.hero}</p><div className="button-row"><Link className="button" href={page.primaryHref}>{page.primary} →</Link><Link className="button button--ghost" href={page.secondaryHref}>{page.secondary} →</Link></div></div></section>
+<section className="section section--compact"><div className="shell learn-visual-lead"><AssetMedia visual={page.heroVisual}/></div></section>
+<section className="section"><div className="shell copy-section__grid"><div><p className="eyebrow">The question</p><h2>{page.question}</h2></div><div className="copy-section__body"><p className="lead">{page.shortAnswer}</p></div></div></section>
+{page.sections.map((s,i)=><section className={i%2?'section section--soft':'section'} key={s.title}><div className="shell copy-section__grid"><div><p className="eyebrow">{String(i+1).padStart(2,'0')} / Learn</p><h2>{s.title}</h2></div><div className="copy-section__body">{(s.body||[]).map((p,j)=><p key={j}>{p}</p>)}{s.bullets?<ul className="clean-list">{s.bullets.map(x=><li key={x}>{x}</li>)}</ul>:null}{s.links?<div className="button-row">{s.links.map(([l,h])=><Link className="text-link" href={h} key={h}>{l} →</Link>)}</div>:null}</div></div></section>)}
+<section className="cta-band"><div className="shell cta-band__inner"><div><p className="eyebrow">Learn</p><h2>{page.finalTitle}</h2></div><Link className="button button--light" href={page.primaryHref}>{page.primary} →</Link></div></section>
+</main>}

@@ -1,7 +1,5 @@
-import Link from 'next/link';
-export const metadata={title:'DSP & Automotive Audio Signal Processing | TTT',description:'Understand automotive DSP, factory audio signal processing, tuning and why modern audio upgrades require system-level integration.'};
-export default function Page(){return <main className="production-page">
- <section className="page-hero page-hero--review"><div className="shell"><p className="eyebrow">Learn / Technology / Audio</p><h1>DSP is control over the signal path.</h1><p className="lead">The factory system may already be shaping the audio. Measure it first, then decide what needs to change.</p></div></section>
- <section className="section"><div className="shell"><div className="diagram-panel"><div className="diagram-panel__head"><div><p className="eyebrow">Signal path</p><h2>More power is not the same thing as a better signal.</h2></div><p>Factory EQ, crossovers, timing and level behavior can follow the signal into an aftermarket amplifier unless they are understood first.</p></div><div className="technical-flow"><div className="flow-node"><small>01</small><strong>Factory source</strong><em>→</em></div><div className="flow-node"><small>02</small><strong>Signal access</strong><em>→</em></div><div className="flow-node"><small>03</small><strong>DSP</strong><em>→</em></div><div className="flow-node"><small>04</small><strong>Amplification</strong><em>→</em></div><div className="flow-node"><small>05</small><strong>Cabin</strong></div></div></div></div></section>
- <section className="section section--soft"><div className="shell copy-section__grid"><div><p className="eyebrow">What DSP controls</p><h2>Crossover. Timing. Level. Equalization.</h2></div><div className="copy-section__body"><p>Those tools only work well when speaker placement, acoustic behavior and the factory signal are already understood.</p><Link className="text-link" href="/services/audio">Automotive Audio service →</Link></div></div></section>
- </main>}
+import LearnTopicPageV3 from '../../../components/LearnTopicPageV3';
+import { learnTopics } from '../../../lib/learnCopyV3';
+const page=learnTopics['dsp'];
+export const metadata={title:page.seoTitle,description:page.meta};
+export default function Page(){return <LearnTopicPageV3 page={page}/>}
