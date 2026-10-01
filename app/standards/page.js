@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import AssetMedia from '../../components/AssetMedia';
+import StandardsXray from '../../components/wave2/StandardsXray';
 export const metadata={title:'The TTT Standard: How We Install and Integrate Vehicle Technology',description:'Six principles that govern every TTT install: protect the vehicle, protect the circuit, mount it properly, preserve what matters, document the work and validate before handover.'};
 const principles=[
  ['01','Protect the vehicle','Panels, trim, paint and interior surfaces are protected during the work and returned the way they came off.'],
