@@ -136,3 +136,66 @@
 .form-grid--3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media(max-width:1100px){.solution-card-grid{grid-template-columns:repeat(2,1fr)}.contact-route-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){.solution-card-grid,.contact-route-grid,.crosslink-strip,.form-grid--3{grid-template-columns:1fr}.content-table{overflow-x:auto}.content-table__row{min-width:620px}.service-card-grid--large .service-card-production{min-height:0}}
+
+
+/* Website wellness pass — IA, alignment, contrast, footer and media fit */
+.production-nav{gap:24px}
+.production-nav>a,.production-nav__trigger{font-size:13px}
+.page-hero--review{background:#111720;color:#fff}
+.page-hero--review h1,.page-hero--review h2,.page-hero--review h3,.page-hero--review .lead{color:#fff!important}
+.page-hero--review .eyebrow{color:#7fb0ff!important}
+.page-hero--review .button--ghost{color:#fff!important;border-color:rgba(255,255,255,.55)!important;background:transparent!important}
+.page-hero--review .button--ghost:hover{background:#fff!important;color:#111720!important}
+.section--dark p,.section--dark li,.section--dark .small-note,.section--dark .copy-section__body,.section--dark .process-cards p{color:#cfd8e3!important}
+.section--dark strong,.section--dark b,.section--dark summary{color:#fff!important}
+.section--dark .text-link{color:#91beff!important}
+
+.hotspot-layout{align-items:stretch}
+.hotspot-stage,.hotspot-copy{min-height:0}
+.hotspot-stage{position:relative;overflow:hidden}
+.hotspot-stage .asset-media,.hotspot-stage .asset-media img{height:100%;width:100%;object-fit:cover}
+.hotspot-copy{display:flex;flex-direction:column;justify-content:center}
+.hotspot{box-shadow:0 0 0 7px rgba(34,91,166,.18),0 4px 18px rgba(0,0,0,.35)}
+
+.tessa-home-section{padding-top:72px;padding-bottom:72px}
+.tessa-home-section .editorial-media-band{align-items:center}
+.tessa-home-media{max-height:420px;overflow:hidden;border-radius:18px}
+.tessa-home-media img{width:100%;height:420px!important;object-fit:cover;object-position:center 38%}
+
+.production-footer{background:#0c1119!important;color:#e9eef5!important;padding-top:54px}
+.footer-brand-row{display:grid;grid-template-columns:230px 1fr auto;gap:32px;align-items:center;padding:26px 0 34px;border-bottom:1px solid rgba(255,255,255,.11)}
+.footer-brand-card{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;padding:14px 18px;min-height:108px}
+.footer-brand-card .brand-mark{padding:0;background:transparent}
+.footer-brand-card .brand-mark__image{max-height:74px;width:auto}
+.footer-brand-message .eyebrow{color:#78aaff!important;margin-bottom:7px}
+.footer-brand-message h2{margin:0 0 8px;color:#fff;font-size:28px;letter-spacing:-.025em}
+.footer-brand-message p:last-child{margin:0;color:#aeb9c6}
+.footer-brand-actions{display:flex;flex-direction:column;align-items:flex-end;gap:13px}
+.footer-brand-actions .footer-tessa{color:#9bc5fb;text-decoration:underline;text-underline-offset:3px}
+.production-footer__grid{grid-template-columns:repeat(5,1fr)!important;gap:34px;padding:38px 0!important}
+.production-footer__grid h3{color:#fff}
+.production-footer__grid a,.production-footer__grid p,.production-footer .footer-bottom{color:#b9c3cf!important}
+.production-footer .footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;padding-bottom:28px}
+
+.partner-card__portrait{background:#eef1f5}
+.partner-card__portrait[src=""],.partner-card__portrait:not([src]){visibility:hidden}
+
+.solution-card-v2{color:#18212b!important}
+.solution-card-v2 h2,.solution-card-v2 h3{color:#111820!important}
+.solution-card-v2 .eyebrow{color:#0d4c92!important}
+.solution-card-v2 b{color:#0d4c92!important}
+
+@media(max-width:1100px){
+ .footer-brand-row{grid-template-columns:190px 1fr}
+ .footer-brand-actions{grid-column:1/-1;flex-direction:row;align-items:center}
+ .production-footer__grid{grid-template-columns:repeat(3,1fr)!important}
+}
+@media(max-width:700px){
+ .footer-brand-row{grid-template-columns:1fr}
+ .footer-brand-card{justify-content:flex-start;max-width:260px}
+ .footer-brand-actions{grid-column:auto;align-items:flex-start}
+ .production-footer__grid{grid-template-columns:1fr 1fr!important}
+ .tessa-home-media{max-height:260px}
+ .tessa-home-media img{height:260px!important}
+}
+@media(max-width:480px){.production-footer__grid{grid-template-columns:1fr!important}}
