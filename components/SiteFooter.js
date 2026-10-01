@@ -3,9 +3,9 @@ import BrandMark from './BrandMark';
 import TessaTrigger from './TessaTrigger';
 
 const groups=[
- ['Solutions',[['Premium Vehicle','/solutions/premium-vehicle-experience'],['Vehicle Security','/solutions/vehicle-security'],['Connected Vehicle','/solutions/connected-vehicle'],['Fleet & Dealership','/solutions/fleet-dealership'],['Custom Integration','/solutions/custom-integration']]],
+ ['Solutions',[['Premium Vehicle Experience','/solutions/premium-vehicle-experience'],['Vehicle Security','/solutions/vehicle-security'],['Connected Vehicle','/solutions/connected-vehicle'],['Fleet & Dealership','/solutions/fleet-dealership'],['Custom Integration','/solutions/custom-integration']]],
  ['Services',[['Window Tint','/services/window-tint'],['Automotive Audio','/services/audio'],['GPS Tracking','/services/gps-tracking'],['Kill Switches','/services/kill-switches'],['SignalTrace™','/services/signaltrace'],['Custom Fabrication','/services/custom-fabrication']]],
- ['Business',[['Dealerships','/industries/dealerships'],['Fleets','/industries/fleets'],['Commercial Vehicles','/industries/commercial-vehicles'],['Greater Houston','/service-area'],['Work With Us','/work-with-us']]],
+ ['Business',[['Dealerships','/business/dealerships'],['Fleets','/business/fleets'],['Commercial Vehicles','/business/commercial-vehicles'],['Greater Houston','/service-area'],['Work With Us','/work-with-us']]],
  ['Learn',[['Technology Library','/technology'],['The TTT Standard','/standards'],['Articles','/articles'],['Projects','/projects'],['FAQ','/faq'],['Vehicle Fitment','/vehicles']]],
  ['TTT',[['Concept One','/concept-one'],['About','/about'],['Contact','/contact']]]
 ];

@@ -31,19 +31,19 @@ const menus = {
     ]
   },
   Business: {
-    href:'/industries',
+    href:'/business',
     intro:'Repeatable vehicle technology for organizations.',
     links:[
-      ['Dealerships','Accessory and technology programs built for dealer workflow.','/industries/dealerships'],
-      ['Fleets','Standardized technology across fleet vehicles.','/industries/fleets'],
-      ['Commercial Vehicles','Systems for service vehicles and mobile workforces.','/industries/commercial-vehicles'],
+      ['Dealerships','Accessory and technology programs built for dealer workflow.','/business/dealerships'],
+      ['Fleets','Standardized technology across fleet vehicles.','/business/fleets'],
+      ['Commercial Vehicles','Systems for service vehicles and mobile workforces.','/business/commercial-vehicles'],
       ['Fleet & Dealership Solution','The same result on every vehicle.','/solutions/fleet-dealership'],
       ['Greater Houston','Local project and program coverage.','/service-area'],
       ['Work With Us','Manufacturers, distributors and service partners.','/work-with-us']
     ]
   },
   Learn: {
-    href:'/resources',
+    href:'/learn',
     intro:'Understand the system before choosing the hardware.',
     links:[
       ['Technology Library','DSP, OEM integration, telematics and vehicle electronics.','/technology'],

@@ -1,0 +1,5 @@
+'use client';
+import {useState} from 'react';
+import VehicleSelector from './VehicleSelector';
+import {capabilityLabels} from '../lib/vehicles';
+export default function VehicleFitmentV3(){const[vehicle,setVehicle]=useState({});const name=[vehicle.year,vehicle.make,vehicle.model,vehicle.trim].filter(Boolean).join(' ');return <section className="section section--soft"><div className="shell vehicle-hub"><div className="vehicle-hub__panel"><p className="eyebrow">My vehicle</p><h2>Select the exact vehicle.</h2><VehicleSelector compact onChange={setVehicle}/><p className="form-note">This selector narrows the conversation. It does not mean the selected vehicle has already been validated for every TTT service.</p></div><div className="vehicle-hub__result"><p className="eyebrow">Fitment profile</p><h2>{name||'Year, make, model and trim'}</h2><div className="compatibility-grid">{capabilityLabels.map(([t,b])=><article key={t}><b>{t}</b><small>{b}</small></article>)}</div>{name?<a className="button button--light" href="/quote">Continue to Quote →</a>:null}</div></div></section>}
