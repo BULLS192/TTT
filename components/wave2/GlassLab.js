@@ -1,14 +1,20 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import AssetMedia from '../AssetMedia';
 import ExperienceShell from './ExperienceShell';
 import { useTTTBuild } from './TTTBuildContext';
 
 const shades=[70,50,35,20,5];
 const films={
-  Dyed:{heat:'Baseline',copy:'Entry-level privacy and glare control.'},
-  Carbon:{heat:'Improved',copy:'A stable matte look with stronger heat-control potential.'},
-  Ceramic:{heat:'Higher',copy:'Higher heat-control potential without relying on very dark glass.'}
+ Dyed:{heat:'Entry',copy:'Privacy and glare control for a value-focused installation.',tone:'Neutral charcoal'},
+ Carbon:{heat:'Mid',copy:'A stable matte appearance with improved heat-control potential.',tone:'Deep neutral'},
+ Ceramic:{heat:'Higher',copy:'Heat-control focused film without depending on the darkest appearance.',tone:'Cool neutral'}
+};
+const environments={
+ Day:{label:'Daylight',filter:'brightness(1.02) saturate(.96) contrast(1.02)'},
+ Sunset:{label:'Low sun',filter:'brightness(.9) saturate(1.08) sepia(.12) contrast(1.05)'},
+ Night:{label:'Night',filter:'brightness(.55) saturate(.82) contrast(1.12)'}
 };
 
 export default function GlassLab(){
@@ -16,50 +22,59 @@ export default function GlassLab(){
  const[film,setFilm]=useState('Ceramic');
  const[environment,setEnvironment]=useState('Day');
  const[view,setView]=useState('Exterior');
+ const[compare,setCompare]=useState(48);
  const{addItem,setOpen}=useTTTBuild();
  const data=films[film];
- const darkness=useMemo(()=>Math.min(.82,.12+(70-shade)/85),[shade]);
- const add=()=>{addItem({id:'tint',category:'Window Tint',title:shade+'% '+film,detail:'Concept selection · '+environment+' view'});setOpen(true)};
+ const darkness=useMemo(()=>Math.max(.09,Math.min(.58,.09+(70-shade)*.0076)),[shade]);
+ const brightness=useMemo(()=>Math.max(.68,.98-darkness*.42),[darkness]);
+ const visual=view==='Exterior'?'homeHeroTechnical':'technologyHero';
+ const tintColor=film==='Ceramic'?'rgba(8,24,40,'+darkness+')':film==='Carbon'?'rgba(8,15,23,'+darkness+')':'rgba(12,15,19,'+darkness+')';
+ const add=()=>{addItem({id:'tint',category:'Window Tint',title:shade+'% '+film,detail:'Concept selection · '+environments[environment].label+' · '+view+' preview'});setOpen(true)};
+
  const aside=<>
-   <div className="lab-readout"><small>Current configuration</small><strong>{shade}% {film}</strong><p>{data.copy}</p></div>
-   <div className="lab-meters"><Info label="Visible light" value={shade+'% VLT'} detail="Shade selection"/><Info label="Infrared heat" value={data.heat} detail="Relative film-family concept"/><Info label="UV filtering" value="Product-specific" detail="Verify the exact film specification"/></div>
-   <p className="lab-note">Darker does not necessarily mean cooler. This is an illustrative education tool; actual heat and UV performance depends on the exact film and vehicle glass.</p>
-   <button className="button" onClick={add}>Add to My TTT Build →</button>
+  <div className="lab-readout glass2b__readout"><small>Current glass concept</small><strong>{shade}% {film}</strong><p>{data.copy}</p></div>
+  <div className="glass2b__specs">
+   <Spec label="Visible light" value={shade+'% VLT'} detail="Selected shade"/>
+   <Spec label="Heat-control potential" value={data.heat} detail="Relative film family"/>
+   <Spec label="Appearance" value={data.tone} detail="Visual character"/>
+  </div>
+  <div className="glass2b__intent"><small>Design principle</small><p>Choose the film family for the job first, then choose the darkness you want. Darker glass does not automatically mean better heat control.</p></div>
+  <p className="lab-note">Visual simulation only. Real appearance changes with factory glass, cabin color, weather and viewing angle. Product performance must be verified against the exact film specification.</p>
+  <button className="button" onClick={add}>Add to My TTT Build →</button>
  </>;
- return <ExperienceShell eyebrow="TTT Glass Lab" title="See what the glass changes." description="Change shade, film family and environment. Darkness and heat rejection are separate decisions." aside={aside}>
-   <div className={'glass-lab-scene env-'+environment.toLowerCase()+' view-'+view.toLowerCase()}>
-     {view==='Exterior'?<>
-       <div className="glass-lab-sun"/><div className="glass-lab-ground"/>
-       <svg className="glass-car" viewBox="0 0 1000 560" role="img" aria-label="Stylized Concept One coupe for tint visualization">
-         <defs><linearGradient id="bodyGrad" x1="0" x2="1"><stop offset="0" stopColor="#111820"/><stop offset=".55" stopColor="#252d36"/><stop offset="1" stopColor="#090d12"/></linearGradient></defs>
-         <path className="glass-car__shadow" d="M125 420 Q500 485 880 420 Q870 455 505 470 Q165 460 125 420Z"/>
-         <path className="glass-car__body" fill="url(#bodyGrad)" d="M120 374 Q158 312 265 288 L390 185 Q443 145 532 149 L651 164 Q720 176 772 224 L842 294 Q897 310 916 351 L891 408 L130 408Z"/>
-         <path className="glass-car__glass" style={{fill:`rgba(5,16,29,${darkness})`}} d="M315 286 L405 202 Q441 171 511 174 L574 179 L552 285Z"/>
-         <path className="glass-car__glass" style={{fill:`rgba(5,16,29,${darkness})`}} d="M587 180 L642 190 Q698 202 747 244 L785 286 L574 285Z"/>
-         <path className="glass-car__line" d="M566 181 L558 286"/>
-         <path className="glass-car__line" d="M315 286 L785 286"/>
-         <circle className="glass-car__wheel" cx="287" cy="398" r="78"/><circle className="glass-car__wheel" cx="775" cy="398" r="78"/>
-         <circle className="glass-car__rim" cx="287" cy="398" r="39"/><circle className="glass-car__rim" cx="775" cy="398" r="39"/>
-       </svg>
-     </>:<div className="glass-driver" role="img" aria-label={'Illustrative driver view through '+shade+'% '+film+' window film'}>
-       <div className="glass-lab-sun"/>
-       <div className="glass-driver__horizon"/>
-       <div className="glass-driver__road"/>
-       <div className="glass-driver__tint" style={{background:`rgba(4,13,24,${Math.min(.72,darkness*.82)})`}}/>
-       <div className="glass-driver__pillar glass-driver__pillar--left"/>
-       <div className="glass-driver__pillar glass-driver__pillar--right"/>
-       <div className="glass-driver__dash"/>
-       <span className="glass-driver__label">DRIVER VIEW · ILLUSTRATIVE</span>
-     </div>}
-     <div className="glass-lab-temperature"><span>{environment}</span><b>{film}</b></div>
+
+ return <ExperienceShell eyebrow="TTT Glass Lab" title="Compare the glass, not just the number." description="Use a before/after lens to see how shade, film family, environment and viewing position change the character of the vehicle." aside={aside}>
+  <div className={'glass2b glass2b--'+environment.toLowerCase()+' glass2b--'+view.toLowerCase()} style={{'--glass-split':compare+'%','--glass-tint':tintColor,'--glass-brightness':brightness,'--glass-scene-filter':environments[environment].filter}}>
+   <div className="glass2b__scene">
+    <div className="glass2b__base"><AssetMedia visual={visual}/></div>
+    <div className="glass2b__tinted" style={{clipPath:'inset(0 0 0 '+compare+'%)'}}>
+     <AssetMedia visual={visual}/>
+     <div className="glass2b__film"/>
+    </div>
+    <div className="glass2b__environment" aria-hidden="true"/>
+    <div className="glass2b__divider" style={{left:compare+'%'}} aria-hidden="true"><i/></div>
+    <span className="glass2b__label glass2b__label--before">FACTORY GLASS</span>
+    <span className="glass2b__label glass2b__label--after">{shade}% {film.toUpperCase()}</span>
+    <div className="glass2b__hud">
+     <span>{view==='Exterior'?'EXTERIOR CHARACTER':'CABIN VIEW'}</span>
+     <b>{environments[environment].label}</b>
+    </div>
    </div>
-   <div className="lab-controls">
-     <ControlGroup label="Shade / VLT">{shades.map(v=><button className={v===shade?'is-active':''} key={v} onClick={()=>setShade(v)}>{v}%</button>)}</ControlGroup>
-     <ControlGroup label="Film">{Object.keys(films).map(v=><button className={v===film?'is-active':''} key={v} onClick={()=>setFilm(v)}>{v}</button>)}</ControlGroup>
-     <ControlGroup label="Environment">{['Day','Sunset','Night'].map(v=><button className={v===environment?'is-active':''} key={v} onClick={()=>setEnvironment(v)}>{v}</button>)}</ControlGroup>
-     <ControlGroup label="View">{['Exterior','Driver'].map(v=><button className={v===view?'is-active':''} key={v} onClick={()=>setView(v)}>{v}</button>)}</ControlGroup>
+
+   <div className="glass2b__comparison">
+    <div><small>Before / after lens</small><strong>Drag to compare factory glass with the selected concept.</strong></div>
+    <input aria-label="Move before and after comparison" type="range" min="18" max="82" value={compare} onChange={e=>setCompare(Number(e.target.value))}/>
    </div>
+  </div>
+
+  <div className="lab-controls glass2b__controls">
+   <ControlGroup label="Shade / VLT">{shades.map(v=><button className={v===shade?'is-active':''} aria-pressed={v===shade} key={v} onClick={()=>setShade(v)}>{v}%</button>)}</ControlGroup>
+   <ControlGroup label="Film family">{Object.keys(films).map(v=><button className={v===film?'is-active':''} aria-pressed={v===film} key={v} onClick={()=>setFilm(v)}>{v}</button>)}</ControlGroup>
+   <ControlGroup label="Environment">{Object.keys(environments).map(v=><button className={v===environment?'is-active':''} aria-pressed={v===environment} key={v} onClick={()=>setEnvironment(v)}>{v}</button>)}</ControlGroup>
+   <ControlGroup label="View">{['Exterior','Driver'].map(v=><button className={v===view?'is-active':''} aria-pressed={v===view} key={v} onClick={()=>setView(v)}>{v}</button>)}</ControlGroup>
+  </div>
  </ExperienceShell>;
 }
+
 function ControlGroup({label,children}){return <div className="lab-control"><small>{label}</small><div>{children}</div></div>}
-function Info({label,value,detail}){return <div className="signal-finding"><small>{label}</small><p><strong>{value}</strong> · {detail}</p></div>}
+function Spec({label,value,detail}){return <div className="glass2b__spec"><small>{label}</small><strong>{value}</strong><span>{detail}</span></div>}

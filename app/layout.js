@@ -17,6 +17,7 @@ import './production-review.css';
 import './wave1-content.css';
 import './wave1-5.css';
 import './wave2-interactive.css';
+import './wave2b.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import SiteTelemetry from '../components/SiteTelemetry';
@@ -24,7 +25,7 @@ import TessaAssistant from '../components/TessaAssistant';
 import { TTTBuildProvider } from '../components/wave2/TTTBuildContext';
 import BuildDock from '../components/wave2/BuildDock';
 import { organizationSchema, siteDescription, siteName, siteUrl } from '../lib/siteConfig';
-const shareImage='https://d8j0ntlcm91z4.cloudfront.net/user_3J1GdLYiOgasiASmq5JnzF6gb6O/hf_20260930_020500_436f440d-9326-4545-a2be-d8cc9b48792c.png';
-export const metadata={applicationName:'TTT',title:{default:`TTT — ${siteName}`,template:'%s'},description:siteDescription,metadataBase:new URL(siteUrl),appleWebApp:{capable:true,title:'TTT',statusBarStyle:'default'},openGraph:{title:`TTT — ${siteName}`,description:siteDescription,url:siteUrl,type:'website',siteName,locale:'en_US',images:[{url:shareImage,width:1536,height:1024,alt:'Thompson Transportation Technologies — premium automotive technology'}]},twitter:{card:'summary_large_image',title:`TTT — ${siteName}`,description:siteDescription,images:[shareImage]}};
+const shareImage='https://d8j0ntlcm91z4n9.cloudfront.net/user_3J1GdLYiOgasiASmq5JnzF6gb6O/hf_20260930_020500_436f440d-9326-4545-a2be-d8cc9b48792c.png';
+export const metadata={applicationName:'TTT',title:{default:'TTT — '+siteName,template:'%s'},description:siteDescription,metadataBase:new URL(siteUrl),appleWebApp:{capable:true,title:'TTT',statusBarStyle:'default'},openGraph:{title:'TTT — '+siteName,description:siteDescription,url:siteUrl,type:'website',siteName,locale:'en_US',images:[{url:shareImage,width:1536,height:1024,alt:'Thompson Transportation Technologies — premium automotive technology'}]},twitter:{card:'summary_large_image',title:'TTT — '+siteName,description:siteDescription,images:[shareImage]}};
 export const viewport={themeColor:'#0d0f14'};
 export default function RootLayout({children}){return <html lang="en"><body><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(organizationSchema)}}/><a className="skip-link" href="#main-content">Skip to main content</a><TTTBuildProvider><SiteHeader/><div id="main-content">{children}</div><SiteFooter/><TessaAssistant/><BuildDock/><SiteTelemetry/></TTTBuildProvider></body></html>}
