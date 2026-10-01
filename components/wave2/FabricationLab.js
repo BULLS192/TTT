@@ -20,7 +20,7 @@ export default function FabricationLab(){
  return <ExperienceShell eyebrow="TTT Fabrication Lab" title="Make the part that does not exist." description="Move a mounting problem from rough requirement to fitted component." aside={aside}>
   <div className={'fab-stage stage-'+index}>
     <div className="fab-vehicle"><span>VEHICLE SPACE</span><div className="fab-equipment">EQUIPMENT</div><div className="fab-bracket"><i/><i/><i/></div></div>
-    <div className="fab-blueprint"><span>X 142</span><span>Y 88</span><span>R 12</span></div>
+    <div className="fab-blueprint"><span>DATUM A</span><span>CLEARANCE</span><span>REV B</span></div>
     <div className="fab-status">{steps[index][0]}</div>
   </div>
   <div className="fab-steps">{steps.map((s,i)=><button onClick={()=>setIndex(i)} className={i===index?'is-active':i<index?'is-complete':''} key={s[0]}><small>{String(i+1).padStart(2,'0')}</small><strong>{s[0]}</strong></button>)}</div>
