@@ -78,12 +78,10 @@
 .glass-lab-scene{position:relative;min-height:380px;overflow:hidden;border:1px solid rgba(159,190,225,.15);border-radius:20px;background:linear-gradient(#5e8ab6 0,#a6bdd0 47%,#253341 47%,#10151b 100%);transition:background .35s}
 .glass-lab-scene.env-sunset{background:linear-gradient(#653b55 0,#dc846d 46%,#3e3438 47%,#131317 100%)}
 .glass-lab-scene.env-night{background:linear-gradient(#071221 0,#142843 46%,#11171f 47%,#070a0e 100%)}
-.glass-lab-scene.view-driver{background:radial-gradient(circle at 50% 20%,#2a455f,#0a1118 68%)}
 .glass-lab-sun{position:absolute;right:12%;top:12%;width:72px;height:72px;border-radius:50%;background:#fff0b4;box-shadow:0 0 60px rgba(255,232,158,.45)}
 .env-night .glass-lab-sun{width:42px;height:42px;background:#d9e8ff;box-shadow:0 0 36px rgba(190,218,255,.4)}
 .glass-lab-ground{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,rgba(10,15,20,.05),#080b0e)}
 .glass-car{position:absolute;inset:auto 3% 4%;width:94%;height:88%;filter:drop-shadow(0 24px 25px rgba(0,0,0,.42))}
-.view-driver .glass-car{transform:scale(1.38) translateY(18%);transform-origin:50% 50%}
 .glass-car__glass{stroke:#6fa7df;stroke-width:2;transition:fill .22s}
 .glass-car__line{fill:none;stroke:#667684;stroke-width:3}
 .glass-car__wheel{fill:#05070a;stroke:#3c4550;stroke-width:8}.glass-car__rim{fill:#1b232c;stroke:#7f8b98;stroke-width:5}
@@ -91,11 +89,21 @@
 .glass-lab-temperature{position:absolute;left:18px;top:18px;display:flex;gap:8px;align-items:center}
 .glass-lab-temperature span,.glass-lab-temperature b{padding:7px 10px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(5,12,20,.55);color:#fff;font-size:10px;letter-spacing:.08em}
 .glass-lab-temperature b{color:#9ec9ff}
+.glass-driver{position:absolute;inset:0;overflow:hidden}
+.glass-driver__horizon{position:absolute;left:0;right:0;top:47%;height:1px;background:rgba(255,255,255,.18)}
+.glass-driver__road{position:absolute;left:31%;right:31%;top:47%;bottom:16%;background:linear-gradient(90deg,#222a32,#343d46 50%,#222a32);clip-path:polygon(47% 0,53% 0,100% 100%,0 100%)}
+.glass-driver__road:after{content:"";position:absolute;left:49.5%;top:8%;bottom:0;width:1%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.72) 0 12px,transparent 12px 25px)}
+.glass-driver__tint{position:absolute;inset:5% 7% 16%;clip-path:polygon(14% 0,86% 0,100% 82%,0 82%);transition:background .22s;box-shadow:inset 0 0 80px rgba(5,12,20,.24)}
+.glass-driver__pillar{position:absolute;z-index:3;top:0;bottom:14%;width:8%;background:linear-gradient(90deg,#111820,#29323a,#111820)}
+.glass-driver__pillar--left{left:3%;transform:skewX(-11deg)}
+.glass-driver__pillar--right{right:3%;transform:skewX(11deg)}
+.glass-driver__dash{position:absolute;z-index:4;left:0;right:0;bottom:0;height:25%;border-top:1px solid #384653;background:linear-gradient(180deg,#151d25,#080c11);clip-path:polygon(0 27%,22% 6%,50% 18%,78% 6%,100% 27%,100% 100%,0 100%)}
+.glass-driver__label{position:absolute;z-index:5;right:18px;bottom:18px;padding:6px 8px;border:1px solid rgba(255,255,255,.13);border-radius:7px;background:rgba(5,12,20,.65);color:#a8bdd3;font-size:8px;font-weight:900;letter-spacing:.12em}
 
 /* Audio Lab */
 .audio-cabin{position:relative;min-height:430px;border:1px solid rgba(159,190,225,.15);border-radius:22px;background:radial-gradient(ellipse at 50% 25%,#26394d 0,#121e2a 42%,#080e15 75%);overflow:hidden}
 .audio-windshield{position:absolute;left:15%;right:15%;top:7%;height:26%;border:1px solid #426689;border-radius:42% 42% 15px 15px;background:linear-gradient(180deg,#193657,#0e1c2b);overflow:hidden}
-.audio-stage{position:absolute;left:50%;bottom:17%;height:5px;transform:translateX(-50%);border-radius:999px;background:#67aaff;box-shadow:0 0 22px #4d91db;color:#a9d1ff;font-size:9px;letter-spacing:.18em;text-align:center;line-height:28px;transition:width .35s}
+.audio-stage{position:absolute;z-index:3;left:50%;height:5px;transform:translateX(-50%);border-radius:999px;background:#67aaff;box-shadow:0 0 22px #4d91db;color:#b9dcff;font-size:9px;font-weight:900;letter-spacing:.18em;text-align:center;line-height:28px;transition:width .35s,top .35s}
 .audio-seat{position:absolute;top:48%;width:26%;height:37%;display:grid;place-items:center;border:1px solid #36495c;border-radius:42px 42px 18px 18px;background:#101820;color:#647587;font-size:10px;letter-spacing:.12em}.audio-seat--left{left:18%}.audio-seat--right{right:18%}
 .audio-speaker{position:absolute;width:29px;height:29px;border:1px solid #52779b;border-radius:50%;background:#0a121b;cursor:pointer}.audio-speaker span{position:absolute;inset:7px;border-radius:50%;background:#36516d}.audio-speaker.is-active{border-color:#8bc1ff;box-shadow:0 0 0 8px rgba(75,144,220,.13),0 0 22px rgba(81,158,242,.55)}.audio-speaker.is-active span{background:#74b2f6}
 .speaker-0{left:16%;top:29%}.speaker-1{right:16%;top:29%}.speaker-2{left:7%;top:58%}.speaker-3{right:7%;top:58%}.speaker-4{left:50%;bottom:5%;transform:translateX(-50%);width:48px;height:48px}
