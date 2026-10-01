@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import AssetMedia from './AssetMedia';
 import TessaTrigger from './TessaTrigger';
+import ServiceExperience from './wave2/ServiceExperience';
 
 function SectionContent({section}){
   return <div className="copy-section__body">
@@ -30,6 +31,7 @@ export default function ClaudeServicePage({page}) {
         {page.heroTessa?<TessaTrigger className="cinematic__tessa-link" prompt={page.heroTessa}>Ask Tessa: “{page.heroTessa}” →</TessaTrigger>:null}
       </div>
     </section>
+    {page.experience?<ServiceExperience type={page.experience}/>:null}
     {page.sections.map((section,index)=><section id={section.id||undefined} className={index%2?'section section--soft copy-section':'section copy-section'} key={section.title}>
       <div className="shell copy-section__grid"><div><p className="eyebrow">{String(index+1).padStart(2,'0')} / {page.eyebrow}</p><h2>{section.title}</h2></div><SectionContent section={section}/></div>
       {section.visual?<div className="shell section-media"><AssetMedia visual={section.visual}/></div>:null}
