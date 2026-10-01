@@ -27,6 +27,7 @@ export default function ClaudeServicePage({page}) {
         <div className="button-row">
           <Link className="button" href={page.primaryHref}>{page.primary} →</Link>
           {page.secondaryHref?.startsWith('#')?<a className="button button--ghost-dark" href={page.secondaryHref}>{page.secondary}</a>:<Link className="button button--ghost-dark" href={page.secondaryHref}>{page.secondary}</Link>}
+          {page.experience?<a className="button button--ghost-dark wave2-hero-lab-link" href="#interactive">Try interactive lab ↓</a>:null}
         </div>
         {page.heroTessa?<TessaTrigger className="cinematic__tessa-link" prompt={page.heroTessa}>Ask Tessa: “{page.heroTessa}” →</TessaTrigger>:null}
       </div>
