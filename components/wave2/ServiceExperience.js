@@ -10,5 +10,5 @@ const components={tint:GlassLab,audio:AudioLab,signaltrace:SignalTraceLab,securi
 export default function ServiceExperience({type}){
  const Component=components[type];
  if(!Component)return null;
- return <section className="section wave2-section"><div className="shell"><Component/></div></section>;
+ return <section id="interactive" className="section wave2-section"><div className="shell"><Component/></div></section>;
 }
