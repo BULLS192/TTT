@@ -18,6 +18,7 @@ import './wave1-content.css';
 import './wave1-5.css';
 import './wave2-interactive.css';
 import './wave2b.css';
+import './wave2c.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import SiteTelemetry from '../components/SiteTelemetry';

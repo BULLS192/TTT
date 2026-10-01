@@ -1,12 +1,24 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { currentYears, vehicleMakes } from '../lib/vehicles';
 
-export default function VehicleSelector({ compact=false, onChange }){
-  const [year,setYear]=useState(''); const [make,setMake]=useState(''); const [model,setModel]=useState(''); const [trim,setTrim]=useState('');
+export default function VehicleSelector({ compact=false, onChange, initialValue={} }){
+  const [year,setYear]=useState(initialValue.year||'');
+  const [make,setMake]=useState(initialValue.make||'');
+  const [model,setModel]=useState(initialValue.model||'');
+  const [trim,setTrim]=useState(initialValue.trim||'');
+
+  useEffect(()=>{
+    setYear(initialValue.year||'');
+    setMake(initialValue.make||'');
+    setModel(initialValue.model||'');
+    setTrim(initialValue.trim||'');
+  },[initialValue.year,initialValue.make,initialValue.model,initialValue.trim]);
+
   const models=useMemo(()=>vehicleMakes[make]||[],[make]);
   const emit=(next)=>onChange?.({year,make,model,trim,...next});
   const changeMake=(v)=>{setMake(v);setModel('');emit({make:v,model:''})};
+
   return <div className="vehicle-selector">
     <label>Year<select value={year} onChange={e=>{setYear(e.target.value);emit({year:e.target.value})}}><option value="">Select year</option>{currentYears.map(x=><option key={x}>{x}</option>)}</select></label>
     <label>Make<select value={make} onChange={e=>changeMake(e.target.value)}><option value="">Select make</option>{Object.keys(vehicleMakes).map(x=><option key={x}>{x}</option>)}</select></label>
