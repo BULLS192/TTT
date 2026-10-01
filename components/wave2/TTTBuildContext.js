@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { trackWebsiteEvent } from '../../lib/visitor';
 
 const STORAGE_KEY='ttt-wave2-build-v1';
 const BuildContext=createContext(null);
@@ -29,14 +30,15 @@ export function TTTBuildProvider({children}){
 
   const addItem=useCallback((item)=>{
     if(!item?.id)return;
+    trackWebsiteEvent('wave2_build','add_item',{id:item.id,category:item.category||'',title:item.title||''});
     setItems(current=>{
       const next=current.filter(x=>x.id!==item.id);
       return [...next,{...item,updatedAt:Date.now()}];
     });
   },[]);
 
-  const removeItem=useCallback((id)=>setItems(current=>current.filter(x=>x.id!==id)),[]);
-  const clear=useCallback(()=>setItems([]),[]);
+  const removeItem=useCallback((id)=>{trackWebsiteEvent('wave2_build','remove_item',{id});setItems(current=>current.filter(x=>x.id!==id))},[]);
+  const clear=useCallback(()=>{trackWebsiteEvent('wave2_build','clear_build',{});setItems([])},[]);
 
   const value=useMemo(()=>({items,addItem,removeItem,clear,open,setOpen,ready}),[items,addItem,removeItem,clear,open,ready]);
   return <BuildContext.Provider value={value}>{children}</BuildContext.Provider>;
