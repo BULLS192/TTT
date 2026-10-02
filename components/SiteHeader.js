@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import BrandMark from './BrandMark';
 
@@ -60,6 +60,20 @@ const menus = {
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
+
+  useEffect(() => {
+    document.body.classList.toggle('mobile-nav-open', open);
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.classList.remove('mobile-nav-open');
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
   const closeWhenFocusLeaves = (name, event) => {
     if (!event.currentTarget.contains(event.relatedTarget)) setActive((current) => current === name ? null : current);
   };
@@ -94,8 +108,18 @@ export default function SiteHeader() {
           <Link href="/about">About</Link>
         </nav>
         <div className="header-actions">
-          <Link className="button button--small header-cta" href="/start">Start a project</Link>
-          <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="mobile-menu">{open ? 'Close' : 'Menu'}</button>
+          <Link className="button button--small header-cta header-cta--desktop" href="/start">Start a project</Link>
+          <Link className="header-cta--mobile" href="/start">Quote</Link>
+          <button
+            className={`menu-button ${open ? 'is-open' : ''}`}
+            onClick={() => setOpen(!open)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
+          >
+            <span className="menu-button__label">{open ? 'Close' : 'Menu'}</span>
+            <span className="menu-button__icon" aria-hidden="true"><i /><i /></span>
+          </button>
         </div>
       </div>
       <div id="mobile-menu" className={`mobile-menu ${open ? 'is-open' : ''}`}>
