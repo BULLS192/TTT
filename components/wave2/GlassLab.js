@@ -17,14 +17,14 @@ const environments={
 };
 const scenes={
   Exterior:{
-    Day:'/visuals/window-tint/concept-one-exterior-day.webp',
-    Sunset:'/visuals/window-tint/concept-one-exterior-sunset.webp',
-    Night:'/visuals/window-tint/concept-one-exterior-night.webp'
+    Day:'/visuals/window-tint/concept-one-exterior-day.avif',
+    Sunset:'/visuals/window-tint/concept-one-exterior-sunset.avif',
+    Night:'/visuals/window-tint/concept-one-exterior-night.avif'
   },
   Driver:{
-    Day:'/visuals/window-tint/concept-one-driver-day.webp',
-    Sunset:'/visuals/window-tint/concept-one-driver-sunset.webp',
-    Night:'/visuals/window-tint/concept-one-driver-night.webp'
+    Day:'/visuals/window-tint/concept-one-driver-day.avif',
+    Sunset:'/visuals/window-tint/concept-one-driver-sunset.avif',
+    Night:'/visuals/window-tint/concept-one-driver-night.avif'
   }
 };
 const shadeOpacity={70:.11,50:.21,35:.34,20:.49,5:.68};
