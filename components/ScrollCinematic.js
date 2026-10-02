@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { canonicalLogoDataUri } from '../lib/brand/logoData';
@@ -36,6 +37,7 @@ export default function ScrollCinematic() {
   const [activeChapter, setActiveChapter] = useState(0);
   const [desktopReady, setDesktopReady] = useState(false);
   const [mobileReady, setMobileReady] = useState(false);
+  const [mobileLoadRequested, setMobileLoadRequested] = useState(false);
   const [mediaFailed, setMediaFailed] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [motionOverride, setMotionOverride] = useState(false);
@@ -60,6 +62,27 @@ export default function ScrollCinematic() {
       coarse.removeEventListener?.('change', sync);
     };
   }, []);
+
+  useEffect(() => {
+    if (!deviceKnown || !isMobile || reducedMotion || mobileLoadRequested) return;
+
+    const requestLoad = () => setMobileLoadRequested(true);
+    const idleId = 'requestIdleCallback' in window
+      ? window.requestIdleCallback(requestLoad, { timeout: 1200 })
+      : window.setTimeout(requestLoad, 900);
+
+    window.addEventListener('scroll', requestLoad, { passive: true, once: true });
+    window.addEventListener('touchstart', requestLoad, { passive: true, once: true });
+    window.addEventListener('pointerdown', requestLoad, { passive: true, once: true });
+
+    return () => {
+      window.removeEventListener('scroll', requestLoad);
+      window.removeEventListener('touchstart', requestLoad);
+      window.removeEventListener('pointerdown', requestLoad);
+      if ('cancelIdleCallback' in window && typeof idleId === 'number') window.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
+    };
+  }, [deviceKnown, isMobile, reducedMotion, mobileLoadRequested]);
 
   const drawMobileFrame = useCallback((value) => {
     const canvas = canvasRef.current;
@@ -112,7 +135,7 @@ export default function ScrollCinematic() {
   }, []);
 
   useEffect(() => {
-    if (!deviceKnown || !isMobile || reducedMotion || mediaFailed) return;
+    if (!deviceKnown || !isMobile || reducedMotion || mediaFailed || !mobileLoadRequested) return;
     const urls = homepageCinematic.mobileScrub?.sprites || [];
     if (!urls.length) {
       setMediaFailed(true);
@@ -138,7 +161,7 @@ export default function ScrollCinematic() {
     });
 
     return () => { cancelled = true; };
-  }, [deviceKnown, isMobile, reducedMotion, mediaFailed, drawMobileFrame]);
+  }, [deviceKnown, isMobile, reducedMotion, mediaFailed, mobileLoadRequested, drawMobileFrame]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -210,10 +233,10 @@ export default function ScrollCinematic() {
     <section ref={sectionRef} className={`cinematic ${reducedMotion ? 'cinematic--reduced' : ''}`} aria-label="TTT vehicle technology experience">
       <div className="cinematic__sticky">
         {showStatic ? (
-          <img className="cinematic__video cinematic__poster is-ready" src={homepageCinematic.sourcePoster || homepageCinematic.fallback} alt="" aria-hidden="true" decoding="async" />
+          <Image className="cinematic__video cinematic__poster is-ready" src={homepageCinematic.sourcePoster || homepageCinematic.fallback} alt="" aria-hidden="true" fill sizes="100vw" priority quality={82} />
         ) : isMobile ? (
           <>
-            <img className={`cinematic__video cinematic__poster is-ready ${mobileReady ? 'is-hidden' : ''}`} src={homepageCinematic.sourcePoster || homepageCinematic.fallback} alt="" aria-hidden="true" decoding="async" />
+            <Image className={`cinematic__video cinematic__poster is-ready ${mobileReady ? 'is-hidden' : ''}`} src={homepageCinematic.sourcePoster || homepageCinematic.fallback} alt="" aria-hidden="true" fill sizes="100vw" priority quality={82} />
             <canvas ref={canvasRef} className={`cinematic__video cinematic__canvas ${mobileReady ? 'is-ready' : ''}`} aria-hidden="true" />
           </>
         ) : (
