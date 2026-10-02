@@ -20,6 +20,7 @@ import './wave2-interactive.css';
 import './wave2b.css';
 import './wave2c.css';
 import './wave2d.css';
+import './wave2e.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import SiteTelemetry from '../components/SiteTelemetry';
