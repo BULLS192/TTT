@@ -84,6 +84,11 @@ export default function TessaAssistant() {
   }, []);
 
   useEffect(() => {
+    document.body.classList.toggle('tessa-mobile-open', open);
+    return () => document.body.classList.remove('tessa-mobile-open');
+  }, [open]);
+
+  useEffect(() => {
     if (open && !leadOpen) messageEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [messages, open, leadOpen]);
 
@@ -425,7 +430,7 @@ export default function TessaAssistant() {
   };
 
   return (
-    <div className="tessa-root">
+    <div className={`tessa-root ${open ? 'is-open' : ''}`}>
       {open && (
         <section className="tessa-panel" id="tessa-assistant" role="dialog" aria-label="Tessa, TTT website assistant">
           <header className="tessa-panel__header">
