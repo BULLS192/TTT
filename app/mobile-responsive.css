@@ -1113,3 +1113,375 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
     overflow-wrap: anywhere;
   }
 }
+
+
+/* === Wave M4: mobile forms + Tessa ======================================= */
+@media (max-width: 767px) {
+  .shell--form {
+    width: min(100% - 28px, 1100px);
+  }
+
+  .intake {
+    border-radius: 14px;
+    box-shadow: 0 18px 48px rgba(20,31,53,.08);
+  }
+
+  .intake__top {
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+  }
+
+  .intake__top span {
+    font-size: 11px;
+  }
+
+  .intake__top strong {
+    font-size: 13px;
+  }
+
+  .intake__panel {
+    min-height: 0;
+    padding: 28px 18px 30px;
+  }
+
+  .intake__panel h2 {
+    max-width: 12ch;
+    font-size: clamp(30px, 9vw, 40px);
+    line-height: 1;
+  }
+
+  .choice-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 26px;
+  }
+
+  .choice {
+    min-height: 58px;
+    padding: 14px 16px;
+    border-radius: 9px;
+    font-size: 15px;
+  }
+
+  .field-grid,
+  .field-grid--2 {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 26px;
+  }
+
+  .field-grid input,
+  .intake__panel textarea,
+  .vehicle-selector select,
+  .vehicle-selector input {
+    min-height: 50px;
+    font-size: 16px !important;
+  }
+
+  .intake__panel textarea {
+    min-height: 128px;
+  }
+
+  .vehicle-selector {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .vehicle-selector__summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .intake-review {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 22px;
+  }
+
+  .intake-review div {
+    padding: 14px;
+  }
+
+  .consent-check {
+    align-items: flex-start !important;
+    gap: 10px !important;
+    line-height: 1.45;
+  }
+
+  .consent-check input {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    margin-top: 2px;
+  }
+
+  .validation-note {
+    padding: 0 18px !important;
+    margin: 0 0 12px;
+  }
+
+  .intake__actions {
+    position: sticky;
+    z-index: 4;
+    bottom: 0;
+    gap: 8px;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--line);
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(14px);
+  }
+
+  .intake__actions .button {
+    min-width: 0;
+    flex: 1;
+    min-height: 48px;
+    padding: 0 12px;
+    font-size: 9px;
+  }
+
+  .intake-success {
+    padding: 34px 20px;
+  }
+
+  .intake-success .button-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .intake-success .button {
+    width: 100%;
+  }
+
+  .contact-grid article {
+    padding: 26px 22px;
+  }
+
+  .form-grid--2 {
+    grid-template-columns: 1fr;
+  }
+
+  .inquiry-panel {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  body.tessa-mobile-open {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  .tessa-root {
+    z-index: 160;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .tessa-launcher {
+    width: 58px;
+    min-width: 58px;
+    height: 58px;
+    padding: 5px;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 14px 42px rgba(5,12,25,.32);
+  }
+
+  .tessa-launcher__copy {
+    display: none;
+  }
+
+  .tessa-launcher .tessa-avatar {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .tessa-root.is-open .tessa-launcher {
+    display: none;
+  }
+
+  .tessa-panel {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    flex-direction: column;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    animation: none;
+  }
+
+  .tessa-panel__header {
+    min-height: calc(68px + env(safe-area-inset-top, 0px));
+    flex: 0 0 auto;
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 14px 10px 16px;
+  }
+
+  .tessa-avatar--header {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .tessa-close {
+    width: 42px;
+    height: 42px;
+  }
+
+  .tessa-panel__body {
+    min-height: 0;
+    max-height: none;
+    flex: 1 1 auto;
+    padding: 16px 14px 18px;
+    overscroll-behavior: contain;
+  }
+
+  .tessa-messages {
+    gap: 11px;
+  }
+
+  .tessa-message p {
+    max-width: 88%;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.48;
+  }
+
+  .tessa-actions {
+    flex-wrap: nowrap;
+    margin-right: -14px;
+    margin-left: -14px;
+    padding: 14px 14px 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tessa-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tessa-actions button {
+    min-height: 40px;
+    flex: 0 0 auto;
+    padding: 0 13px;
+    font-size: 11px;
+  }
+
+  .tessa-handoff {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 13px;
+  }
+
+  .tessa-handoff button {
+    min-height: 38px;
+    font-size: 12px;
+  }
+
+  .tessa-question {
+    flex: 0 0 auto;
+    gap: 8px;
+    padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .tessa-question input {
+    height: 48px;
+    font-size: 16px !important;
+  }
+
+  .tessa-question button {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+  }
+
+  .tessa-footer {
+    display: none;
+  }
+
+  .tessa-lead-body {
+    min-height: 0;
+    max-height: none;
+    padding: 16px 14px calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .tessa-lead-intro {
+    margin: 14px 0 16px;
+  }
+
+  .tessa-lead-intro h2 {
+    font-size: 25px;
+  }
+
+  .tessa-lead-form {
+    gap: 13px;
+    padding-bottom: 8px;
+  }
+
+  .tessa-lead-form input,
+  .tessa-lead-form select,
+  .tessa-lead-form textarea {
+    font-size: 16px !important;
+  }
+
+  .tessa-lead-form input,
+  .tessa-lead-form select {
+    height: 48px;
+  }
+
+  .tessa-lead-form textarea {
+    min-height: 104px;
+  }
+
+  .tessa-form-row,
+  .tessa-form-row--3 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .tessa-form-row--3 label:first-child {
+    grid-column: auto;
+  }
+
+  .tessa-consent {
+    grid-template-columns: 20px 1fr !important;
+    gap: 10px !important;
+  }
+
+  .tessa-consent input {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .tessa-primary {
+    min-height: 50px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 380px) {
+  .intake__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .intake__actions .button {
+    width: 100%;
+  }
+
+  .tessa-message p {
+    max-width: 91%;
+    font-size: 13px;
+  }
+}
