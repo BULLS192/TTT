@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import AssetMedia from '../AssetMedia';
 import ExperienceShell from './ExperienceShell';
 import { useTTTBuild } from './TTTBuildContext';
 
@@ -12,9 +11,9 @@ const films={
   Ceramic:{heat:'Higher',copy:'Heat-control focused film without depending on the darkest appearance.',tone:'Cool neutral'}
 };
 const environments={
-  Day:{label:'Daylight'},
-  Sunset:{label:'Low sun'},
-  Night:{label:'Night'}
+  Day:{label:'Daylight',scene:'day'},
+  Sunset:{label:'Low sun',scene:'sunset'},
+  Night:{label:'Night',scene:'night'}
 };
 
 export default function GlassLab(){
@@ -25,13 +24,12 @@ export default function GlassLab(){
   const[compare,setCompare]=useState(50);
   const{addItem,setOpen}=useTTTBuild();
   const data=films[film];
-  const tintOpacity=useMemo(()=>Math.max(.08,Math.min(.68,.08+(70-shade)*.0096)),[shade]);
-  const visual=view==='Exterior'?'tintHero':'technologyHero';
+  const tintOpacity=useMemo(()=>Math.max(.08,Math.min(.72,.1+(70-shade)*.0102)),[shade]);
   const add=()=>{addItem({id:'tint',category:'Window Tint',title:shade+'% '+film,detail:'Concept selection · '+environments[environment].label+' · '+view+' view'});setOpen(true)};
 
   const aside=<>
-    <div className="lab-readout glass3a__readout"><small>Selected glass concept</small><strong>{shade}% {film}</strong><p>{data.copy}</p></div>
-    <div className="glass3a__specs">
+    <div className="lab-readout glass2e__readout"><small>Selected glass concept</small><strong>{shade}% {film}</strong><p>{data.copy}</p></div>
+    <div className="glass2e__specs">
       <Spec label="Visible light" value={shade+'% VLT'} detail="Selected shade"/>
       <Spec label="Heat-control potential" value={data.heat} detail="Relative film family"/>
       <Spec label="View question" value={view==='Exterior'?'Privacy':'Outward visibility'} detail={view==='Exterior'?'Can people see in?':'What can the driver see out?'}/>
@@ -40,31 +38,21 @@ export default function GlassLab(){
     <button className="button" onClick={add}>Add to My TTT Build →</button>
   </>;
 
-  return <ExperienceShell eyebrow="TTT Glass Lab" title={view==='Exterior'?'How much of the cabin can people see?':'What does the driver see through the glass?'} description="Drag the divider directly across the glass study. The exterior view concentrates on privacy; the driver view concentrates on outward visibility." aside={aside}>
-    <div className={'glass3a glass3a--'+view.toLowerCase()+' glass3a--'+environment.toLowerCase()} style={{'--tint-opacity':tintOpacity}}>
-      <div className="glass3a__scene">
-        <AssetMedia visual={visual} className="glass3a__photo"/>
-        <div className="glass3a__cinema"/>
-        <div className="glass3a__glass-focus">
-          <div className="glass3a__glass-label"><span>{view==='Exterior'?'GLASS PRIVACY STUDY':'DRIVER VISIBILITY STUDY'}</span><strong>{environments[environment].label}</strong></div>
-          <div className="glass3a__glass-before"/>
-          <div className="glass3a__glass-after" style={{clipPath:'inset(0 0 0 '+compare+'%)'}}>
-            <div className={'glass3a__film glass3a__film--'+film.toLowerCase()}/>
-          </div>
-          <div className="glass3a__reference">
-            {view==='Exterior'
-              ? <><span className="glass3a__occupant glass3a__occupant--one"/><span className="glass3a__occupant glass3a__occupant--two"/><span className="glass3a__dash-ref">DASH / STEERING / OCCUPANTS</span></>
-              : <><span className="glass3a__road-ref"/><span className="glass3a__car-ref"/><span className="glass3a__street-ref">ROAD / VEHICLES / ROADSIDE DETAIL</span></>}
-          </div>
-          <div className="glass3a__divider" style={{left:compare+'%'}} aria-hidden="true"><span>↔</span></div>
-          <span className="glass3a__side glass3a__side--factory">FACTORY</span>
-          <span className="glass3a__side glass3a__side--tint">{shade}% {film.toUpperCase()}</span>
-          <input className="glass3a__range" aria-label="Drag the before and after comparison directly on the glass" type="range" min="8" max="92" value={compare} onChange={e=>setCompare(Number(e.target.value))}/>
+  return <ExperienceShell eyebrow="TTT Glass Lab" title={view==='Exterior'?'How much of the cabin can people see?':'What does the driver see through the glass?'} description="Drag the divider directly on the glass. Exterior view looks into the cabin; Driver view looks out through the selected shade." aside={aside}>
+    <div className="glass2e" style={{'--glass-split':compare+'%','--tint-opacity':tintOpacity}}>
+      <div className={'glass2e__scene glass2e__scene--'+view.toLowerCase()+' glass2e__scene--'+environments[environment].scene}>
+        <Scene view={view} environment={environment} tinted={false}/>
+        <div className="glass2e__after" style={{clipPath:'inset(0 0 0 '+compare+'%)'}}>
+          <Scene view={view} environment={environment} tinted film={film} shade={shade}/>
         </div>
-        <div className="glass3a__scene-note"><strong>{view==='Exterior'?'Outside looking in':'Driver looking out'}</strong><span>{view==='Exterior'?'Privacy is judged by how clearly cabin references remain visible through the selected glass.':'Outward visibility is judged by how much road and roadside detail remains visible through the selected glass.'}</span></div>
+        <div className="glass2e__divider" style={{left:compare+'%'}} aria-hidden="true"><span>↔</span></div>
+        <span className="glass2e__label glass2e__label--before">FACTORY</span>
+        <span className="glass2e__label glass2e__label--after">{shade}% {film.toUpperCase()}</span>
+        <input className="glass2e__range" aria-label="Drag the before and after comparison directly on the glass" type="range" min="8" max="92" value={compare} onChange={e=>setCompare(Number(e.target.value))}/>
       </div>
+      <div className="glass2e__prompt"><strong>{view==='Exterior'?'Outside looking in':'Driver looking out'}</strong><span>{view==='Exterior'?'Watch the passenger, seats, dashboard and steering wheel become harder to see as VLT decreases.':'Watch the road, vehicles and roadside detail through the selected glass—especially at night.'}</span></div>
     </div>
-    <div className="lab-controls glass3a__controls">
+    <div className="lab-controls glass2e__controls">
       <ControlGroup label="Shade / VLT">{shades.map(v=><button className={v===shade?'is-active':''} aria-pressed={v===shade} key={v} onClick={()=>setShade(v)}>{v}%</button>)}</ControlGroup>
       <ControlGroup label="Film family">{Object.keys(films).map(v=><button className={v===film?'is-active':''} aria-pressed={v===film} key={v} onClick={()=>setFilm(v)}>{v}</button>)}</ControlGroup>
       <ControlGroup label="Environment">{Object.keys(environments).map(v=><button className={v===environment?'is-active':''} aria-pressed={v===environment} key={v} onClick={()=>setEnvironment(v)}>{v}</button>)}</ControlGroup>
@@ -73,5 +61,32 @@ export default function GlassLab(){
   </ExperienceShell>;
 }
 
+function Scene({view,tinted=false,film='',shade='',environment='Day'}){
+  if(view==='Exterior'){
+    return <div className={'glass2e__visual glass2e__visual--exterior '+(tinted?'is-tinted':'')}>
+      <div className="glass2e__body"/>
+      <div className="glass2e__window">
+        <div className="glass2e__cabin">
+          <span className="glass2e__head glass2e__head--driver"/><span className="glass2e__head glass2e__head--passenger"/>
+          <span className="glass2e__seat glass2e__seat--driver"/><span className="glass2e__seat glass2e__seat--passenger"/>
+          <span className="glass2e__dash"/><span className="glass2e__wheel"/>
+        </div>
+        {tinted?<div className={'glass2e__film glass2e__film--'+film.toLowerCase()} aria-hidden="true"/>:null}
+      </div>
+      <div className="glass2e__environment-note">{environment==='Night'?'Street light / cabin contrast':environment==='Sunset'?'Low-angle reflections':'Bright exterior / visible cabin'}</div>
+    </div>;
+  }
+  return <div className={'glass2e__visual glass2e__visual--driver '+(tinted?'is-tinted':'')}>
+    <div className="glass2e__windshield">
+      <div className="glass2e__sky"/><div className="glass2e__road"/>
+      <span className="glass2e__lane glass2e__lane--a"/><span className="glass2e__lane glass2e__lane--b"/>
+      <span className="glass2e__outside-car"/><span className="glass2e__tree glass2e__tree--a"/><span className="glass2e__tree glass2e__tree--b"/>
+      {tinted?<div className={'glass2e__film glass2e__film--'+film.toLowerCase()} aria-hidden="true"/>:null}
+    </div>
+    <div className="glass2e__dashboard"><span className="glass2e__driver-wheel"/></div>
+    <div className="glass2e__environment-note">{shade?shade+'% VLT · ':''}{environment==='Night'?'Night visibility':environment==='Sunset'?'Low-sun visibility':'Day visibility'}</div>
+  </div>;
+}
+
 function ControlGroup({label,children}){return <div className="lab-control"><small>{label}</small><div>{children}</div></div>}
-function Spec({label,value,detail}){return <div className="glass3a__spec"><small>{label}</small><strong>{value}</strong><span>{detail}</span></div>}
+function Spec({label,value,detail}){return <div className="glass2e__spec"><small>{label}</small><strong>{value}</strong><span>{detail}</span></div>}
