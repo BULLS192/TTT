@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import AssetMedia from '../AssetMedia';
 import ExperienceShell from './ExperienceShell';
+import SatelliteTileLayer from './SatelliteTileLayer';
 import { useTTTBuild } from './TTTBuildContext';
 
 const journey=[
@@ -14,7 +14,6 @@ const journey=[
   {p:82,time:'8:24 AM',label:'Entered Work',ignition:'ON',speed:12,zone:'WORK',x:78,y:31,level:'success',event:'Vehicle entered the Work geofence.',notice:'Arrival · Work geofence.'},
   {p:100,time:'8:25 AM',label:'Ignition Off',ignition:'OFF',speed:0,zone:'WORK',x:80,y:30,level:'success',event:'Vehicle stopped at Work and the trip was saved.',notice:'Trip complete · ignition off.'}
 ];
-
 const unexpected=[
   {p:0,time:'10:14 PM',label:'Parked at Home',ignition:'OFF',speed:0,zone:'HOME',x:16,y:76,level:'normal',event:'Vehicle is parked inside the Home geofence.',notice:'Vehicle parked · Home.'},
   {p:18,time:'10:16 PM',label:'Unexpected Start',ignition:'ON',speed:0,zone:'HOME',x:16,y:76,level:'alert',event:'Ignition activity begins outside the example routine.',notice:'Priority alert · unexpected ignition.'},
@@ -23,7 +22,6 @@ const unexpected=[
   {p:80,time:'10:31 PM',label:'Stopped Elsewhere',ignition:'OFF',speed:0,zone:'OTHER',x:74,y:73,level:'info',event:'Vehicle stopped outside Home and Work geofences.',notice:'Vehicle stopped · unfamiliar location.'},
   {p:100,time:'10:32 PM',label:'Trip Saved',ignition:'OFF',speed:0,zone:'OTHER',x:74,y:73,level:'normal',event:'The completed trip remains visible in history.',notice:'Trip history updated.'}
 ];
-
 const modes={commute:{label:'Morning commute',states:journey},unexpected:{label:'Unexpected movement',states:unexpected}};
 
 export default function TrackingLab(){
@@ -47,99 +45,87 @@ export default function TrackingLab(){
   },[running]);
 
   const selectMode=(next)=>{setMode(next);setProgress(0);setRunning(false)};
-  const alertVisible=state.level==='alert' && (
-    (state.label.toLowerCase().includes('speed')&&notifications.speed) ||
-    (state.label.toLowerCase().includes('geofence')&&notifications.geofence) ||
-    (state.label.toLowerCase().includes('ignition')&&notifications.ignition) ||
-    state.label==='Unexpected Start'
-  );
+  const alertVisible=state.level==='alert';
 
   const aside=<>
     <div className="lab-readout tracking3c__readout"><small>Live journey simulation</small><strong>{state.label}</strong><p>{state.event}</p></div>
     <div className="tracking3c__aside-grid">
-      <Readout label="Ignition" value={state.ignition}/>
-      <Readout label="Speed" value={state.speed+' mph'}/>
-      <Readout label="Zone" value={state.zone}/>
-      <Readout label="Time" value={state.time}/>
+      <Metric icon="power" label="Ignition" value={state.ignition}/>
+      <Metric icon="speed" label="Speed" value={state.speed+' mph'}/>
+      <Metric icon="pin" label="Zone" value={state.zone}/>
+      <Metric icon="clock" label="Time" value={state.time}/>
     </div>
     <p className="lab-note">Illustrative feature simulation. Exact ignition, speed, geofence, alert, trip-history and refresh capabilities depend on the tracking platform selected for the vehicle.</p>
     <button className="button" onClick={()=>{addItem({id:'tracking',category:'GPS Tracking',title:'Connected tracking',detail:'Location + ignition + speed + geofence + trip history concept'});setOpen(true)}}>Add to My TTT Build →</button>
   </>;
 
-  return <ExperienceShell
-    eyebrow="TTT Tracking Dashboard"
-    title="See the trip—not just a dot on a map."
-    description="Play through a vehicle journey and watch ignition, speed, geofences, notifications and trip history update together."
-    aside={aside}
-  >
-    <div className="tracking3c">
-      <AssetMedia visual="gpsHero" className="tracking3c__photo"/>
-      <div className="tracking3c__shade"/>
-
-      <section className="tracking3c__map-card" aria-label="Vehicle journey map">
-        <div className="tracking3c__map-top">
-          <div><small>LIVE VEHICLE</small><strong>Concept One</strong></div>
-          <span className={state.ignition==='ON'?'is-live':''}><i/>{state.ignition==='ON'?'IGNITION ON':'PARKED'}</span>
+  return <ExperienceShell eyebrow="TTT Tracking Dashboard" title="See the trip—not just a dot on a map." description="Play through a vehicle journey and watch ignition, speed, geofences, notifications and trip history update together." aside={aside}>
+    <div className="tracking3c tracking3e">
+      <section className="tracking3c__map-card tracking3e__map" aria-label="Vehicle journey satellite map">
+        <SatelliteTileLayer variant="tracking"/>
+        <div className="tracking3e__map-head">
+          <div className="tracking3e__identity"><span className="tracking3e__live"><i/>LIVE VEHICLE</span><strong>Concept One</strong><span>Houston · updated {state.time}</span></div>
+          <div className="tracking3e__gps"><Icon name="signal"/><span>GPS</span><b>SATELLITE</b></div>
         </div>
-        <svg className="tracking3c__map" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <svg className="tracking3e__overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <defs>
-            <linearGradient id="map-bg" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#0b151e"/><stop offset="1" stopColor="#081018"/></linearGradient>
-            <filter id="route-glow"><feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <filter id="tracking-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.25" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <radialGradient id="home-glow"><stop offset="0" stopColor="rgba(70,161,226,.24)"/><stop offset=".68" stopColor="rgba(70,161,226,.10)"/><stop offset="1" stopColor="rgba(70,161,226,0)"/></radialGradient>
+            <radialGradient id="work-glow"><stop offset="0" stopColor="rgba(65,178,119,.20)"/><stop offset=".68" stopColor="rgba(65,178,119,.08)"/><stop offset="1" stopColor="rgba(65,178,119,0)"/></radialGradient>
           </defs>
-          <rect width="100" height="100" rx="4" fill="url(#map-bg)"/>
-          <g className="tracking3c__blocks">
-            <path d="M4 7h17v16H4zM26 5h18v13H26zM50 7h17v17H50zM73 6h22v17H73zM5 28h15v17H5zM25 27h18v18H25zM52 29h11v14H52zM69 29h25v14H69zM5 52h18v17H5zM28 51h18v15H28zM70 48h24v20H70zM4 76h21v18H4zM30 73h18v19H30zM55 75h18v17H55zM79 74h16v19H79z"/>
-          </g>
-          <g className="tracking3c__minor"><path d="M0 18h100M0 37h100M0 88h100M10 0v100M40 0v100M63 0v100M89 0v100"/></g>
-          <g className="tracking3c__roads">
-            <path d="M0 47 C17 43 31 55 44 51 S74 39 100 42"/>
-            <path d="M50 0 C48 18 55 35 51 51 S44 79 47 100"/>
-            <path d="M0 72 C20 67 35 61 49 65 S74 82 100 78"/>
-            <path d="M18 0 C22 24 20 44 24 62 S30 88 29 100"/>
-            <path d="M78 0 C77 24 80 46 75 63 S67 88 68 100"/>
-          </g>
-          <circle cx="16" cy="76" r="14" className="tracking3c__geo tracking3c__geo--home"/>
-          <circle cx="80" cy="30" r="13" className="tracking3c__geo tracking3c__geo--work"/>
+          <circle cx="16" cy="76" r="17" fill="url(#home-glow)" stroke="#64b8ef" strokeWidth=".55" strokeDasharray="1.2 1"/>
+          <circle cx="80" cy="30" r="15" fill="url(#work-glow)" stroke="#62c68f" strokeWidth=".55" strokeDasharray="1.2 1"/>
           {mode==='commute'
-            ? <path d="M16 76 C29 70 40 62 51 52 S65 40 80 30" className="tracking3c__route" filter="url(#route-glow)"/>
-            : <path d="M16 76 C31 67 45 63 58 66 S68 72 74 73" className="tracking3c__route tracking3c__route--alert" filter="url(#route-glow)"/>
+            ? <path d="M16 76 C25 71 31 68 38 64 S46 57 51 52 S58 47 64 43 S73 35 80 30" className="tracking3e__route-line" filter="url(#tracking-glow)"/>
+            : <path d="M16 76 C27 70 32 68 38 65 S49 63 59 66 S68 71 74 73" className="tracking3e__route-line is-alert" filter="url(#tracking-glow)"/>
           }
         </svg>
-        <div className="tracking3c__zone tracking3c__zone--home">HOME</div>
-        <div className="tracking3c__zone tracking3c__zone--work">WORK</div>
-        <div className={'tracking3c__vehicle '+(state.level==='alert'?'is-alert':'')} style={{left:state.x+'%',top:state.y+'%'}}>
-          <i/><span>{state.speed?state.speed+' mph':'STOPPED'}</span>
+        <div className="tracking3e__geofence tracking3e__geofence--home"><Icon name="home"/><strong>HOME</strong><span>Geofence</span></div>
+        <div className="tracking3e__geofence tracking3e__geofence--work"><Icon name="building"/><strong>WORK</strong><span>Geofence</span></div>
+        <div className={'tracking3e__vehicle '+(state.level==='alert'?'is-alert':'')} style={{left:state.x+'%',top:state.y+'%'}}>
+          <div className="tracking3e__car"><span/><i/><b/></div><em>{state.speed?state.speed+' mph':'STOPPED'}</em>
         </div>
+        <div className="tracking3e__map-tools"><button type="button" aria-label="Vehicle centered"><Icon name="target"/></button><button type="button" aria-label="Geofences visible"><Icon name="layers"/></button></div>
       </section>
 
-      <aside className="tracking3c__phone" aria-label="Tracking notifications">
-        <div className="tracking3c__phone-head"><span>9:41</span><strong>TTT TRACKING</strong><i/></div>
-        <div className={'tracking3c__notice '+(alertVisible?'is-alert':state.level==='success'?'is-success':'')}>
-          <small>{alertVisible?'PRIORITY ALERT':state.level==='success'?'TRIP EVENT':'VEHICLE EVENT'}</small>
-          <strong>{state.notice}</strong>
-          <span>{state.event}</span>
+      <aside className="tracking3c__phone tracking3e__dashboard" aria-label="Tracking dashboard">
+        <div className="tracking3e__vehicle-card">
+          <div className="tracking3e__mini-car"><span/><i/></div>
+          <div><small>VEHICLE</small><strong>Concept One</strong><span><i/> Online</span></div>
+          <button type="button" aria-label="More vehicle options">•••</button>
         </div>
-        <div className="tracking3c__phone-stats">
-          <Readout label="SPEED" value={state.speed+' mph'}/>
-          <Readout label="IGNITION" value={state.ignition}/>
-          <Readout label="ZONE" value={state.zone}/>
-          <Readout label="UPDATED" value={state.time}/>
+        <div className={'tracking3c__notice tracking3e__notice '+(alertVisible?'is-alert':state.level==='success'?'is-success':'')}>
+          <Icon name={alertVisible?'alert':'pin'}/>
+          <div><small>{alertVisible?'PRIORITY ALERT':state.level==='success'?'TRIP EVENT':'LIVE STATUS'}</small><strong>{state.notice}</strong><span>{state.event}</span></div>
         </div>
-        <div className="tracking3c__history">
+        <div className="tracking3e__metrics">
+          <Metric icon="power" label="Ignition" value={state.ignition}/>
+          <Metric icon="speed" label="Speed" value={state.speed+' mph'}/>
+          <Metric icon="nav" label="Direction" value={mode==='commute'?'NE':'SW'}/>
+          <Metric icon="clock" label="Updated" value={state.time}/>
+        </div>
+        <div className="tracking3c__history tracking3e__history">
           <div><small>TRIP HISTORY</small><span>{completed.length}/{states.length} events</span></div>
-          <ol>{completed.slice(-4).reverse().map(s=><li key={s.p}><i className={'is-'+s.level}/><span><strong>{s.time}</strong>{s.label}</span></li>)}</ol>
+          <ol>{completed.slice(-4).reverse().map(s=><li key={s.p}><i className={'is-'+s.level}/><span><strong>{s.time}</strong>{s.label}</span><Icon name="route"/></li>)}</ol>
         </div>
       </aside>
     </div>
 
-    <div className="tracking3c__scrub">
+    <div className="tracking3c__scrub tracking3e__replay">
+      <div className="tracking3e__replay-head"><span><Icon name="replay"/>JOURNEY REPLAY</span><small>{modes[mode].label}</small></div>
       <input aria-label="Scrub through vehicle journey" type="range" min="0" max="100" value={progress} onChange={e=>{setRunning(false);setProgress(Number(e.target.value))}}/>
-      <div>{states.map(s=><button key={s.p} type="button" className={progress>=s.p?'is-complete':''} onClick={()=>{setRunning(false);setProgress(s.p)}}><i/><span>{s.label}</span></button>)}</div>
+      <div>{states.map(s=><button key={s.p} type="button" className={progress>=s.p?'is-complete':''} onClick={()=>{setRunning(false);setProgress(s.p)}}><i/><span>{s.time}<b>{s.label}</b></span></button>)}</div>
     </div>
 
-    <div className="tracking3c__control-grid">
-      <Control label="Scenario">{Object.keys(modes).map(k=><button key={k} className={mode===k?'is-active':''} aria-pressed={mode===k} onClick={()=>selectMode(k)}>{modes[k].label}</button>)}</Control>
-      <Control label="Notify me about">{Object.keys(notifications).map(k=><button key={k} className={notifications[k]?'is-active':''} aria-pressed={notifications[k]} onClick={()=>setNotifications(v=>({...v,[k]:!v[k]}))}>{k[0].toUpperCase()+k.slice(1)}</button>)}</Control>
+    <div className="tracking3e__lower">
+      <div className="tracking3e__control-panel">
+        <div className="tracking3e__panel-title"><Icon name="route"/><span>SCENARIO</span></div>
+        <div className="tracking3e__choice">{Object.keys(modes).map(k=><button key={k} className={mode===k?'is-active':''} aria-pressed={mode===k} onClick={()=>selectMode(k)}>{modes[k].label}</button>)}</div>
+      </div>
+      <div className="tracking3e__control-panel">
+        <div className="tracking3e__panel-title"><Icon name="bell"/><span>NOTIFICATIONS</span></div>
+        <div className="tracking3e__toggles">{Object.keys(notifications).map(k=><button key={k} className={notifications[k]?'is-active':''} aria-pressed={notifications[k]} onClick={()=>setNotifications(v=>({...v,[k]:!v[k]}))}><span>{k[0].toUpperCase()+k.slice(1)}</span><i/></button>)}</div>
+      </div>
     </div>
     <div className="signal-next">
       <button className="button button--ghost" onClick={()=>{setRunning(false);setProgress(0)}}>Reset</button>
@@ -147,5 +133,25 @@ export default function TrackingLab(){
     </div>
   </ExperienceShell>;
 }
-function Readout({label,value}){return <div className="tracking3c__readout-item"><small>{label}</small><strong>{value}</strong></div>}
-function Control({label,children}){return <div className="lab-control"><small>{label}</small><div>{children}</div></div>}
+
+function Metric({icon,label,value}){return <div className="tracking3c__readout-item tracking3e__metric"><Icon name={icon}/><small>{label}</small><strong>{value}</strong></div>}
+function Icon({name}){
+  const common={viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:'1.8',strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true};
+  const paths={
+    power:<><path d="M12 3v9"/><path d="M6.6 5.6a8 8 0 1 0 10.8 0"/></>,
+    speed:<><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 12l4-4"/><path d="M7 16h10"/></>,
+    pin:<><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></>,
+    clock:<><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>,
+    nav:<><path d="m4 5 15-2-6 17-2-7-7-2Z"/></>,
+    home:<><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></>,
+    building:<><path d="M4 21V5l8-3v19M12 8h8v13M7 8h2M7 12h2M7 16h2M15 11h2M15 15h2"/></>,
+    signal:<><path d="M4 20v-3M8 20v-6M12 20v-9M16 20V8M20 20V5"/></>,
+    target:<><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></>,
+    layers:<><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></>,
+    alert:<><path d="m12 3 10 18H2L12 3Z"/><path d="M12 9v5M12 17h.01"/></>,
+    route:<><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h4a4 4 0 0 1 4 4v2a4 4 0 0 0 2 3.5"/></>,
+    replay:<><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v6h6"/></>,
+    bell:<><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></>
+  };
+  return <svg className="ttt-icon" {...common}>{paths[name]||paths.pin}</svg>;
+}
