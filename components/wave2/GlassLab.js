@@ -123,7 +123,7 @@ export default function GlassLab(){
 
 function TintMask({view,tone,opacity}){
   const fill='rgba('+tone+','+opacity+')';
-  return <svg className="glass3b__mask" viewBox="0 0 1200 900" preserveAspectRatio="none" aria-hidden="true">
+  return <svg className="glass3b__mask" viewBox="0 0 1200 900" preserveAspectRatio="none" shapeRendering="geometricPrecision" aria-hidden="true">
     <defs>
       <linearGradient id={'glass-sheen-'+view} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="rgba(150,190,220,.14)"/>
@@ -132,16 +132,17 @@ function TintMask({view,tone,opacity}){
       </linearGradient>
     </defs>
     {view==='Exterior'?<>
-      <polygon className="glass3b__tint-shape" points="226,361 350,324 352,414 217,409" fill={fill}/>
-      <polygon className="glass3b__tint-shape" points="362,319 500,318 642,419 359,417" fill={fill}/>
-      <polygon className="glass3b__tint-shape" points="503,317 637,347 711,418 644,419" fill={fill}/>
-      <polygon className="glass3b__sheen" points="226,361 350,324 352,414 217,409" fill={'url(#glass-sheen-'+view+')'}/>
-      <polygon className="glass3b__sheen" points="362,319 500,318 642,419 359,417" fill={'url(#glass-sheen-'+view+')'}/>
-      <polygon className="glass3b__sheen" points="503,317 637,347 711,418 644,419" fill={'url(#glass-sheen-'+view+')'}/>
+      <path className="glass3b__tint-shape" d="M213 386 C250 362 302 347 339 343 Q347 343 349 348 L348 405 Q300 405 220 392 Z" fill={fill}/>
+      <path className="glass3b__tint-shape" d="M363 347 C410 332 470 322 525 326 C580 330 622 365 651 410 L359 410 Z" fill={fill}/>
+      <path className="glass3b__tint-shape" d="M608 340 C660 339 731 367 792 411 L678 411 C659 384 637 356 608 340 Z" fill={fill}/>
+      <path className="glass3b__sheen" d="M213 386 C250 362 302 347 339 343 Q347 343 349 348 L348 405 Q300 405 220 392 Z" fill={'url(#glass-sheen-'+view+')'}/>
+      <path className="glass3b__sheen" d="M363 347 C410 332 470 322 525 326 C580 330 622 365 651 410 L359 410 Z" fill={'url(#glass-sheen-'+view+')'}/>
+      <path className="glass3b__sheen" d="M608 340 C660 339 731 367 792 411 L678 411 C659 384 637 356 608 340 Z" fill={'url(#glass-sheen-'+view+')'}/>
     </>:<>
-      <polygon className="glass3b__tint-shape" points="279,83 1014,75 1085,294 1052,440 1011,503 366,505 332,462 309,337" fill={fill}/>
-      <polygon className="glass3b__tint-shape glass3b__tint-shape--side" points="0,88 260,82 309,337 332,462 188,548 0,575" fill={fill}/>
-      <polygon className="glass3b__sheen" points="279,83 1014,75 1085,294 1052,440 1011,503 366,505 332,462 309,337" fill={'url(#glass-sheen-'+view+')'}/>
+      <path className="glass3b__tint-shape" d="M286 85 C480 78 770 77 980 79 C1010 80 1016 98 1027 144 C1036 162 1050 175 1075 181 L1200 181 L1200 503 C940 502 650 498 402 512 C374 510 358 490 350 454 C331 363 308 231 288 108 C286 99 285 91 286 85 Z" fill={fill}/>
+      <path className="glass3b__tint-shape glass3b__tint-shape--side" d="M0 58 C72 129 130 248 189 365 C200 387 203 404 203 430 L203 560 C143 578 76 590 0 602 Z" fill={fill}/>
+      <path className="glass3b__sheen" d="M286 85 C480 78 770 77 980 79 C1010 80 1016 98 1027 144 C1036 162 1050 175 1075 181 L1200 181 L1200 503 C940 502 650 498 402 512 C374 510 358 490 350 454 C331 363 308 231 288 108 C286 99 285 91 286 85 Z" fill={'url(#glass-sheen-'+view+')'}/>
+      <path className="glass3b__sheen" d="M0 58 C72 129 130 248 189 365 C200 387 203 404 203 430 L203 560 C143 578 76 590 0 602 Z" fill={'url(#glass-sheen-'+view+')'}/>
     </>}
   </svg>;
 }
