@@ -1,0 +1,192 @@
+/* Wave 3D — premium visual pass for Tracking + Security */
+.tracking3c,.security3c{
+  min-height:620px;
+  border-color:rgba(119,168,210,.30);
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 18% 18%,rgba(38,92,137,.17),transparent 34%),
+    radial-gradient(circle at 78% 20%,rgba(25,59,88,.12),transparent 28%),
+    linear-gradient(180deg,#071019 0%,#050b11 100%);
+  box-shadow:0 32px 90px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.tracking3c:after,.security3c:after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.015),transparent 18%,transparent 82%,rgba(0,0,0,.18));
+}
+.tracking3c__photo img,.security3c__photo img{filter:brightness(.18) saturate(.5) contrast(1.18) blur(.3px);transform:scale(1.045)}
+.tracking3c__shade,.security3c__shade{
+  background:
+    linear-gradient(90deg,rgba(2,7,11,.48) 0%,rgba(3,9,14,.72) 56%,rgba(2,7,11,.91) 100%),
+    radial-gradient(circle at 22% 12%,rgba(58,130,184,.16),transparent 34%);
+}
+.tracking3c__map-card,.security3c__map-card{
+  border:1px solid rgba(127,177,218,.34);
+  border-radius:24px;
+  background:#071018;
+  box-shadow:0 26px 70px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.018),inset 0 18px 40px rgba(92,148,191,.025);
+}
+.tracking3c__map-card:before,.security3c__map-card:before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;
+  background:
+    linear-gradient(rgba(83,129,164,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(83,129,164,.035) 1px,transparent 1px);
+  background-size:31px 31px;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.15));
+}
+.tracking3c__map,.security3c__map{z-index:2}
+.tracking3c__blocks path,.security3c__blocks path{
+  fill:#101d27;stroke:#1d3445;stroke-width:.34;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.015));
+}
+.tracking3c__minor path{stroke:#203541;stroke-width:.28;opacity:.8}
+.tracking3c__roads path,.security3c__roads path{
+  stroke:#314754;stroke-width:2.65;opacity:.92;
+  filter:drop-shadow(0 0 .5px rgba(141,181,208,.13));
+}
+.tracking3c__roads path:nth-child(1),.security3c__roads path:nth-child(1){stroke:#425b69;stroke-width:3.1}
+.tracking3c__geo,.security3c__home-ring{
+  stroke-width:.8;stroke-dasharray:2 1.2;
+  filter:drop-shadow(0 0 2px rgba(79,159,218,.42));
+}
+.tracking3c__geo--home,.security3c__home-ring{fill:rgba(48,123,183,.12);stroke:#6ab4e8}
+.tracking3c__geo--work{fill:rgba(60,151,105,.12);stroke:#6dc796}
+.tracking3c__route,.security3c__route{
+  stroke:#7fc4f3;stroke-width:1.55;
+  filter:drop-shadow(0 0 2.6px rgba(90,174,232,.78));
+}
+.tracking3c__route--alert{stroke:#de8a78;filter:drop-shadow(0 0 2.4px rgba(211,105,87,.68))}
+.tracking3c__map-top,.security3c__map-head{left:18px;right:18px;top:16px}
+.tracking3c__map-top>div,.security3c__map-head>div,
+.tracking3c__map-top>span,.security3c__map-head>span{
+  border-color:rgba(156,196,226,.17);
+  background:linear-gradient(180deg,rgba(10,22,32,.93),rgba(6,14,21,.89));
+  box-shadow:0 10px 26px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.tracking3c__map-top small,.security3c__map-head small{color:#78a9ce}
+.tracking3c__map-top strong,.security3c__map-head strong{font-size:12px;letter-spacing:.01em}
+.tracking3c__zone,.security3c__home-label{
+  padding:5px 8px;border:1px solid rgba(128,181,221,.16);border-radius:999px;
+  background:rgba(4,12,18,.86);box-shadow:0 8px 18px rgba(0,0,0,.28);letter-spacing:.14em
+}
+.tracking3c__vehicle,.security3c__vehicle{z-index:9}
+.tracking3c__vehicle i,.security3c__vehicle i{
+  position:relative;width:23px;height:38px;border-radius:7px;
+  border:1px solid rgba(198,224,240,.7);
+  background:linear-gradient(90deg,#1b2730 0 17%,#7895a8 18% 32%,#d8e6ef 33% 67%,#7895a8 68% 82%,#1a252e 83%);
+  box-shadow:0 0 0 4px rgba(80,159,216,.15),0 0 22px rgba(78,159,216,.22),0 13px 25px rgba(0,0,0,.55);
+  transform:rotate(37deg);
+}
+.tracking3c__vehicle i:before,.security3c__vehicle i:before{
+  content:"";position:absolute;left:4px;right:4px;top:6px;height:9px;border-radius:3px;
+  background:linear-gradient(180deg,#253b4a,#101a21);box-shadow:0 13px 0 #101a21;
+}
+.tracking3c__vehicle:after,.security3c__vehicle:after{
+  width:8px;height:8px;margin-top:8px;background:#74c2f4;box-shadow:0 0 0 5px rgba(84,170,227,.09),0 0 16px #63b9ef
+}
+.tracking3c__vehicle span,.security3c__vehicle span{
+  margin-top:6px;padding:5px 7px;border:1px solid rgba(126,180,220,.18);border-radius:999px;
+  background:rgba(4,13,20,.92);font-size:6.5px;letter-spacing:.03em
+}
+.tracking3c__vehicle.is-alert i{border-color:#efb0a4;box-shadow:0 0 0 4px rgba(196,90,75,.15),0 0 24px rgba(206,98,82,.25),0 13px 25px rgba(0,0,0,.55)}
+.tracking3c__vehicle.is-alert:after{background:#df7869;box-shadow:0 0 0 5px rgba(207,100,82,.09),0 0 17px #da6e60}
+
+/* phone / response hardware */
+.tracking3c__phone,.security3c__response{
+  border:1px solid rgba(151,191,221,.31);
+  border-radius:28px;
+  background:
+    linear-gradient(180deg,rgba(15,29,41,.98),rgba(6,14,21,.99));
+  box-shadow:0 28px 75px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.04),inset 0 0 0 1px rgba(255,255,255,.012);
+}
+.tracking3c__phone:before,.security3c__response:before{
+  content:"";position:absolute;left:50%;top:7px;transform:translateX(-50%);
+  width:30%;height:4px;border-radius:999px;background:#273a49;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)
+}
+.tracking3c__phone-head,.security3c__response-head{padding-top:5px;padding-bottom:14px}
+.tracking3c__notice,.security3c__status{
+  border-radius:12px;border:1px solid rgba(84,161,216,.2);border-left-width:3px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 14px 28px rgba(0,0,0,.19);
+}
+.tracking3c__notice{background:linear-gradient(135deg,#102b40,#0a1a27)}
+.tracking3c__notice.is-alert{border-color:rgba(213,112,94,.35);border-left-color:#d57765;background:linear-gradient(135deg,#361c1a,#1a1011)}
+.tracking3c__notice.is-success{border-color:rgba(92,174,130,.3);border-left-color:#64bb89;background:linear-gradient(135deg,#143126,#0a1d16)}
+.tracking3c__phone-stats .tracking3c__readout-item,.tracking3c__aside-grid .tracking3c__readout-item,
+.security3c__aside-grid .security3c__readout-item{
+  border-color:rgba(110,160,198,.18);background:linear-gradient(180deg,#0c1b27,#08141d);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018)
+}
+.tracking3c__history li{position:relative}
+.tracking3c__history li:not(:last-child):before{
+  content:"";position:absolute;left:2.5px;top:12px;bottom:-5px;width:1px;background:#233b4d
+}
+
+/* journey controls */
+.tracking3c__scrub{
+  padding:18px;border-color:rgba(121,170,209,.22);
+  background:linear-gradient(180deg,#0b1924,#08131c);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018)
+}
+.tracking3c__scrub input{height:4px;accent-color:#64b3e8}
+.tracking3c__scrub button{
+  min-height:54px;padding:7px 4px;border-radius:8px;transition:background .18s ease,color .18s ease
+}
+.tracking3c__scrub button.is-complete{background:rgba(61,123,169,.07)}
+.tracking3c__scrub button i{width:9px;height:9px;border:2px solid #314a5e;background:#0b1924}
+.tracking3c__scrub button.is-complete i{border-color:#84c4ef;background:#5aa9df}
+.tracking3c__control-grid .lab-control{
+  padding:14px;border:1px solid rgba(112,158,195,.17);border-radius:12px;background:#08141d
+}
+
+/* security response */
+.security3c__status{background:linear-gradient(135deg,#102c41,#0a1925)}
+.security3c__status.is-alert{border-color:rgba(207,108,94,.34);border-left-color:#d17465;background:linear-gradient(135deg,#351c1b,#1c1112)}
+.security3c__status.is-action,.security3c__status.is-pending{border-color:rgba(210,162,80,.34);border-left-color:#d5a855;background:linear-gradient(135deg,#342a18,#1d180e)}
+.security3c__status.is-success{border-color:rgba(92,174,130,.3);border-left-color:#63ba88;background:linear-gradient(135deg,#143025,#0a1d16)}
+.security3c__immobilize{
+  min-height:54px;border-color:#bb7067;border-radius:12px;
+  background:linear-gradient(180deg,#6b302b,#431a18);
+  box-shadow:0 13px 32px rgba(87,27,24,.28),inset 0 1px 0 rgba(255,255,255,.04)
+}
+.security3c__immobilize:not(:disabled):hover{filter:brightness(1.07)}
+.security3c__safety{border-color:rgba(105,164,209,.2);background:linear-gradient(180deg,#0c1c28,#081720)}
+.security3c__compare{gap:12px}
+.security3c__compare article{
+  position:relative;overflow:hidden;padding:18px;border-color:rgba(125,165,196,.19);
+  background:linear-gradient(180deg,#0b1720,#071118);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.02)
+}
+.security3c__compare article:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:#394b58}
+.security3c__compare article.is-ttt{
+  border-color:rgba(75,150,207,.36);background:linear-gradient(145deg,#10283b,#091720)
+}
+.security3c__compare article.is-ttt:before{background:linear-gradient(90deg,#4a8fc4,#7bc3f1)}
+.security3c__compare article>div{padding:8px 0}
+.security3c__compare b{padding:3px 6px;border-radius:999px;background:#111d25}
+.security3c__compare .is-ttt b{background:rgba(62,145,101,.12);color:#afe0c5}
+.security3c__steps{gap:7px}
+.security3c__steps button{
+  min-height:90px;padding:11px;border-color:rgba(107,153,188,.18);
+  background:linear-gradient(180deg,#0b1721,#08121a);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.015)
+}
+.security3c__steps button.is-active{
+  border-color:#579ed3;background:linear-gradient(180deg,#12324b,#0c2031);
+  box-shadow:0 0 0 1px rgba(82,157,210,.12),inset 0 1px 0 rgba(255,255,255,.025)
+}
+.security3c__steps button.is-complete{border-color:#385f7e;background:#0b1d2a}
+
+/* Responsive polish */
+@media(max-width:980px){
+  .tracking3c,.security3c{min-height:860px}
+  .tracking3c__phone,.security3c__response{border-radius:22px}
+}
+@media(max-width:720px){
+  .tracking3c,.security3c{min-height:790px;border-radius:20px}
+  .tracking3c__map-card,.security3c__map-card{border-radius:17px}
+  .tracking3c__phone:before,.security3c__response:before{display:none}
+  .tracking3c__scrub{padding:13px}
+  .security3c__steps button{min-height:76px}
+}
+@media(prefers-reduced-motion:reduce){
+  .tracking3c__vehicle,.security3c__vehicle,.tracking3c__scrub button{transition:none!important}
+}
