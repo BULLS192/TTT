@@ -1,0 +1,21 @@
+/* Wave 3F — continuous GPS journey engine */
+.tracking3f__vehicle{transition:none!important;will-change:left,top}
+.tracking3f__car{transform:rotate(var(--heading,0deg))!important;transition:transform .22s linear;will-change:transform}
+.tracking3f__route-base{fill:none;stroke:rgba(109,180,224,.26);stroke-width:1.05;stroke-linecap:round;stroke-linejoin:round}
+.tracking3f__route-base.is-alert{stroke:rgba(219,103,84,.28)}
+.tracking3f__route-progress{fill:none;stroke:#1aa9ff;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round}
+.tracking3f__route-progress.is-alert{stroke:#ec705e}
+.tracking3f__position-pulse{position:absolute;z-index:8;width:18px;height:18px;transform:translate(-50%,-50%);border:1px solid rgba(68,179,245,.54);border-radius:50%;box-shadow:0 0 0 6px rgba(38,160,231,.08),0 0 22px rgba(37,166,239,.33);pointer-events:none;animation:trackingPulse 1.8s ease-out infinite}
+.tracking3e__geofence.is-crossing{border-color:rgba(239,119,99,.58);box-shadow:0 0 0 8px rgba(220,101,83,.10),0 0 30px rgba(220,101,83,.30),0 10px 30px rgba(0,0,0,.35)}
+.tracking3e__geofence.is-crossing .ttt-icon{color:#ef8b79}
+.tracking3e__geofence.is-arriving{border-color:rgba(91,207,139,.58);box-shadow:0 0 0 8px rgba(74,183,118,.09),0 0 30px rgba(74,183,118,.28),0 10px 30px rgba(0,0,0,.35)}
+.tracking3f__geo-ring.is-crossing{stroke:#e97a67!important;filter:drop-shadow(0 0 3px rgba(233,122,103,.86));animation:trackingGeoFlash .7s ease-in-out infinite alternate}
+.tracking3f__geo-ring.is-arriving{stroke:#68d094!important;filter:drop-shadow(0 0 3px rgba(104,208,148,.82));animation:trackingGeoFlash .7s ease-in-out infinite alternate}
+.tracking3e__replay input{cursor:grab}
+.tracking3e__replay input:active{cursor:grabbing}
+@keyframes trackingPulse{0%{transform:translate(-50%,-50%) scale(.5);opacity:.9}70%,100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}
+@keyframes trackingGeoFlash{from{opacity:.65}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  .tracking3f__position-pulse,.tracking3f__geo-ring{animation:none!important}
+  .tracking3f__car{transition:none!important}
+}
