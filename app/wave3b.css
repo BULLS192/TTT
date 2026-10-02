@@ -1,0 +1,32 @@
+/* Wave 3B — Concept One Glass Lab */
+.glass3b{display:grid;gap:12px}
+.glass3b__scene{position:relative;overflow:hidden;aspect-ratio:4/3;border:1px solid rgba(133,175,211,.24);border-radius:22px;background:#060c12;box-shadow:0 30px 70px rgba(0,0,0,.34);isolation:isolate}
+.glass3b__image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.glass3b__tinted{position:absolute;z-index:2;inset:0;pointer-events:none}
+.glass3b__mask{position:absolute;inset:0;width:100%;height:100%}
+.glass3b__tint-shape{mix-blend-mode:multiply}
+.glass3b__sheen{mix-blend-mode:screen;opacity:.72}
+.glass3b__divider{position:absolute;z-index:7;top:0;bottom:0;width:2px;background:#e7f3fc;box-shadow:0 0 20px rgba(100,174,235,.72);pointer-events:none}
+.glass3b__divider span{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:46px;height:46px;transform:translate(-50%,-50%);border:1px solid rgba(229,243,255,.8);border-radius:50%;background:rgba(5,14,22,.9);color:#fff;font-size:17px;box-shadow:0 12px 32px rgba(0,0,0,.4);backdrop-filter:blur(12px)}
+.glass3b__label{position:absolute;z-index:6;top:16px;padding:8px 10px;border:1px solid rgba(255,255,255,.13);border-radius:8px;background:rgba(5,13,20,.78);color:#f2f8fc;font-size:7px;font-weight:900;letter-spacing:.12em;box-shadow:0 8px 24px rgba(0,0,0,.18);backdrop-filter:blur(12px)}
+.glass3b__label--factory{left:16px}.glass3b__label--selected{right:16px}
+.glass3b__environment{position:absolute;z-index:6;left:16px;bottom:16px;display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(5,13,20,.72);color:#caddeb;font-size:7px;font-weight:800;backdrop-filter:blur(10px)}
+.glass3b__environment i{width:6px;height:6px;border-radius:50%;background:#6eafe3;box-shadow:0 0 10px rgba(92,168,226,.62)}
+.glass3b__range{position:absolute;z-index:8;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.glass3b__question{display:grid;grid-template-columns:minmax(140px,.28fr) 1fr;gap:18px;align-items:center;padding:14px 16px;border:1px solid rgba(111,156,197,.18);border-radius:12px;background:#0a1620}
+.glass3b__question small,.glass3b__question strong{display:block}.glass3b__question small{color:#6488a7;font-size:7px;font-weight:900;letter-spacing:.12em}.glass3b__question strong{margin-top:3px;color:#eff7fc;font-size:10px}.glass3b__question p{margin:0;color:#8ca2b5;font-size:8px;line-height:1.55}
+.glass3b__specs{display:grid;gap:7px}.glass3b__spec{padding:11px 12px;border:1px solid rgba(98,142,181,.18);border-radius:10px;background:#0b1824}.glass3b__spec small,.glass3b__spec span{display:block}.glass3b__spec small{color:#6e879b;font-size:7px}.glass3b__spec strong{display:block;margin:4px 0;color:#f1f7fc}.glass3b__spec span{color:#8097aa;font-size:8px}
+.glass3b__controls{margin-top:14px}
+.glass3b button:focus-visible,.glass3b input:focus-visible{outline:2px solid #d9ecff;outline-offset:3px}
+@media(max-width:720px){
+  .glass3b__scene{border-radius:17px}
+  .glass3b__question{grid-template-columns:1fr;gap:7px}
+  .glass3b__label{top:10px;padding:6px 7px;font-size:6px}.glass3b__label--factory{left:10px}.glass3b__label--selected{right:10px}
+  .glass3b__environment{left:10px;bottom:10px}
+  .glass3b__divider span{width:40px;height:40px}
+}
+@media(max-width:460px){
+  .glass3b__label{letter-spacing:.07em}
+  .glass3b__question{padding:12px}
+}
+@media(prefers-reduced-motion:reduce){.glass3b__divider{transition:none!important}}
