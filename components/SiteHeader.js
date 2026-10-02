@@ -111,8 +111,9 @@ export default function SiteHeader() {
           <Link className="button button--small header-cta header-cta--desktop" href="/start">Start a project</Link>
           <Link className="header-cta--mobile" href="/start">Quote</Link>
           <button
+            type="button"
             className={`menu-button ${open ? 'is-open' : ''}`}
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen((current) => !current)}
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
