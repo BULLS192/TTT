@@ -45,11 +45,12 @@ export default function TessaAssistant() {
   const messageEndRef = useRef(null);
 
   useEffect(() => {
+    if (!open || knowledge) return;
     fetch('/api/tessa/knowledge', { cache: 'no-store' })
       .then((response) => response.ok ? response.json() : null)
       .then((result) => { if (result?.entries?.length) setKnowledge(result.entries); })
       .catch(() => {});
-  }, []);
+  }, [open, knowledge]);
 
   useEffect(() => {
     try{
