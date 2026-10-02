@@ -1712,3 +1712,101 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
     }
   }
 }
+
+
+/* === Hotfix: reliable mobile nav + production visuals ==================== */
+@media (max-width: 1100px) {
+  .site-header {
+    isolation: isolate;
+    overflow: visible;
+  }
+
+  .site-header__inner {
+    position: relative;
+    z-index: 202;
+  }
+
+  .header-actions,
+  .menu-button {
+    position: relative;
+    z-index: 204;
+    pointer-events: auto;
+  }
+
+  .mobile-menu {
+    position: absolute;
+    z-index: 203;
+    top: 100% !important;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: 100%;
+    height: calc(100dvh - 72px - env(safe-area-inset-top, 0px));
+    max-height: calc(100dvh - 72px - env(safe-area-inset-top, 0px)) !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transform: translateY(-6px);
+  }
+
+  .mobile-menu.is-open {
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .mobile-menu {
+    top: 100% !important;
+    height: calc(100dvh - 64px - env(safe-area-inset-top, 0px));
+    max-height: calc(100dvh - 64px - env(safe-area-inset-top, 0px)) !important;
+  }
+}
+
+.auto-visual--photo {
+  position: relative;
+  background: #070b11;
+}
+
+.auto-visual__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.002);
+}
+
+.auto-visual__photo-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(4,8,14,.04) 18%, rgba(4,8,14,.18) 58%, rgba(4,8,14,.78) 100%),
+    linear-gradient(90deg, rgba(4,8,14,.16), transparent 58%);
+  pointer-events: none;
+}
+
+.visual-feature .auto-visual--photo {
+  opacity: 1;
+}
+
+.visual-feature .auto-visual--photo .auto-visual__photo {
+  filter: saturate(.9) contrast(1.03) brightness(.82);
+}
+
+.visual-feature .auto-visual--photo .auto-visual__photo-shade {
+  background: linear-gradient(180deg, rgba(3,7,12,.05) 10%, rgba(3,7,12,.32) 52%, rgba(3,7,12,.92) 100%);
+}
+
+@media (max-width: 767px) {
+  .auto-visual__photo {
+    object-position: center center;
+  }
+
+  .auto-visual--concept .auto-visual__photo,
+  .auto-visual--about .auto-visual__photo,
+  .auto-visual--dealership .auto-visual__photo,
+  .auto-visual--fleets .auto-visual__photo {
+    object-position: center 48%;
+  }
+}
