@@ -19,7 +19,7 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 export default function FabricationLab(){
   const[progress,setProgress]=useState(0);
   const[playing,setPlaying]=useState(false);
-  const[reveal,setReveal]=useState(52);
+  const[reveal,setReveal]=useState(8);
   const raf=useRef(null);
   const startAt=useRef(null);
   const startProgress=useRef(0);
