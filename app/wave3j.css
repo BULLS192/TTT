@@ -1,0 +1,60 @@
+/* Wave 3J — Audio cabin/system visual upgrade */
+.audio3j__visual{min-height:620px}
+.audio3j__visual-source{position:absolute;inset:0;z-index:0}
+.audio3j__cabin-image,.audio3j__system-image img{width:100%;height:100%;object-fit:cover;display:block}
+.audio3j__cabin-image{filter:brightness(.64) saturate(.82) contrast(1.12);transform:scale(1.015)}
+.audio3j__cabin-grade{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(3,9,14,.64),rgba(3,9,14,.08) 26%,rgba(3,9,14,.08) 64%,rgba(3,9,14,.76)),
+  radial-gradient(circle at 50% 31%,rgba(52,139,198,.08),transparent 34%),
+  linear-gradient(90deg,rgba(2,8,12,.16),transparent 24%,transparent 76%,rgba(2,8,12,.16))}
+.audio3j__topbar{align-items:flex-start}
+.audio3j__top-controls{display:flex;gap:7px;align-items:center}
+.audio3j__view-switch{display:flex;padding:3px;border:1px solid rgba(122,171,208,.18);border-radius:10px;background:rgba(4,13,20,.84);backdrop-filter:blur(10px)}
+.audio3j__view-switch button{display:flex;align-items:center;gap:5px;min-height:30px;padding:0 9px;border:0;border-radius:7px;background:transparent;color:#88a4b6;font:inherit;font-size:6.5px;font-weight:800}
+.audio3j__view-switch button.is-active{background:#15364f;color:#eff9ff;box-shadow:inset 0 0 0 1px rgba(92,173,228,.24)}
+.audio3j__view-switch .ttt-icon{width:13px;height:13px}
+
+.audio3j__windshield-stage{position:absolute;z-index:4;left:0;right:0;top:16%;height:38%;pointer-events:none}
+.audio3j__stage-horizon{position:absolute;left:8%;right:8%;top:52%;height:1px;background:linear-gradient(90deg,transparent,rgba(98,186,238,.25) 12%,rgba(162,220,250,.72) 50%,rgba(98,186,238,.25) 88%,transparent);box-shadow:0 0 18px rgba(88,186,239,.28)}
+.audio3j__stage-bed{position:absolute;top:41%;left:calc(var(--stage-x) - var(--stage-width)/2);width:var(--stage-width);height:70px;border:1px solid rgba(77,171,228,.25);border-radius:50%;background:radial-gradient(ellipse,rgba(55,151,211,.16),rgba(25,100,151,.07) 52%,transparent 72%);box-shadow:0 0 36px rgba(47,160,224,.12),inset 0 0 24px rgba(85,181,235,.08);transform:translateX(0);transition:left .22s ease,width .22s ease}
+.audio3j__focus{position:absolute;top:47%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:6px;transition:left .22s ease}
+.audio3j__focus i{width:11px;height:11px;border:2px solid #e6f7ff;border-radius:50%;background:#168fda;box-shadow:0 0 0 8px rgba(41,151,215,.08),0 0 22px rgba(56,181,242,.62)}
+.audio3j__focus span{padding:4px 7px;border:1px solid rgba(111,184,228,.18);border-radius:999px;background:rgba(3,12,18,.78);color:#bfe7fb;font-size:5.5px;font-weight:900;letter-spacing:.1em;white-space:nowrap}
+.audio3j__instrument{position:absolute;top:37%;transform:translateX(-50%);display:grid;place-items:center;width:26px;height:26px;border:1px solid rgba(106,184,231,.22);border-radius:50%;background:rgba(5,15,22,.72);color:#9cc8e3;font-size:6px;font-weight:900;box-shadow:0 0 16px rgba(59,166,227,.12);transition:left .22s ease}
+.audio3j__instrument--vocal{top:31%;width:auto;height:auto;padding:5px 8px;border-radius:999px;color:#dff3ff;background:rgba(8,29,42,.78)}
+.audio3j__cabin-speaker{position:absolute;z-index:6;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:4px}
+.audio3j__cabin-speaker i{width:14px;height:14px;border:1px solid rgba(103,183,232,.5);border-radius:50%;background:radial-gradient(circle,#62b8e9 0 25%,#16394f 27% 56%,#07131b 58%);box-shadow:0 0 0 4px rgba(46,147,211,.05),0 0 16px rgba(48,163,226,.2)}
+.audio3j__cabin-speaker span{padding:2px 4px;border-radius:4px;background:rgba(3,11,17,.72);color:#81a6bd;font-size:5px;font-weight:900}
+.audio3j__cabin-speaker.is-active i{animation:audio3jCabinPulse .85s ease-in-out infinite alternate}
+.audio3j__listener{position:absolute;z-index:6;bottom:28%;display:flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid rgba(106,179,224,.22);border-radius:9px;background:rgba(4,14,21,.78);color:#9ed0ed;box-shadow:0 10px 22px rgba(0,0,0,.22);backdrop-filter:blur(8px)}
+.audio3j__listener--driver{left:28%}.audio3j__listener--passenger{right:20%}
+.audio3j__listener .ttt-icon{width:15px;height:15px}.audio3j__listener span{font-size:5.5px;font-weight:900;letter-spacing:.08em}
+.audio3j__reference{z-index:9}
+.audio3j__system-image{position:absolute;inset:0;margin:0!important}
+
+.audio3j__active-mode{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;margin-top:13px;padding:12px;border:1px solid rgba(82,160,213,.24);border-radius:11px;background:linear-gradient(135deg,#102b40,#0a1823);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.audio3j__active-icon{display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(108,181,228,.22);border-radius:10px;background:#0a1c29;color:#68bceb}
+.audio3j__active-icon .ttt-icon{width:21px;height:21px}
+.audio3j__active-mode small,.audio3j__active-mode strong,.audio3j__active-mode p{display:block}
+.audio3j__active-mode small{color:#79a2bd;font-size:5.5px;font-weight:900;letter-spacing:.11em}
+.audio3j__active-mode strong{margin-top:3px;color:#f1f8fc;font-size:10px}
+.audio3j__active-mode p{margin:4px 0 0;color:#8ea7b8;font-size:6.2px;line-height:1.4}
+.audio3j__active-mode>span{align-self:start;padding:4px 6px;border:1px solid rgba(115,173,214,.18);border-radius:999px;color:#a5c6dc;font-size:5.5px;font-weight:900}
+
+@keyframes audio3jCabinPulse{from{transform:scale(.82);opacity:.65}to{transform:scale(1.15);opacity:1;box-shadow:0 0 0 7px rgba(46,147,211,.04),0 0 20px rgba(48,163,226,.32)}}
+
+@media(max-width:980px){
+  .audio3j__visual{min-height:600px}
+  .audio3j__active-mode{grid-template-columns:38px 1fr auto}
+}
+@media(max-width:720px){
+  .audio3j__topbar{left:10px;right:10px}
+  .audio3j__top-controls{display:grid;justify-items:end}
+  .audio3j__view-switch button,.audio3i__seat-switch button{min-height:28px;padding:0 7px}
+  .audio3j__windshield-stage{top:19%;height:34%}
+  .audio3j__instrument--left,.audio3j__instrument--right{display:none}
+  .audio3j__listener{bottom:31%}
+  .audio3j__listener--driver{left:18%}.audio3j__listener--passenger{right:10%}
+  .audio3j__active-mode{grid-template-columns:34px 1fr}.audio3j__active-mode>span{display:none}
+}
+@media(prefers-reduced-motion:reduce){.audio3j__cabin-speaker.is-active i{animation:none!important}}
