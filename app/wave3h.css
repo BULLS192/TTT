@@ -1,0 +1,57 @@
+/* Wave 3H — service contrast/accessibility pass */
+
+/* Secondary controls inside dark interactive labs must not inherit the light-page ghost button color. */
+.wave2-experience .button--ghost{
+  background:#0b1721;
+  color:#eaf4fb;
+  border-color:#6b8295;
+}
+.wave2-experience .button--ghost:hover:not(:disabled){
+  background:#122536;
+  color:#fff;
+  border-color:#83a9c5;
+}
+.wave2-experience .button--ghost:disabled{
+  background:#0a141c;
+  color:#8fa5b6;
+  border-color:#405565;
+  opacity:.72;
+}
+
+/* Tracking + security metric labels */
+.tracking3e__metric small,
+.security3e__metric small{
+  color:#89abc4!important;
+}
+
+/* Audio stage progression */
+.audio3a__progression small{color:#86adc9;}
+.audio3a__progression span{color:#8eacc2;}
+.audio3a__progression button{color:#8eacc2;}
+.audio3a__progression button.is-active small,
+.audio3a__progression button.is-active span{color:#9bb8cd;}
+
+/* SignalTrace stage progression */
+.signal2b__steps small{color:#86adc9;}
+.signal2b__steps span{color:#8eacc2;}
+.signal2b__steps button{color:#8eacc2;}
+.signal2b__steps button.is-active small,
+.signal2b__steps button.is-active span{color:#9bb8cd;}
+
+/* Fabrication stage progression */
+.fabrication3a__steps small{color:#86adc9;}
+.fabrication3a__steps span{color:#8eacc2;}
+.fabrication3a__steps button{color:#8eacc2;}
+.fabrication3a__steps button.is-active small,
+.fabrication3a__steps button.is-active span{color:#9bb8cd;}
+
+/* Editorial process numerals on light service sections */
+.process-cards small,
+.principle-grid small{
+  color:#326daa;
+}
+/* Preserve strong contrast when those cards are used on dark sections. */
+.section--dark .process-cards small,
+.section--dark .principle-grid small{
+  color:#91b7d1;
+}

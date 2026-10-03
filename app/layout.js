@@ -27,6 +27,7 @@ import './wave3c.css';
 import './wave3d.css';
 import './wave3e.css';
 import './wave3f.css';
+import './wave3h.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import SiteTelemetry from '../components/SiteTelemetry';
