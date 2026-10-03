@@ -119,3 +119,8 @@
 @media(prefers-reduced-motion:reduce){
   .solution-index-card__media img{transition:none!important}
 }
+
+/* Business inquiry contrast inside Fleet & Dealership solution */
+.solution-editorial-page .form-grid label>span,
+.solution-editorial-page .consent-check>span{color:#5e6976}
+.solution-editorial-page .consent-check>span a{color:#315f91}
