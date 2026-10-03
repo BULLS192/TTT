@@ -244,7 +244,7 @@ export default function ScrollCinematic() {
             <div className={`cinematic__chapter cinematic__chapter--${item.key} ${index === activeChapter ? 'is-active' : ''}`} key={item.key} aria-hidden={index !== activeChapter}>
               {item.key === 'ecosystem' ? <img className="cinematic__logo" src={canonicalLogoDataUri} alt="Thompson Transportation Technologies" width="480" height="228" decoding="async" /> : null}
               <p className="cinematic__kicker">{item.kicker}</p>
-              <h1>{item.title}</h1>
+              {item.key === 'hero' ? <h1>{item.title}</h1> : <h2 className="cinematic__title">{item.title}</h2>}
               <p className="cinematic__body">{item.body}</p>
               {item.key === 'security' ? <div className="cinematic__callouts" aria-label="Vehicle security capabilities"><span className={securityProgress > 0.08 ? 'is-on' : ''}>GPS Tracking</span><span className={securityProgress > 0.35 ? 'is-on' : ''}>Immobilization</span><span className={securityProgress > 0.62 ? 'is-on' : ''}>Security Control</span></div> : null}
               {item.key === 'hero' ? <><div className="cinematic__actions"><Link className="button" href="/quote">Request a Quote →</Link><a className="button button--ghost-dark" href="#services">See what we do ↓</a></div><TessaTrigger className="cinematic__tessa-link" prompt="I have a question about TTT services.">Have a question first? Ask Tessa →</TessaTrigger></> : null}{item.key === 'ecosystem' ? <div className="cinematic__actions"><Link className="button" href="/quote">Request a Quote →</Link><a className="button button--ghost-dark" href="#services">Explore Services</a></div> : null}
