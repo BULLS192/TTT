@@ -1810,3 +1810,176 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
     object-position: center 48%;
   }
 }
+
+
+/* === Review fixes: viewport menu + sitewide contrast ===================== */
+@media (max-width: 1100px) {
+  .mobile-menu--portal {
+    position: fixed !important;
+    z-index: 1000 !important;
+    top: 72px !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 767px) {
+  .mobile-menu--portal {
+    top: calc(64px + env(safe-area-inset-top, 0px)) !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 950px) {
+  .mobile-menu--portal {
+    top: calc(58px + env(safe-area-inset-top, 0px)) !important;
+  }
+}
+
+/* High-contrast text tokens. These intentionally override older muted tones. */
+:root {
+  --ttt-text-body: #344054;
+  --ttt-text-muted: #4b5870;
+  --ttt-text-dark: #f8faff;
+  --ttt-text-dark-muted: #c8d2e1;
+  --ttt-text-dark-subtle: #b9c6d8;
+  --ttt-accent-on-dark: #9fb7ff;
+}
+
+/* Light surfaces */
+.lead,
+.section-copy p,
+.editorial-visual-copy p,
+.feature-card p,
+.product-card p,
+.capability-card p,
+.project-card p,
+.contact-grid p,
+.visual-stat p,
+.comparison-cell p,
+.coverage-card p,
+.security-layer p,
+.usecase-row span,
+.scenario-row p,
+.secondary-service-list span,
+.plain-list li {
+  color: var(--ttt-text-muted);
+}
+
+/* Dark surfaces */
+.section--dark,
+.dark-section,
+.diagram-panel,
+.service-index__card--lead,
+.audience-lane:nth-child(2),
+.positioning-panel--dark,
+.cta-band,
+.site-footer {
+  color: var(--ttt-text-dark);
+}
+
+.section--dark p,
+.dark-section p,
+.diagram-panel p,
+.service-index__card--lead p,
+.audience-lane:nth-child(2) p,
+.positioning-panel--dark p,
+.cta-band p:not(.eyebrow),
+.site-footer p,
+.site-footer a,
+.site-footer .footer-bottom {
+  color: var(--ttt-text-dark-muted) !important;
+}
+
+.section--dark .eyebrow,
+.dark-section .eyebrow,
+.diagram-panel .eyebrow,
+.service-index__card--lead small,
+.audience-lane:nth-child(2) small,
+.positioning-panel--dark .eyebrow,
+.cta-band .eyebrow {
+  color: var(--ttt-accent-on-dark) !important;
+}
+
+.site-footer .footer-grid a,
+.site-footer .footer-top p,
+.site-footer .footer-bottom,
+.site-footer .footer-bottom a {
+  color: var(--ttt-text-dark-subtle) !important;
+}
+
+.site-footer .footer-grid a:hover,
+.site-footer .footer-bottom a:hover {
+  color: #fff !important;
+}
+
+/* Text over photography needs its own contrast layer. */
+.visual-feature__content {
+  background: linear-gradient(
+    180deg,
+    rgba(3,7,12,.04) 8%,
+    rgba(3,7,12,.28) 40%,
+    rgba(3,7,12,.82) 68%,
+    rgba(3,7,12,.97) 100%
+  );
+  text-shadow: 0 1px 14px rgba(0,0,0,.48);
+}
+
+.visual-feature__content h3 {
+  color: #fff;
+}
+
+.visual-feature__content p {
+  color: #e2e8f2 !important;
+}
+
+.visual-feature__content small {
+  color: #b5c8ff !important;
+}
+
+.auto-visual__photo-shade {
+  background:
+    linear-gradient(180deg, rgba(3,7,12,.08) 10%, rgba(3,7,12,.25) 52%, rgba(3,7,12,.9) 100%),
+    linear-gradient(90deg, rgba(3,7,12,.25), transparent 56%);
+}
+
+.auto-visual__caption {
+  text-shadow: 0 1px 12px rgba(0,0,0,.7);
+}
+
+.auto-visual__caption > small {
+  color: #c1d2ff !important;
+}
+
+.auto-visual__caption span {
+  color: #fff !important;
+  background: rgba(3,8,16,.82);
+  border-color: rgba(255,255,255,.2);
+}
+
+/* Mobile navigation contrast */
+.mobile-menu--portal {
+  color: #fff;
+  background:
+    radial-gradient(circle at 82% 6%, rgba(43,95,217,.18), transparent 30%),
+    #080c13 !important;
+}
+
+.mobile-menu--portal .mobile-menu__inner > a,
+.mobile-menu--portal summary {
+  color: #fff !important;
+}
+
+.mobile-menu--portal details > a {
+  color: #c9d3e1 !important;
+}
+
+.mobile-menu--portal summary span {
+  color: #9fb7ff !important;
+}
