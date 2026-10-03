@@ -237,7 +237,7 @@ export default function ScrollCinematic() {
 
         <div className="cinematic__shade cinematic__shade--left" />
         <div className="cinematic__shade cinematic__shade--top" />
-        <div className="cinematic__shade cinematic__shade--bottom" /><div className="cinematic__concept-label">3D REFERENCE CONCEPT · NOT A CUSTOMER VEHICLE</div>
+        <div className="cinematic__shade cinematic__shade--bottom" /><div className="cinematic__concept-label">REFERENCE CONCEPT · NOT A CUSTOMER VEHICLE</div>
 
         <div className="cinematic__content shell">
           {chapters.map((item, index) => (
