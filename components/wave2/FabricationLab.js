@@ -83,9 +83,9 @@ export default function FabricationLab(){
   >
     <div className="fab3n">
       <section className="fab3n__scene" aria-label="Interactive amplifier fitment transformation">
-        <AssetMedia visual="fabricationFitmentProblem" className="fab3n__image fab3n__image--problem" priority/>
-        <AssetMedia visual="fabricationFitmentEngineering" className="fab3n__image fab3n__image--engineering" priority/>
-        <AssetMedia visual="fabricationFitmentInstalled" className="fab3n__image fab3n__image--installed" priority/>
+        <div className="fab3n__photo-layer" style={{opacity:problemOpacity}}><AssetMedia visual="fabricationFitmentProblem" className="fab3n__image fab3n__image--problem" priority/></div>
+        <div className="fab3n__photo-layer" style={{opacity:engineeringOpacity}}><AssetMedia visual="fabricationFitmentEngineering" className="fab3n__image fab3n__image--engineering" priority/></div>
+        <div className="fab3n__photo-layer" style={{opacity:installedOpacity}}><AssetMedia visual="fabricationFitmentInstalled" className="fab3n__image fab3n__image--installed" priority/></div>
 
         <div className="fab3n__image-state fab3n__image-state--problem" style={{opacity:problemOpacity}}/>
         <div className="fab3n__image-state fab3n__image-state--engineering" style={{opacity:engineeringOpacity}}/>

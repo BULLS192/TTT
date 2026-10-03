@@ -32,7 +32,7 @@ import './wave3i.css';
 import './wave3j.css';
 import './wave3k.css';
 import './wave3l.css';
-import './wave3m.css';
+import './wave3m.css';\nimport './wave3n.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import SiteTelemetry from '../components/SiteTelemetry';
