@@ -83,6 +83,7 @@ export default function SiteHeader() {
   };
 
   return (
+    <>
     <header className="site-header site-header--premium">
       <div className="site-header__accent" />
       <div className="site-header__inner shell">
@@ -141,5 +142,6 @@ export default function SiteHeader() {
       </div>,
       document.body
     ) : null}
+    </>
   );
 }
