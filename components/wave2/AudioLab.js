@@ -37,6 +37,7 @@ const LEAD=[440,523.25,659.25,523.25,392,523.25,587.33,493.88];
 
 export default function AudioLab(){
   const[selectedMode,setSelectedMode]=useState('DSP Tuned');
+  const[viewMode,setViewMode]=useState('Cabin');
   const[listener,setListener]=useState('Driver');
   const[playing,setPlaying]=useState(false);
   const[abFactory,setAbFactory]=useState(false);
@@ -127,37 +128,61 @@ export default function AudioLab(){
     aside={aside}
   >
     <div className={'audio3i '+(playing?'is-playing':'')}>
-      <section className="audio3i__visual" aria-label="Concept One audio listening visualizer">
-        <AssetMedia visual="audioPlacement" className="audio3i__photo"/>
-        <div className="audio3i__shade"/>
-        <div className="audio3i__topbar">
+      <section className={'audio3i__visual audio3j__visual is-'+viewMode.toLowerCase()} aria-label="Concept One audio listening visualizer">
+        <div className="audio3j__visual-source">
+          {viewMode==='Cabin'?<>
+            <img className="audio3j__cabin-image" src="/visuals/window-tint/concept-one-driver-day.avif" alt="Concept One cabin viewed from the driver area"/>
+            <div className="audio3j__cabin-grade"/>
+            <div className="audio3j__windshield-stage" style={{'--stage-x':stageX+'%','--stage-width':mode.spread+'%'}}>
+              <div className="audio3j__stage-horizon"/>
+              <div className="audio3j__stage-bed"/>
+              <span className="audio3j__instrument audio3j__instrument--left" style={{left:(stageX-mode.spread*.26)+'%'}}>L</span>
+              <span className="audio3j__instrument audio3j__instrument--vocal" style={{left:stageX+'%'}}>VOCAL</span>
+              <span className="audio3j__instrument audio3j__instrument--right" style={{left:(stageX+mode.spread*.26)+'%'}}>R</span>
+              <div className="audio3j__focus" style={{left:stageX+'%'}}><i/><span>{demoMode==='DSP Tuned'?'CENTERED IMAGE':'PERCEIVED IMAGE'}</span></div>
+            </div>
+            <CabinSpeaker x="8%" y="38%" label="LT" active={playing}/>
+            <CabinSpeaker x="92%" y="38%" label="RT" active={playing}/>
+            <CabinSpeaker x="7%" y="69%" label="LD" active={playing}/>
+            <CabinSpeaker x="93%" y="69%" label="RD" active={playing}/>
+            <div className={'audio3j__listener audio3j__listener--'+listener.toLowerCase()}>
+              <Icon name="seat"/><span>{listener.toUpperCase()} REFERENCE</span>
+            </div>
+          </>:<>
+            <AssetMedia visual="audioPlacement" className="audio3i__photo audio3j__system-image"/>
+            <div className="audio3i__shade"/>
+            <div className="audio3i__stage-shell">
+              <div className="audio3i__stage-orbit" style={{left:stageX+'%',width:mode.spread+'%'}}>
+                <div className="audio3i__stage-glow"/>
+                <div className="audio3i__stage-axis"/>
+                <div className="audio3i__stage-center"><i/><span>PERCEIVED IMAGE</span></div>
+              </div>
+            </div>
+            <Speaker x="14%" y="22%" label="LF" active={playing}/>
+            <Speaker x="86%" y="22%" label="RF" active={playing}/>
+            <Speaker x="14%" y="72%" label="LR" active={playing}/>
+            <Speaker x="86%" y="72%" label="RR" active={playing}/>
+            <div className="audio3i__seat-marker" style={{left:activeSeat}}><Icon name="seat"/><span>{listener.toUpperCase()}</span></div>
+            <svg className="audio3i__paths" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <path className="near" d={listener==='Driver'?'M14 22 C22 34 29 48 35 68':'M14 22 C28 34 47 48 65 68'}/>
+              <path className="far" d={listener==='Driver'?'M86 22 C70 34 51 48 35 68':'M86 22 C78 34 71 48 65 68'}/>
+            </svg>
+          </>}
+        </div>
+
+        <div className="audio3i__topbar audio3j__topbar">
           <div><span className="audio3i__live"><i/>{playing?'REFERENCE PLAYING':'REFERENCE READY'}</span><strong>Concept One · Listening Room</strong></div>
-          <div className="audio3i__seat-switch" role="group" aria-label="Listening position">
-            {['Driver','Passenger'].map(v=><button key={v} className={listener===v?'is-active':''} aria-pressed={listener===v} onClick={()=>setListener(v)}><Icon name="seat"/>{v}</button>)}
+          <div className="audio3j__top-controls">
+            <div className="audio3j__view-switch" role="group" aria-label="Audio visualization">
+              {['Cabin','System'].map(v=><button key={v} className={viewMode===v?'is-active':''} aria-pressed={viewMode===v} onClick={()=>setViewMode(v)}><Icon name={v==='Cabin'?'cabin':'system'}/>{v}</button>)}
+            </div>
+            <div className="audio3i__seat-switch" role="group" aria-label="Listening position">
+              {['Driver','Passenger'].map(v=><button key={v} className={listener===v?'is-active':''} aria-pressed={listener===v} onClick={()=>setListener(v)}><Icon name="seat"/>{v}</button>)}
+            </div>
           </div>
         </div>
 
-        <div className="audio3i__stage-shell">
-          <div className="audio3i__stage-orbit" style={{left:stageX+'%',width:mode.spread+'%'}}>
-            <div className="audio3i__stage-glow"/>
-            <div className="audio3i__stage-axis"/>
-            <div className="audio3i__stage-center"><i/><span>PERCEIVED IMAGE</span></div>
-          </div>
-        </div>
-
-        <Speaker x="14%" y="22%" label="LF" active={playing}/>
-        <Speaker x="86%" y="22%" label="RF" active={playing}/>
-        <Speaker x="14%" y="72%" label="LR" active={playing}/>
-        <Speaker x="86%" y="72%" label="RR" active={playing}/>
-
-        <div className="audio3i__seat-marker" style={{left:activeSeat}}><Icon name="seat"/><span>{listener.toUpperCase()}</span></div>
-
-        <svg className="audio3i__paths" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <path className="near" d={listener==='Driver'?'M14 22 C22 34 29 48 35 68':'M14 22 C28 34 47 48 65 68'}/>
-          <path className="far" d={listener==='Driver'?'M86 22 C70 34 51 48 35 68':'M86 22 C78 34 71 48 65 68'}/>
-        </svg>
-
-        <div className="audio3i__reference">
+        <div className="audio3i__reference audio3j__reference">
           <div className="audio3i__reference-head"><span><Icon name="wave"/>ORIGINAL TTT REFERENCE LOOP</span><b>{formatClock(elapsed)} / 0:08</b></div>
           <div className="audio3i__waveform" aria-hidden="true">{Array.from({length:36},(_,i)=><i key={i} style={{'--bar':.25+((i*17)%13)/18,'--delay':(i%9)*-.08+'s'}}/>)}</div>
           <div className="audio3i__track"><i style={{width:(elapsed/8*100)+'%'}}/></div>
@@ -166,6 +191,12 @@ export default function AudioLab(){
 
       <section className="audio3i__dashboard">
         <div className="audio3i__dashboard-head"><div><small>ACTIVE PROCESSING</small><strong>{demoMode}</strong></div><span><i/>{playing?'LIVE':'READY'}</span></div>
+
+        <div className="audio3j__active-mode">
+          <div className="audio3j__active-icon"><Icon name={demoMode==='Factory'?'factory':demoMode==='Speaker Upgrade'?'speaker':demoMode==='Amplified'?'amp':'dsp'}/></div>
+          <div><small>ACTIVE LISTENING STAGE</small><strong>{demoMode}</strong><p>{mode.copy}</p></div>
+          <span>{listener}</span>
+        </div>
 
         <div className="audio3i__mode-list">
           {MODE_NAMES.map((name,i)=>{
@@ -276,6 +307,7 @@ function updateEngine(engine,modeName,listener){
   ramp(engine.master.gain,m.makeup);
 }
 
+function CabinSpeaker({x,y,label,active}){return <div className={'audio3j__cabin-speaker '+(active?'is-active':'')} style={{left:x,top:y}}><i/><span>{label}</span></div>}
 function Speaker({x,y,label,active}){return <div className={'audio3i__speaker '+(active?'is-active':'')} style={{left:x,top:y}}><div><i/><b/></div><span>{label}</span></div>}
 function Trait({icon,label,value}){return <div className="audio3i__trait"><Icon name={icon}/><small>{label}</small><strong>{value}</strong></div>}
 function Metric({label,value}){return <div><small>{label}</small><strong>{value}</strong></div>}
@@ -293,7 +325,9 @@ function Icon({name}){
     factory:<><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M8 9h8M8 13h5"/></>,
     speaker:<><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="8" r="1"/></>,
     amp:<><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 10h4M7 14h8M18 10v4"/></>,
-    dsp:<><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 12h5M8 15h8"/></>
+    dsp:<><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 12h5M8 15h8"/></>,
+    cabin:<><path d="M3 16c2-5 5-8 9-8s7 3 9 8"/><path d="M5 16h14M7 16v3M17 16v3M9 11h6"/></>,
+    system:<><circle cx="12" cy="12" r="2"/><path d="M12 4v4M12 16v4M4 12h4M16 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8"/></>
   };
   return <svg className="ttt-icon" {...common}>{paths[name]||paths.wave}</svg>;
 }
