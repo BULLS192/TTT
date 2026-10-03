@@ -1,0 +1,35 @@
+/* Wave 3T — full-site QA and polish */
+
+/* Persistent project controls: preserve a deliberate gap instead of overlapping. */
+.ttt-build-dock{right:286px}
+
+/* Full-sitemap contrast fixes. */
+.technology-system-panel .flow-node small{color:#a8bdd0}
+.technology-system-panel .flow-node strong{color:#f0f6fa}
+.vehicle-hub__result .eyebrow{color:#91c9f5!important}
+.legal-hero .eyebrow{color:#91b9ff!important}
+
+/* Section wayfinding. */
+.copy-section .eyebrow,
+.solution-editorial-section .eyebrow{letter-spacing:.13em}
+
+/* Long mobile menus must remain scrollable when a submenu is expanded. */
+@media(max-width:980px){
+  .production-mobile.is-open{
+    max-height:calc(100dvh - 72px);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+  }
+}
+
+/* Finger-sized controls in the interactive experiences. */
+@media(max-width:700px){
+  .ttt-build-dock{right:12px;bottom:84px}
+  .menu-button{min-height:44px;padding:0 14px}
+  .wave2-section button{min-height:44px}
+  .wave2-section button[aria-label]{min-width:44px}
+  .wave2-section input[type="range"]{min-height:44px}
+  .concept3q__priorities button{min-height:44px}
+  .filter-pills button,
+  .faq-filter button{min-height:44px}
+}
