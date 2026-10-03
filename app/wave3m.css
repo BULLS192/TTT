@@ -1,0 +1,412 @@
+/* Wave 3M — focused fabrication scene refinement */
+
+/* Remove decorative full-scene treatment and make the installation zone the hero. */
+.fab3l__scene{
+  background:
+    radial-gradient(circle at 47% 44%,rgba(42,116,164,.10),transparent 34%),
+    linear-gradient(180deg,#08131b 0%,#050c12 100%);
+}
+.fab3m__bay{
+  position:absolute;
+  z-index:1;
+  inset:9% 5% 16%;
+  overflow:hidden;
+  border:1px solid rgba(116,159,191,.18);
+  border-radius:24px;
+  background:
+    radial-gradient(ellipse at 48% 42%,rgba(31,52,65,.92) 0 34%,rgba(14,26,34,.98) 58%,#071017 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025),
+    inset 0 -50px 100px rgba(0,0,0,.26),
+    0 28px 60px rgba(0,0,0,.26);
+}
+.fab3m__bay:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(118deg,transparent 0 17%,rgba(255,255,255,.018) 18%,transparent 19% 100%),
+    linear-gradient(62deg,transparent 0 71%,rgba(255,255,255,.012) 72%,transparent 73% 100%);
+  opacity:.9;
+}
+.fab3m__trim{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:24%;
+  background:
+    linear-gradient(90deg,#050b10,#111c24 44%,#17232c 72%,#0c141a);
+  box-shadow:inset 0 0 34px rgba(0,0,0,.42);
+}
+.fab3m__trim--left{left:0;clip-path:polygon(0 0,100% 8%,83% 92%,0 100%)}
+.fab3m__trim--right{right:0;clip-path:polygon(0 8%,100% 0,100% 100%,17% 92%)}
+.fab3m__focus-pocket{
+  position:absolute;
+  left:20%;
+  right:20%;
+  top:15%;
+  bottom:18%;
+  border:1px solid rgba(125,167,196,.24);
+  border-radius:22px;
+  background:
+    linear-gradient(145deg,rgba(18,31,40,.98),rgba(7,14,20,.99)),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.012) 0 2px,transparent 2px 6px);
+  box-shadow:
+    inset 0 0 0 10px rgba(255,255,255,.008),
+    inset 0 22px 34px rgba(255,255,255,.01),
+    inset 0 -35px 55px rgba(0,0,0,.34),
+    0 18px 34px rgba(0,0,0,.28);
+}
+.fab3m__focus-pocket:before{
+  content:"";
+  position:absolute;
+  left:8%;
+  right:8%;
+  top:8%;
+  bottom:8%;
+  border:1px solid rgba(103,149,180,.08);
+  border-radius:16px;
+}
+.fab3m__rail{
+  position:absolute;
+  left:8%;
+  right:8%;
+  height:13px;
+  border:1px solid rgba(140,165,181,.26);
+  border-radius:6px;
+  background:linear-gradient(180deg,#53636d,#1e2a31 47%,#111a20 52%,#364650);
+  box-shadow:0 7px 10px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.fab3m__rail--top{top:12%}
+.fab3m__rail--bottom{bottom:12%}
+.fab3m__rail i{
+  position:absolute;
+  top:50%;
+  width:8px;height:8px;
+  transform:translateY(-50%);
+  border:1px solid #8da0ab;border-radius:50%;
+  background:#0a1115;
+  box-shadow:inset 0 0 0 2px #26343c;
+}
+.fab3m__rail i:nth-child(1){left:8%}.fab3m__rail i:nth-child(2){left:50%}.fab3m__rail i:nth-child(3){right:8%}
+.fab3m__service-opening{
+  position:absolute;
+  left:29%;
+  right:29%;
+  top:28%;
+  bottom:28%;
+  border:1px solid rgba(116,156,182,.16);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 50% 44%,rgba(20,41,54,.72),#050b10 72%);
+  box-shadow:inset 0 0 26px rgba(0,0,0,.7);
+}
+.fab3m__service-opening:before,
+.fab3m__service-opening:after{
+  content:"";
+  position:absolute;
+  top:12%;bottom:12%;
+  width:7px;
+  border-radius:4px;
+  background:linear-gradient(#41515b,#17232a 45%,#0c151a);
+  opacity:.76;
+}
+.fab3m__service-opening:before{left:12%}.fab3m__service-opening:after{right:12%}
+.fab3m__bay-datum{
+  position:absolute;
+  z-index:2;
+  opacity:.20;
+  pointer-events:none;
+}
+.fab3m__bay-datum--v{top:8%;bottom:8%;left:50%;width:1px;background:#74b9df}
+.fab3m__bay-datum--h{left:8%;right:8%;top:50%;height:1px;background:#74b9df}
+.fab3m__floor{
+  position:absolute;
+  left:10%;right:10%;bottom:-8%;
+  height:29%;
+  transform:perspective(360px) rotateX(63deg);
+  transform-origin:center bottom;
+  border-top:1px solid rgba(122,153,174,.15);
+  background:
+    linear-gradient(rgba(83,114,134,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(83,114,134,.025) 1px,transparent 1px),
+    linear-gradient(#111d24,#050b0f);
+  background-size:26px 26px,26px 26px,auto;
+}
+.fab3m__bay-label{
+  position:absolute;
+  left:18px;
+  bottom:14px;
+  display:grid;
+  gap:2px;
+  padding:8px 10px;
+  border:1px solid rgba(117,158,188,.14);
+  border-radius:9px;
+  background:rgba(5,13,19,.74);
+  backdrop-filter:blur(7px);
+}
+.fab3m__bay-label span{color:#6d94ac;font-size:5px;font-weight:900;letter-spacing:.11em}
+.fab3m__bay-label strong{color:#dbeaf3;font-size:7px}
+.fab3m__bay-label small{color:#71899a;font-size:5.5px}
+
+/* Localize every transformation to the same packaging pocket. */
+.fab3l__problem{
+  left:27%;
+  top:28%;
+  width:42%;
+  height:35%;
+}
+.fab3l__amp{
+  left:18%;
+  top:15%;
+  width:60%;
+  height:59%;
+  transform:rotate(-7deg);
+}
+.fab3l__collision{
+  right:-6%;
+  bottom:-5%;
+}
+.fab3l__scan{
+  inset:22% 18% 25%;
+}
+.fab3l__scan-grid{
+  border-color:rgba(81,167,219,.14);
+  background:
+    linear-gradient(rgba(65,140,188,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(65,140,188,.035) 1px,transparent 1px);
+  background-size:38px 38px;
+}
+.fab3l__scan-grid i{
+  width:2px;height:2px;
+  box-shadow:0 0 6px rgba(82,181,235,.55);
+}
+.fab3l__scan-line{
+  left:3%;right:3%;
+  height:1px;
+  box-shadow:0 0 12px rgba(85,190,240,.55);
+}
+.fab3l__scan-label{
+  left:50%;
+  bottom:10px;
+  transform:translateX(-50%);
+  width:max-content;
+  max-width:86%;
+}
+.fab3l__cad{
+  inset:22% 18% 25%;
+}
+.fab3l__cad-label--a{left:10%;top:28%}
+.fab3l__cad-label--b{right:8%;top:40%}
+.fab3l__cad-label--c{right:18%;bottom:13%}
+.fab3l__cad-title{
+  top:4%;
+  min-width:210px;
+}
+.fab3l__part{
+  left:50%;
+  top:49%;
+  width:33%;
+  max-width:275px;
+}
+.fab3l__installed{
+  inset:22% 18% 25%;
+}
+.fab3l__mount-final{
+  left:22%;
+  top:30%;
+  width:56%;
+  height:40%;
+}
+.fab3l__installed-callout{
+  right:1%;
+  top:8%;
+}
+
+/* Calm scene copy so it doesn't compete with the engineering visual. */
+.fab3l__scene-copy{
+  left:20%;
+  right:20%;
+  bottom:11px;
+  padding:9px 11px;
+  border-color:rgba(109,163,204,.12);
+  background:rgba(4,13,20,.72);
+}
+.fab3l__scene-copy p{max-width:680px}
+
+/* Final reveal now happens inside the exact same scene instead of a second unrelated panel. */
+.fab3m__hidden-reveal{
+  position:absolute;
+  z-index:8;
+  left:6%;
+  right:6%;
+  top:14%;
+  bottom:18%;
+  overflow:hidden;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(5,21,31,.92),rgba(7,29,42,.78));
+  border-right:1px solid rgba(161,222,250,.72);
+  box-shadow:10px 0 30px rgba(33,137,193,.09);
+}
+.fab3m__hidden-surface{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(rgba(73,151,199,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(73,151,199,.04) 1px,transparent 1px),
+    radial-gradient(circle at 50% 50%,rgba(33,111,157,.10),transparent 58%);
+  background-size:34px 34px,34px 34px,auto;
+}
+.fab3m__hidden-bracket{
+  position:absolute;
+  left:31%;top:29%;
+  width:39%;height:38%;
+  border:2px solid rgba(104,193,235,.9);
+  border-radius:17px;
+  background:linear-gradient(145deg,rgba(55,116,150,.18),rgba(8,28,40,.28));
+  box-shadow:0 0 0 8px rgba(55,151,207,.035),0 0 26px rgba(66,177,230,.16);
+}
+.fab3m__hidden-amp{
+  position:absolute;
+  inset:13% 9%;
+  border:1px solid rgba(177,211,228,.7);
+  border-radius:10px;
+  background:linear-gradient(135deg,rgba(85,110,124,.55),rgba(12,31,41,.72));
+}
+.fab3m__hidden-amp:before{
+  content:"";
+  position:absolute;inset:7px;
+  border:1px solid rgba(185,219,236,.14);
+  border-radius:6px;
+}
+.fab3m__hidden-amp span{
+  position:absolute;left:11px;top:9px;
+  color:#d7eef9;font-size:6px;font-weight:900;letter-spacing:.1em;
+}
+.fab3m__fastener{
+  position:absolute;
+  bottom:7px;
+  width:10px;height:10px;
+  border:2px solid #a9dcef;border-radius:50%;
+  background:#06131b;
+  box-shadow:0 0 10px rgba(101,188,230,.32);
+}
+.fab3m__fastener--1{left:9px}.fab3m__fastener--2{right:9px}
+.fab3m__hidden-cable{
+  position:absolute;
+  height:2px;
+  background:#74c5eb;
+  box-shadow:0 0 9px rgba(89,188,235,.42);
+  transform-origin:left center;
+}
+.fab3m__hidden-cable--1{left:19%;top:72%;width:31%;transform:rotate(-14deg)}
+.fab3m__hidden-cable--2{left:64%;top:67%;width:21%;transform:rotate(18deg)}
+.fab3m__hidden-callout{
+  position:absolute;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  color:#a7d5e9;
+  font-size:5.5px;
+  font-weight:900;
+  letter-spacing:.05em;
+}
+.fab3m__hidden-callout i{
+  width:8px;height:8px;
+  border:2px solid #99d8f3;border-radius:50%;
+  box-shadow:0 0 10px rgba(91,192,238,.48);
+}
+.fab3m__hidden-callout--mount{left:24%;top:65%}
+.fab3m__hidden-callout--service{right:15%;top:58%}
+.fab3m__hidden-label{
+  position:absolute;
+  left:14px;top:14px;
+  padding:4px 7px;
+  border:1px solid rgba(109,187,228,.18);
+  border-radius:999px;
+  background:rgba(6,23,34,.82);
+  color:#9cd9f3;
+  font-size:5.5px;font-weight:900;letter-spacing:.1em;
+}
+.fab3m__reveal-divider{
+  position:absolute;
+  z-index:9;
+  top:14%;
+  bottom:18%;
+  width:2px;
+  transform:translateX(-50%);
+  background:#e2f6ff;
+  box-shadow:0 0 14px rgba(167,228,253,.72);
+  pointer-events:none;
+}
+.fab3m__reveal-divider i{
+  position:absolute;
+  top:50%;left:50%;
+  display:grid;place-items:center;
+  width:32px;height:32px;
+  transform:translate(-50%,-50%);
+  border:1px solid #caeaf7;border-radius:50%;
+  background:#07151e;
+  color:#f0fbff;
+  font-style:normal;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+.fab3m__hidden-control{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:9px 14px;
+  align-items:center;
+  margin-top:13px;
+  padding:13px 15px;
+  border:1px solid rgba(105,162,201,.18);
+  border-radius:12px;
+  background:linear-gradient(180deg,#0a1822,#07131b);
+}
+.fab3m__hidden-control>div{
+  display:flex;align-items:center;gap:9px;
+}
+.fab3m__hidden-control>div>.ttt-icon{
+  width:19px;height:19px;color:#68b6e5;
+}
+.fab3m__hidden-control small,
+.fab3m__hidden-control strong{display:block}
+.fab3m__hidden-control small{color:#7898ad;font-size:5.5px;font-weight:900;letter-spacing:.1em}
+.fab3m__hidden-control strong{margin-top:3px;color:#dcecf5;font-size:7px}
+.fab3m__hidden-control>b{color:#83acc6;font-size:6px}
+.fab3m__hidden-control>input{
+  grid-column:1/-1;
+  width:100%;
+  accent-color:#61b5e5;
+}
+
+/* Remove the obsolete second reveal layout if inherited CSS still exists. */
+.fab3l__xray{display:none!important}
+
+@media(max-width:1000px){
+  .fab3m__bay{inset:9% 3% 16%}
+  .fab3m__focus-pocket{left:14%;right:14%}
+  .fab3l__problem{left:22%;width:50%}
+  .fab3l__scan,.fab3l__cad,.fab3l__installed{left:12%;right:12%}
+  .fab3l__scene-copy{left:12%;right:12%}
+}
+@media(max-width:680px){
+  .fab3m__bay{inset:11% 2% 17%;border-radius:18px}
+  .fab3m__trim{width:18%}
+  .fab3m__focus-pocket{left:9%;right:9%;top:17%;bottom:18%}
+  .fab3m__bay-label{display:none}
+  .fab3l__problem{left:14%;top:31%;width:64%}
+  .fab3l__collision{right:-20%;bottom:-15%}
+  .fab3l__scan{inset:26% 8% 27%}
+  .fab3l__cad{inset:25% 7% 27%}
+  .fab3l__part{width:47%}
+  .fab3l__installed{inset:25% 7% 27%}
+  .fab3l__scene-copy{left:7%;right:7%;bottom:8px}
+  .fab3m__hidden-reveal{left:3%;right:3%;top:17%;bottom:20%}
+  .fab3m__reveal-divider{top:17%;bottom:20%}
+  .fab3m__hidden-control{grid-template-columns:1fr}
+  .fab3m__hidden-control>b{justify-self:start}
+  .fab3m__hidden-control>input{grid-column:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .fab3l__problem{transition:none!important}
+}
