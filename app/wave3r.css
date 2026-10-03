@@ -1,0 +1,14 @@
+/* Wave 3R — cross-site integration QA overrides */
+
+/* Home / legacy Concept One preview contrast */
+.concept2b__rail button span{color:#86a9c7}
+.small-note{color:#5f6974;opacity:1}
+
+/* TTT Standard interaction contrast */
+.standards2b__principles button small{color:#7fa9cc}
+.standards2b__principles button em{color:#9db0c1}
+.technical-flow--light .flow-node small{color:#647185}
+
+/* Keep project handoff text readable on dark build surfaces */
+.ttt-build-drawer__journey span,
+.ttt-build-drawer__intro{color:#c3d0da}

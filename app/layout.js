@@ -37,6 +37,7 @@ import './wave3n.css';
 import './wave3o.css';
 import './wave3p.css';
 import './wave3q.css';
+import './wave3r.css';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import SiteTelemetry from '../components/SiteTelemetry';
