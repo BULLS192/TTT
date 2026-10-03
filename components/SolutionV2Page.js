@@ -79,7 +79,7 @@ export default function SolutionV2Page({page}){
     {page.sections.map((section,index)=><section id={section.id||undefined} className={index%2?'section section--soft copy-section solution-editorial-section':'section copy-section solution-editorial-section'} key={section.title}>
       <div className="shell copy-section__grid">
         <div className="solution-editorial-section__title">
-          <p className="eyebrow">{String(index+1).padStart(2,'0')} / {page.title}</p>
+          <p className="eyebrow">{String(index+1).padStart(2,'0')} / {section.kicker||page.title}</p>
           <h2>{section.title}</h2>
         </div>
         <div className="copy-section__body">
