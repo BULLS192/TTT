@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import AssetMedia from '../AssetMedia';
 import ExperienceShell from './ExperienceShell';
 import { useTTTBuild } from './TTTBuildContext';
 
@@ -76,8 +75,19 @@ export default function FabricationLab(){
   >
     <div className="fab3l">
       <section className="fab3l__scene" aria-label="Interactive custom amplifier mount transformation">
-        <AssetMedia visual="fabricationHero" className="fab3l__photo"/>
-        <div className="fab3l__grade"/>
+        <div className="fab3m__bay" aria-hidden="true">
+          <div className="fab3m__trim fab3m__trim--left"/>
+          <div className="fab3m__trim fab3m__trim--right"/>
+          <div className="fab3m__focus-pocket">
+            <div className="fab3m__rail fab3m__rail--top"><i/><i/><i/></div>
+            <div className="fab3m__rail fab3m__rail--bottom"><i/><i/><i/></div>
+            <div className="fab3m__service-opening"/>
+            <div className="fab3m__bay-datum fab3m__bay-datum--v"/>
+            <div className="fab3m__bay-datum fab3m__bay-datum--h"/>
+          </div>
+          <div className="fab3m__floor"/>
+          <div className="fab3m__bay-label"><span>CONCEPT ONE</span><strong>Rear electronics bay</strong><small>Focused packaging zone</small></div>
+        </div>
 
         <header className="fab3l__scene-head">
           <div><span><i/>{playing?'ENGINEERING SEQUENCE PLAYING':'AMPLIFIER FITMENT STUDY'}</span><strong>Concept One · Rear electronics packaging</strong></div>
@@ -95,7 +105,7 @@ export default function FabricationLab(){
         </div>
 
         <div className="fab3l__scan" style={{opacity:clamp((progress-12)/18,0,1)*(1-clamp((progress-42)/15,0,1))}}>
-          <div className="fab3l__scan-grid">{Array.from({length:72},(_,i)=><i key={i} style={{'--x':((i*37)%94+3)+'%','--y':((i*53)%88+6)+'%','--d':((i%9)*-.09)+'s'}}/>)}</div>
+          <div className="fab3l__scan-grid">{Array.from({length:40},(_,i)=><i key={i} style={{'--x':((i*37)%94+3)+'%','--y':((i*53)%88+6)+'%','--d':((i%9)*-.09)+'s'}}/>)}</div>
           <div className="fab3l__scan-line" style={{top:(18+((progress-12)/30)*62)+'%'}}/>
           <div className="fab3l__scan-label"><Icon name="scan"/><span><small>VEHICLE GEOMETRY CAPTURE</small><strong>Mounting points · clearance · keep-out zones</strong></span></div>
         </div>
@@ -137,6 +147,19 @@ export default function FabricationLab(){
           <div className="fab3l__installed-callout"><Icon name="verified"/><span><small>INSTALLED SOLUTION</small><strong>Secure · concealed · serviceable</strong></span></div>
         </div>
 
+        {stageIndex===4?<div className="fab3m__hidden-reveal" style={{clipPath:`inset(0 ${100-hidden}% 0 0)`}}>
+          <div className="fab3m__hidden-surface"/>
+          <div className="fab3m__hidden-bracket">
+            <div className="fab3m__hidden-amp"><span>AMPLIFIER</span></div>
+            <i className="fab3m__fastener fab3m__fastener--1"/><i className="fab3m__fastener fab3m__fastener--2"/>
+          </div>
+          <div className="fab3m__hidden-cable fab3m__hidden-cable--1"/><div className="fab3m__hidden-cable fab3m__hidden-cable--2"/>
+          <div className="fab3m__hidden-callout fab3m__hidden-callout--mount"><i/>FACTORY DATUM</div>
+          <div className="fab3m__hidden-callout fab3m__hidden-callout--service"><i/>SERVICE ACCESS</div>
+          <span className="fab3m__hidden-label">HIDDEN WORK</span>
+        </div>:null}
+        {stageIndex===4?<div className="fab3m__reveal-divider" style={{left:hidden+'%'}} aria-hidden="true"><i>↔</i></div>:null}
+
         <div className="fab3l__scene-copy">
           <small>{stage.label.toUpperCase()}</small>
           <strong>{stage.title}</strong>
@@ -172,24 +195,9 @@ export default function FabricationLab(){
       </div>
     </div>
 
-    {stageIndex===4?<div className="fab3l__xray">
-      <div className="fab3l__xray-head">
-        <span><Icon name="xray"/><span><small>FINISHED VEHICLE / HIDDEN WORK</small><strong>Drag to reveal what remains behind the trim.</strong></span></span>
-        <b>{hidden}% hidden work</b>
-      </div>
-      <div className="fab3l__xray-view">
-        <AssetMedia visual="fabricationExamples" className="fab3l__xray-photo"/>
-        <div className="fab3l__xray-finished"><span>FINISHED</span></div>
-        <div className="fab3l__xray-hidden" style={{clipPath:`inset(0 ${100-hidden}% 0 0)`}}>
-          <div className="fab3l__xray-grid"/>
-          <div className="fab3l__hidden-bracket"><i/><b/><span>CUSTOM BRACKET</span></div>
-          <div className="fab3l__hidden-wire fab3l__hidden-wire--1"/><div className="fab3l__hidden-wire fab3l__hidden-wire--2"/>
-          <div className="fab3l__hidden-point fab3l__hidden-point--1"><i/>MOUNT</div>
-          <div className="fab3l__hidden-point fab3l__hidden-point--2"><i/>SERVICE</div>
-          <span className="fab3l__xray-label">HIDDEN WORK</span>
-        </div>
-        <div className="fab3l__xray-divider" style={{left:hidden+'%'}}><i>↔</i></div>
-      </div>
+    {stageIndex===4?<div className="fab3m__hidden-control">
+      <div><Icon name="xray"/><span><small>FINISHED VEHICLE / HIDDEN WORK</small><strong>Reveal the bracket, fasteners and routing beneath the finished installation.</strong></span></div>
+      <b>{hidden}% hidden work</b>
       <input aria-label="Reveal hidden fabrication work" type="range" min="8" max="92" value={hidden} onChange={e=>setHidden(Number(e.target.value))}/>
     </div>:null}
   </ExperienceShell>;
