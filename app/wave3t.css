@@ -1,11 +1,11 @@
 /* Wave 3T — full-site QA and polish */
 
 /* Persistent project controls: preserve a deliberate gap instead of overlapping. */
-.ttt-build-dock{right:286px}
+.ttt-build-dock{right:286px!important}
 
 /* Full-sitemap contrast fixes. */
-.technology-system-panel .flow-node small{color:#a8bdd0}
-.technology-system-panel .flow-node strong{color:#f0f6fa}
+.technology-system-panel .flow-node small{color:#a8bdd0!important}
+.technology-system-panel .flow-node strong{color:#f0f6fa!important}
 .vehicle-hub__result .eyebrow{color:#91c9f5!important}
 .legal-hero .eyebrow{color:#91b9ff!important}
 
@@ -24,7 +24,7 @@
 
 /* Finger-sized controls in the interactive experiences. */
 @media(max-width:700px){
-  .ttt-build-dock{right:12px;bottom:84px}
+  .ttt-build-dock{right:12px!important;bottom:84px}
   .menu-button{min-height:44px;padding:0 14px}
   .wave2-section button{min-height:44px}
   .wave2-section button[aria-label]{min-width:44px}
