@@ -32,4 +32,11 @@
   .concept3q__priorities button{min-height:44px}
   .filter-pills button,
   .faq-filter button{min-height:44px}
+  .tessa-inline-trigger{min-height:44px;display:inline-flex;align-items:center}
+  .footer-tessa{min-height:44px;display:inline-flex;align-items:center}
+  .tessa-close{min-width:44px;min-height:44px}
+  .ttt-build-drawer__head button{min-width:44px}
+  main details summary{min-height:44px}
 }
+
+.consent-check a{text-decoration:underline;text-underline-offset:2px}
