@@ -7,7 +7,7 @@ import { matchTessaQuestion } from '../lib/tessa/matcher';
 import { TESSA_QUICK_ACTIONS, TESSA_SERVICES, TESSA_SERVICE_SUMMARIES } from '../lib/tessa/services';
 import { EMPTY_TESSA_CONTEXT, contextToLeadDetails, extractBasicContextFromText, mergeTessaContext, nextQualificationQuestion, sanitizeTessaContext } from '../lib/tessa/qualification';
 import { getTessaSessionId, getVisitorContext, trackWebsiteEvent } from '../lib/visitor';
-import { useTTTBuild } from './wave2/TTTBuildContext';
+import { effectiveBuildItems, useTTTBuild } from './wave2/TTTBuildContext';
 
 const TESSA_AVATAR_SRC = brandAssets.tessaAvatar;
 const PROJECT_STATE_KEY='ttt-tessa-project-context-v2';
@@ -28,6 +28,7 @@ const INITIAL_LEAD = {
 
 export default function TessaAssistant() {
   const {items:buildItems,profile:buildProfile}=useTTTBuild();
+  const projectItems=effectiveBuildItems(buildItems);
   const [open, setOpen] = useState(false);
   const [leadOpen, setLeadOpen] = useState(false);
   const [leadSuggestion, setLeadSuggestion] = useState(false);
@@ -343,7 +344,7 @@ export default function TessaAssistant() {
           projectContext:{
             vehicle:{year:buildProfile?.year||'',make:buildProfile?.make||'',model:buildProfile?.model||'',trim:buildProfile?.trim||''},
             goals:Array.isArray(buildProfile?.goals)?buildProfile.goals:[],
-            selections:buildItems.slice(0,12).map(item=>({category:item.category||'',title:item.title||'',detail:item.detail||''}))
+            selections:projectItems.slice(0,12).map(item=>({category:item.category||'',title:item.title||'',detail:item.detail||''}))
           },
           qualificationActive
         })
@@ -428,7 +429,7 @@ export default function TessaAssistant() {
         'Submitted through Tessa, the TTT website assistant.',
         [buildProfile?.year,buildProfile?.make,buildProfile?.model,buildProfile?.trim].filter(Boolean).length ? 'Saved vehicle: ' + [buildProfile.year,buildProfile.make,buildProfile.model,buildProfile.trim].filter(Boolean).join(' ') : '',
         buildProfile?.goals?.length ? 'Saved priorities: ' + buildProfile.goals.join(', ') : '',
-        buildItems.length ? 'My TTT Build:\n' + buildItems.map((item) => '- ' + item.category + ': ' + item.title + (item.detail ? ' — ' + item.detail : '')).join('\n') : '',
+        projectItems.length ? 'My TTT Build:\n' + projectItems.map((item) => '- ' + item.category + ': ' + item.title + (item.detail ? ' — ' + item.detail : '')).join('\n') : '',
         lead.details ? 'Visitor notes: ' + lead.details : '',
         'Conversation:\n' + transcript
       ].filter(Boolean).join('\n\n').slice(0, 5000);
@@ -505,7 +506,7 @@ export default function TessaAssistant() {
                 <span>TTT lead request</span>
                 <h2>Tell me how the team should reach you.</h2>
                 <p>I’ve carried over the project details from our conversation so you do not have to repeat yourself.</p>
-                {buildItems.length?<div className="tessa-build-context"><strong>My TTT Build · {buildItems.length}</strong>{buildItems.map(item=><small key={item.id}>{item.category}: {item.title}</small>)}</div>:null}
+                {projectItems.length?<div className="tessa-build-context"><strong>My TTT Build · {projectItems.length}</strong>{projectItems.map(item=><small key={item.id}>{item.category}: {item.title}</small>)}</div>:null}
               </div>
               <form className="tessa-lead-form" onSubmit={submitLead}>
                 <label>Service
@@ -559,20 +560,20 @@ export default function TessaAssistant() {
                   <div ref={messageEndRef} />
                 </div>
 
-                {(buildItems.length||buildProfile?.year||buildProfile?.make||buildProfile?.model||buildProfile?.goals?.length) ? (
+                {(projectItems.length||buildProfile?.year||buildProfile?.make||buildProfile?.model||buildProfile?.goals?.length) ? (
                   <div className="tessa-build-context tessa-build-context--chat tessa-project-context">
                     <div>
-                      <strong>{[buildProfile?.year,buildProfile?.make,buildProfile?.model,buildProfile?.trim].filter(Boolean).join(' ')||'My TTT Build'} · {buildItems.length} selection{buildItems.length===1?'':'s'}</strong>
-                      <small>{buildProfile?.goals?.length?'Priorities: '+buildProfile.goals.join(' · '):'Saved project context is available to this conversation.'}</small>
+                      <strong>{[buildProfile?.year,buildProfile?.make,buildProfile?.model,buildProfile?.trim].filter(Boolean).join(' ')||'My TTT Build'} · {projectItems.length} selection{projectItems.length===1?'':'s'}</strong>
+                      <small>{buildProfile?.goals?.length?'Priorities: '+buildProfile.goals.join(' · '):'Saved vehicle and project context is available to this conversation.'}</small>
                     </div>
                     <div className="tessa-project-context__actions">
                       <button type="button" onClick={() => {
-                        setQuestion('Please review my saved vehicle project and selected systems. What should I consider before requesting a quote?');
-                        trackWebsiteEvent('tessa','use_build_context',{count:buildItems.length,goalCount:buildProfile?.goals?.length||0});
+                        setQuestion('Please review my saved vehicle project and saved systems. What should I consider before requesting a quote?');
+                        trackWebsiteEvent('tessa','use_build_context',{count:projectItems.length,goalCount:buildProfile?.goals?.length||0});
                       }}>Review project →</button>
                       <button type="button" onClick={() => {
                         setQuestion('Based on my saved vehicle, priorities and selected systems, what information is still missing before TTT can scope the project?');
-                        trackWebsiteEvent('tessa','project_missing_context',{count:buildItems.length});
+                        trackWebsiteEvent('tessa','project_missing_context',{count:projectItems.length});
                       }}>What is missing? →</button>
                     </div>
                   </div>
