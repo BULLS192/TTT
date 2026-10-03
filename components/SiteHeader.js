@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import BrandMark from './BrandMark';
 
@@ -60,6 +61,9 @@ const menus = {
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     document.body.classList.toggle('mobile-nav-open', open);
@@ -123,7 +127,9 @@ export default function SiteHeader() {
           </button>
         </div>
       </div>
-      <div id="mobile-menu" className={`mobile-menu ${open ? 'is-open' : ''}`}>
+    </header>
+    {mounted ? createPortal(
+      <div id="mobile-menu" className={`mobile-menu mobile-menu--portal ${open ? 'is-open' : ''}`} aria-hidden={!open}>
         <div className="shell mobile-menu__inner">
           {Object.entries(menus).map(([name, menu]) => (
             <details key={name}><summary>{name}<span>+</span></summary>{menu.links.map(([label, , href]) => <Link onClick={() => setOpen(false)} key={href} href={href}>{label}</Link>)}</details>
@@ -132,7 +138,8 @@ export default function SiteHeader() {
           <Link onClick={() => setOpen(false)} href="/about">About</Link>
           <Link onClick={() => setOpen(false)} className="button" href="/start">Start a project</Link>
         </div>
-      </div>
-    </header>
+      </div>,
+      document.body
+    ) : null}
   );
 }
