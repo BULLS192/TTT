@@ -8,7 +8,7 @@ const layers=[
  {id:'audio',n:'02',label:'Cabin audio',kicker:'Acoustic layer',detail:'Speakers, amplification and DSP tuning are planned around the cabin, factory controls and electrical load.',x:56,y:49,href:'/services/audio#interactive'},
  {id:'location',n:'03',label:'Location',kicker:'Connected layer',detail:'Tracking adds location, movement and geofence awareness while remaining discreetly integrated into the vehicle.',x:45,y:42,href:'/services/gps-tracking#interactive'},
  {id:'start',n:'04',label:'Starting system',kicker:'Control layer',detail:'Immobilization adds another point of control while preserving dependable starting and service access.',x:70,y:50,href:'/services/kill-switches#interactive'},
- {id:'wiring',n:'05',label:'Wiring & modules',kicker:'Electrical layer',detail:'Power, grounds, data and interfaces are the hidden architecture that makes every added system coexist reliably.',x:77,y:57,href:'/services/signaltrace#interactive'},
+ {id:'wiring',n:'05',label:'Wiring & modules',kicker:'Electrical layer',detail:'Power, grounds, data and interfaces are the hidden architecture that makes every added system coexist reliably.',x:77,y:57,href:'/services/signaltrace'},
  {id:'mounts',n:'06',label:'Mounts & interfaces',kicker:'Physical layer',detail:'Custom brackets, adapters and enclosures solve fitment problems without forcing the vehicle to accept a poor compromise.',x:39,y:58,href:'/services/custom-fabrication#interactive'}
 ];
 
