@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import ExperienceShell from './ExperienceShell';
 import SatelliteTileLayer from './SatelliteTileLayer';
 import { useTTTBuild } from './TTTBuildContext';
@@ -104,6 +104,8 @@ export default function TrackingLab(){
   const[progress,setProgress]=useState(0);
   const[running,setRunning]=useState(false);
   const[notifications,setNotifications]=useState({ignition:true,geofence:true,speed:true});
+  const routePathRef=useRef(null);
+  const[routePoint,setRoutePoint]=useState({x:16,y:76,heading:0});
   const{addItem,setOpen}=useTTTBuild();
 
   const config=modes[mode];
@@ -111,6 +113,20 @@ export default function TrackingLab(){
   const state=useMemo(()=>states.reduce((best,s)=>progress>=s.p?s:best,states[0]),[states,progress]);
   const frame=useMemo(()=>getFrame(states,progress),[states,progress]);
   const completed=states.filter(s=>progress>=s.p);
+
+  useLayoutEffect(()=>{
+    const path=routePathRef.current;
+    if(!path)return;
+    const total=path.getTotalLength();
+    if(!total)return;
+    const distance=total*clamp(progress/100,0,1);
+    const point=path.getPointAtLength(distance);
+    const delta=Math.max(.08,total*.006);
+    const before=path.getPointAtLength(Math.max(0,distance-delta));
+    const after=path.getPointAtLength(Math.min(total,distance+delta));
+    const heading=Math.atan2(after.x-before.x,-(after.y-before.y))*180/Math.PI;
+    setRoutePoint({x:point.x,y:point.y,heading:Number.isFinite(heading)?heading:0});
+  },[mode,progress]);
 
   useEffect(()=>{
     if(!running)return;
@@ -173,19 +189,19 @@ export default function TrackingLab(){
           </defs>
           <circle className={homeCrossing?'tracking3f__geo-ring is-crossing':'tracking3f__geo-ring'} cx="16" cy="76" r="17" fill="url(#home-glow)" stroke="#64b8ef" strokeWidth=".55" strokeDasharray="1.2 1"/>
           <circle className={workArrival?'tracking3f__geo-ring is-arriving':'tracking3f__geo-ring'} cx="80" cy="30" r="15" fill="url(#work-glow)" stroke="#62c68f" strokeWidth=".55" strokeDasharray="1.2 1"/>
-          <path d={config.route} className={'tracking3f__route-base '+(mode==='unexpected'?'is-alert':'')}/>
-          <path d={config.route} pathLength="100" style={{strokeDasharray:progress+' 100'}} className={'tracking3f__route-progress '+(mode==='unexpected'?'is-alert':'')} filter="url(#tracking-glow)"/>
+          <path d={config.route} pathLength="100" className={'tracking3f__route-base '+(mode==='unexpected'?'is-alert':'')}/>
+          <path ref={routePathRef} d={config.route} pathLength="100" style={{strokeDasharray:progress+' 100'}} className={'tracking3f__route-progress '+(mode==='unexpected'?'is-alert':'')} filter="url(#tracking-glow)"/>
         </svg>
 
         <div className={'tracking3e__geofence tracking3e__geofence--home '+(homeCrossing?'is-crossing':'')}><Icon name="home"/><strong>HOME</strong><span>Geofence</span></div>
         <div className={'tracking3e__geofence tracking3e__geofence--work '+(workArrival?'is-arriving':'')}><Icon name="building"/><strong>WORK</strong><span>Geofence</span></div>
 
-        <div className={'tracking3e__vehicle tracking3f__vehicle '+(state.level==='alert'?'is-alert':'')} style={{left:frame.x+'%',top:frame.y+'%'}}>
-          <div className="tracking3e__car tracking3f__car" style={{'--heading':frame.heading+'deg'}}><span/><i/><b/></div>
+        <div className={'tracking3e__vehicle tracking3f__vehicle '+(state.level==='alert'?'is-alert':'')} style={{left:routePoint.x+'%',top:routePoint.y+'%'}}>
+          <div className="tracking3e__car tracking3f__car" style={{'--heading':routePoint.heading+'deg'}}><span/><i/><b/></div>
           <em>{frame.speed?frame.speed+' mph':'STOPPED'}</em>
         </div>
 
-        <div className="tracking3f__position-pulse" style={{left:frame.x+'%',top:frame.y+'%'}} aria-hidden="true"/>
+        <div className="tracking3f__position-pulse" style={{left:routePoint.x+'%',top:routePoint.y+'%'}} aria-hidden="true"/>
         <div className="tracking3e__map-tools"><button type="button" aria-label="Vehicle centered"><Icon name="target"/></button><button type="button" aria-label="Geofences visible"><Icon name="layers"/></button></div>
       </section>
 
@@ -204,7 +220,7 @@ export default function TrackingLab(){
         <div className="tracking3e__metrics">
           <Metric icon="power" label="Ignition" value={state.ignition}/>
           <Metric icon="speed" label="Speed" value={frame.speed+' mph'}/>
-          <Metric icon="nav" label="Direction" value={headingLabel(frame.heading)}/>
+          <Metric icon="nav" label="Direction" value={headingLabel(routePoint.heading)}/>
           <Metric icon="clock" label="Updated" value={frame.time}/>
         </div>
 
