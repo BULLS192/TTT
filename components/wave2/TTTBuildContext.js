@@ -88,3 +88,20 @@ export function buildSummary(items=[]){
 export function vehicleSummary(profile={}){
   return [profile.year,profile.make,profile.model,profile.trim].filter(Boolean).join(' ');
 }
+
+
+export function effectiveBuildItems(items=[]){
+  const normalized=normalize(items);
+  const specificCategories=new Set(
+    normalized
+      .filter(item=>!String(item?.id||'').startsWith('concept-one-'))
+      .map(item=>String(item?.category||''))
+      .filter(Boolean)
+  );
+  return normalized.filter(item=>{
+    const id=String(item?.id||'');
+    const category=String(item?.category||'');
+    const conceptOneItem=id.startsWith('concept-one-');
+    return !conceptOneItem || !specificCategories.has(category);
+  });
+}
