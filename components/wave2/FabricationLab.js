@@ -19,7 +19,7 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 export default function FabricationLab(){
   const[progress,setProgress]=useState(0);
   const[playing,setPlaying]=useState(false);
-  const[reveal,setReveal]=useState(8);
+  const[reveal,setReveal]=useState(0);
   const raf=useRef(null);
   const startAt=useRef(null);
   const startProgress=useRef(0);
@@ -53,11 +53,11 @@ export default function FabricationLab(){
   useEffect(()=>()=>cancelAnimationFrame(raf.current),[]);
 
   const engineeringOpacity=clamp((progress-14)/14,0,1)*(1-clamp((progress-76)/14,0,1));
-  const installedOpacity=clamp((progress-68)/24,0,1);
+  const installedOpacity=clamp((progress-84)/12,0,1);
   const problemOpacity=1-clamp((progress-8)/24,0,1);
   const scanStrength=clamp((progress-14)/14,0,1)*(1-clamp((progress-38)/12,0,1));
   const cadStrength=clamp((progress-36)/15,0,1)*(1-clamp((progress-72)/16,0,1));
-  const partStrength=clamp((progress-58)/18,0,1)*(1-clamp((progress-90)/12,0,1));
+  const partStrength=clamp((progress-58)/18,0,1)*(1-clamp((progress-86)/10,0,1));
 
   const aside=<>
     <div className="lab-readout fab3n__readout">
@@ -135,7 +135,7 @@ export default function FabricationLab(){
           <span>CUSTOM MOUNT</span>
         </div>
 
-        {stageIndex===4?<div className="fab3n__hidden-layer" style={{clipPath:`inset(0 ${100-reveal}% 0 0)`}}>
+        {stageIndex===4&&reveal>0?<div className="fab3n__hidden-layer" style={{clipPath:`inset(0 ${100-reveal}% 0 0)`}}>
           <AssetMedia visual="fabricationFitmentEngineering" className="fab3n__hidden-image"/>
           <div className="fab3n__hidden-tint"/>
           <div className="fab3n__hidden-bracket">
@@ -148,7 +148,7 @@ export default function FabricationLab(){
           <b>HIDDEN WORK</b>
         </div>:null}
 
-        {stageIndex===4?<div className="fab3n__divider" style={{left:reveal+'%'}}><i>↔</i></div>:null}
+        {stageIndex===4&&reveal>0?<div className="fab3n__divider" style={{left:reveal+'%'}}><i>↔</i></div>:null}
 
         <div className="fab3n__scene-copy">
           <small>{stage.label.toUpperCase()}</small>
@@ -169,10 +169,36 @@ export default function FabricationLab(){
         </div>
       </div>
 
+      {stageIndex===4?<div className="fab3o__result">
+        <div className="fab3o__result-head">
+          <span><Icon name="verified"/><span><small>THE RESULT</small><strong>The difference should be obvious before you ever reveal the hidden work.</strong></span></span>
+          <b>BEFORE → FINISHED</b>
+        </div>
+        <div className="fab3o__compare">
+          <div className="fab3o__compare-card is-before">
+            <AssetMedia visual="fabricationFitmentProblem" className="fab3o__compare-image"/>
+            <span>BEFORE</span>
+            <strong>Loose / compromised placement</strong>
+          </div>
+          <div className="fab3o__compare-arrow">→</div>
+          <div className="fab3o__compare-card is-after">
+            <AssetMedia visual="fabricationFitmentInstalled" className="fab3o__compare-image"/>
+            <span>FINISHED</span>
+            <strong>Purpose-built mounted solution</strong>
+          </div>
+        </div>
+        <div className="fab3o__outcomes">
+          <div><Icon name="verified"/><span><small>MOUNTING</small><strong>Securely supported</strong></span></div>
+          <div><Icon name="wire"/><span><small>ROUTING</small><strong>Controlled cable path</strong></span></div>
+          <div><Icon name="service"/><span><small>SERVICE</small><strong>Access retained</strong></span></div>
+          <div><Icon name="trim"/><span><small>FIT</small><strong>Trim clearance restored</strong></span></div>
+        </div>
+      </div>:null}
+
       {stageIndex===4?<div className="fab3n__reveal-control">
         <div><Icon name="xray"/><span><small>FINISHED / HIDDEN WORK</small><strong>Drag to reveal what makes the clean installation possible.</strong></span></div>
         <b>{reveal}% hidden</b>
-        <input aria-label="Reveal hidden fabrication work" type="range" min="8" max="92" value={reveal} onChange={e=>setReveal(Number(e.target.value))}/>
+        <input aria-label="Reveal hidden fabrication work" type="range" min="0" max="100" value={reveal} onChange={e=>setReveal(Number(e.target.value))}/>
       </div>:null}
     </div>
   </ExperienceShell>;
@@ -187,7 +213,11 @@ function Icon({name}){
     scan:<><path d="M3 7V3h4M17 3h4v4M21 17v4h-4M7 21H3v-4"/><path d="M7 12h10M12 7v10"/></>,
     cube:<><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></>,
     transform:<><path d="M4 7h13l-3-3M20 17H7l3 3"/><path d="M17 4l3 3-3 3M7 14l-3 3 3 3"/></>,
-    xray:<><circle cx="12" cy="12" r="8"/><path d="M8 8l8 8M16 8l-8 8"/></>
+    xray:<><circle cx="12" cy="12" r="8"/><path d="M8 8l8 8M16 8l-8 8"/></>,
+    verified:<><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></>,
+    wire:<><path d="M3 8h6a3 3 0 0 1 3 3v2a3 3 0 0 0 3 3h6"/><circle cx="4" cy="8" r="1.5"/><circle cx="20" cy="16" r="1.5"/></>,
+    service:<><path d="m14 6 4-4 4 4-4 4-4-4Z"/><path d="M18 10v8M18 18H7"/><circle cx="5" cy="18" r="2"/></>,
+    trim:<><path d="M4 17 8 7h8l4 10"/><path d="M7 17h10"/></>
   };
   return <svg className="ttt-icon" {...common}>{paths[name]||paths.cube}</svg>;
 }
