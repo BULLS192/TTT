@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import BrandMark from './BrandMark';
 
@@ -59,8 +60,25 @@ const menus = {
 export default function SiteHeader(){
   const [open,setOpen]=useState(false);
   const [active,setActive]=useState(null);
+  const [mounted,setMounted]=useState(false);
+
+  useEffect(()=>setMounted(true),[]);
+
+  useEffect(()=>{
+    document.body.classList.toggle('production-mobile-open',open);
+    const onKeyDown=(event)=>{if(event.key==='Escape')setOpen(false)};
+    const onResize=()=>{if(window.innerWidth>980)setOpen(false)};
+    window.addEventListener('keydown',onKeyDown);
+    window.addEventListener('resize',onResize);
+    return()=>{
+      document.body.classList.remove('production-mobile-open');
+      window.removeEventListener('keydown',onKeyDown);
+      window.removeEventListener('resize',onResize);
+    };
+  },[open]);
   const closeWhenFocusLeaves=(name,event)=>{if(!event.currentTarget.contains(event.relatedTarget))setActive(current=>current===name?null:current)};
-  return <header className="site-header production-header">
+  return <>
+  <header className="site-header production-header">
     <div className="site-header__accent"/>
     <div className="site-header__inner shell">
       <BrandMark/>
@@ -80,14 +98,20 @@ export default function SiteHeader(){
       </nav>
       <div className="header-actions">
         <Link className="button button--small header-cta" href="/quote">Request a Quote</Link>
-        <button className="menu-button" onClick={()=>setOpen(!open)} aria-expanded={open} aria-controls="production-mobile-menu">{open?'Close':'Menu'}</button>
+        <button type="button" className={open?'menu-button is-open':'menu-button'} onClick={()=>setOpen(current=>!current)} aria-expanded={open} aria-controls="production-mobile-menu" aria-label={open?'Close navigation menu':'Open navigation menu'}>{open?'Close':'Menu'}</button>
       </div>
     </div>
-    <div id="production-mobile-menu" className={open?'production-mobile is-open':'production-mobile'}><div className="shell">
-      {Object.entries(menus).map(([name,menu])=><details key={name}><summary>{name}<span>+</span></summary>{menu.links.map(([label,,href])=><Link onClick={()=>setOpen(false)} key={href} href={href}>{label}</Link>)}</details>)}
-      <Link onClick={()=>setOpen(false)} href="/concept-one">Concept One</Link>
-      <Link onClick={()=>setOpen(false)} href="/about">About</Link>
-      <Link onClick={()=>setOpen(false)} className="button" href="/quote">Request a Quote</Link>
-    </div></div>
-  </header>;
+  </header>
+  {mounted ? createPortal(
+    <div id="production-mobile-menu" className={open?'production-mobile production-mobile--portal is-open':'production-mobile production-mobile--portal'} aria-hidden={!open}>
+      <div className="shell">
+        {Object.entries(menus).map(([name,menu])=><details key={name}><summary>{name}<span>+</span></summary>{menu.links.map(([label,,href])=><Link onClick={()=>setOpen(false)} key={href} href={href}>{label}</Link>)}</details>)}
+        <Link onClick={()=>setOpen(false)} href="/concept-one">Concept One</Link>
+        <Link onClick={()=>setOpen(false)} href="/about">About</Link>
+        <Link onClick={()=>setOpen(false)} className="button" href="/quote">Request a Quote</Link>
+      </div>
+    </div>,
+    document.body
+  ) : null}
+  </>;
 }
