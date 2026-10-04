@@ -2,20 +2,16 @@
 
 import dynamic from 'next/dynamic';
 
-const loading=()=>(
-  <div className="fusion-experience-loading" role="status" aria-live="polite">
-    <span>Loading interactive demonstration…</span>
-  </div>
-);
-
-const options={ssr:false,loading};
+function LabLoading(){
+  return <div className="fusion-experience-loading" role="status" aria-live="polite"><span>Loading interactive demonstration…</span></div>;
+}
 
 const components={
-  tint:dynamic(()=>import('./GlassLab'),options),
-  audio:dynamic(()=>import('./AudioLab'),options),
-  security:dynamic(()=>import('./SecurityLab'),options),
-  tracking:dynamic(()=>import('./TrackingLab'),options),
-  fabrication:dynamic(()=>import('./FabricationLab'),options)
+  tint:dynamic(()=>import('./GlassLab'),{ssr:false,loading:LabLoading}),
+  audio:dynamic(()=>import('./AudioLab'),{ssr:false,loading:LabLoading}),
+  security:dynamic(()=>import('./SecurityLab'),{ssr:false,loading:LabLoading}),
+  tracking:dynamic(()=>import('./TrackingLab'),{ssr:false,loading:LabLoading}),
+  fabrication:dynamic(()=>import('./FabricationLab'),{ssr:false,loading:LabLoading})
 };
 
 export default function ServiceExperience({type,serviceName}){
