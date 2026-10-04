@@ -19,7 +19,7 @@ export default function Page(){return <main className="production-page wave2b-hu
   <div className="shell wave2b-hub__hero-copy">
    <p className="eyebrow">TTT Digital Vehicle</p>
    <h1>Understand the system before you ask for the parts.</h1>
-   <p className="lead lead--dark">Explore the vehicle, save the systems that matter, go deeper only in the experiences that genuinely benefit from interaction, then carry that context into Tessa or the quote request.</p>
+   <p className="lead lead--dark">Explore the vehicle, save the systems that matter, compare the decisions that are easier to understand visually, then carry that context into Tessa or the quote request.</p>
    <div className="wave2b-hub__flow" aria-label="TTT website journey">
     <span><b>01</b> Explore</span><i>→</i><span><b>02</b> Build</span><i>→</i><span><b>03</b> Ask Tessa</span><i>→</i><span><b>04</b> Quote</span>
    </div>
@@ -29,13 +29,13 @@ export default function Page(){return <main className="production-page wave2b-hu
 
  <section className="section section--dark"><div className="shell">
   <div className="wave2b-hub__feature">
-   <div><p className="eyebrow">System map</p><h2>Concept One connects the system view to the service experiences.</h2><p>Start with the whole vehicle, then open the service experience only when interaction helps explain something that a static page cannot. Concept One provides context; the labs provide depth.</p><Link className="text-link text-link--light" href="/concept-one">Explore Concept One →</Link></div>
+   <div><p className="eyebrow">System map</p><h2>Concept One connects the whole-vehicle plan to the details.</h2><p>Start with the whole vehicle, then move into the service experience when you want to compare a specific decision in more detail. Concept One provides context; the labs provide depth.</p><Link className="text-link text-link--light" href="/concept-one">Explore Concept One →</Link></div>
    <div className="wave2b-hub__feature-stack"><span>GLASS</span><span>AUDIO</span><span>LOCATION</span><span>SECURITY</span><span>FABRICATION</span><span>STANDARD</span></div>
   </div>
  </div></section>
 
  <section className="section"><div className="shell">
-  <div className="section-heading"><div><p className="eyebrow">Interactive labs</p><h2>Six experiences that earn the interaction.</h2><p className="lead">Each experience demonstrates something useful rather than adding controls for their own sake. Saved selections can feed the same project conversation.</p></div></div>
+  <div className="section-heading"><div><p className="eyebrow">Interactive labs</p><h2>Six ways to see the technology in context.</h2><p className="lead">Each experience focuses on a decision that is easier to understand by seeing it change. Saved selections stay with the same project conversation.</p></div></div>
   <div className="wave2b-hub__grid">{experiences.map(item=><Link href={item.href} className="wave2b-hub__card" key={item.title}>
    <AssetMedia visual={item.visual} className="wave2b-hub__card-media"/>
    <div className="wave2b-hub__card-shade"/>

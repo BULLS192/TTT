@@ -14,7 +14,7 @@ export default function Page(){return <main className="production-page concept3q
     <div className="shell review-hero__copy concept3q-hero__copy">
       <p className="eyebrow">Concept One · TTT reference vehicle</p>
       <h1>See how the systems belong together.</h1>
-      <p className="lead lead--dark">Concept One is no longer a second version of every service configurator. It is the vehicle-level view: understand what each system changes, how the layers depend on one another, then open the dedicated service experience when you want to go deeper.</p>
+      <p className="lead lead--dark">Concept One is the vehicle-level view: see what each system changes, where the layers depend on one another, and when a dedicated service experience can help you compare the next decision.</p>
       <p className="concept-disclosure">REFERENCE CONCEPT. NOT A CUSTOMER VEHICLE.</p>
       <div className="button-row"><a className="button" href="#system-view">Explore the vehicle ↓</a><Link className="button button--ghost-dark" href="/services">Browse all services</Link></div>
     </div>
@@ -25,7 +25,7 @@ export default function Page(){return <main className="production-page concept3q
       <div><p className="eyebrow">Why Concept One exists</p><h2>One car shows the relationships that individual service pages cannot.</h2></div>
       <div className="copy-section__body">
         <p>Window tint can be understood on its own. So can audio, tracking or fabrication. But once several technologies share the same vehicle, decisions about power, mounting, controls, access and future service begin to overlap.</p>
-        <p>Concept One shows that system-level picture. It helps you decide which layers belong in your project without forcing you through duplicate sliders, fake simulations or product choices that are better handled on the individual service pages.</p>
+        <p>Concept One maps those relationships before product decisions begin. Use it to identify which systems belong in the same project, then move into a service experience when a visual comparison helps.</p>
       </div>
     </div>
   </section>
@@ -45,7 +45,7 @@ export default function Page(){return <main className="production-page concept3q
       <div>
         <p className="eyebrow">From reference to real vehicle</p>
         <h2>Concept One gives the project context. The service labs explain the individual decisions.</h2>
-        <p>Use Concept One to decide which systems matter together. Use Window Tint, Audio, GPS Tracking, Security and Custom Fabrication to understand the parts of the project that benefit from a real interactive demonstration. My TTT Build and Tessa carry the context forward so the quote request does not have to start from zero.</p>
+        <p>Use Concept One to decide which systems matter together. Use the dedicated service experiences to compare the decisions that are easier to understand visually. My TTT Build and Tessa carry that context forward so the quote request does not start from zero.</p>
         <div className="button-row"><Link className="button" href="/experience">See the Interactive Experience Hub →</Link><Link className="button button--ghost" href="/standards">See The TTT Standard →</Link></div>
       </div>
     </div>

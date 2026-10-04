@@ -28,6 +28,14 @@ function ServiceSection({page,section,index}){
   </section>;
 }
 
+const experienceLinks={
+  tint:'Open the Glass Lab ↓',
+  audio:'Open the Listening Room ↓',
+  tracking:'Open the Vehicle Journey ↓',
+  security:'Open the Security Scenario ↓',
+  fabrication:'Open the Fitment Transformation ↓'
+};
+
 export default function ClaudeServicePage({page}) {
   const firstSection=page.sections?.[0];
   const remainingSections=page.sections?.slice(1)||[];
@@ -45,7 +53,7 @@ export default function ClaudeServicePage({page}) {
           <Link className="button" href={page.primaryHref}>{page.primary} →</Link>
           {page.secondaryHref?.startsWith('#')?<a className="button button--ghost-dark" href={page.secondaryHref}>{page.secondary}</a>:<Link className="button button--ghost-dark" href={page.secondaryHref}>{page.secondary}</Link>}
         </div>
-        {page.experience?<a className="fusion-experience-link" href="#interactive">Interactive demonstration available ↓</a>:null}
+        {page.experience?<a className="fusion-experience-link" href="#interactive">{experienceLinks[page.experience]||'Explore the interactive experience ↓'}</a>:null}
         {page.heroTessa?<TessaTrigger className="cinematic__tessa-link" prompt={page.heroTessa}>Ask Tessa: “{page.heroTessa}” →</TessaTrigger>:null}
       </div>
     </section>

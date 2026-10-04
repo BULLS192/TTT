@@ -36,8 +36,17 @@ const experienceMeta={
   }
 };
 
+const sectionLabels={
+  premium:['Who It’s For','Why Planning Matters','The Result','Service Mix','OEM+ Details','Vehicle Plan'],
+  security:['Who It’s For','Layered Security','Protection Layers','Integration','Risk Profile'],
+  connected:['Who It’s For','Common Failure Points','Planning','Service Mix','Integration','Reporting Path'],
+  fleet:['Why Standards Matter','Program Deliverables','Dealership Workflow','Fleet Workflow','Service Mix','Pilot & Rollout'],
+  custom:['Best Fit','Why Generic Fails','Designed Result','Service Mix','Project Process']
+};
+
 export default function SolutionV2Page({page}){
   const meta=experienceMeta[page.experience]||experienceMeta.custom;
+  const labels=sectionLabels[page.experience]||[];
   return <main className="production-page solution-editorial-page">
     <section className="review-hero solution-editorial-hero">
       <AssetMedia visual={page.heroVisual} className="review-hero__media" priority/>
@@ -64,7 +73,7 @@ export default function SolutionV2Page({page}){
       <div className="shell">
         <div className="solution-editorial-map__head">
           <div><p className="eyebrow">How TTT approaches it</p><h2>Start with the result. Then plan the technology around it.</h2></div>
-          <p>This page is intentionally not another configurator. The solution is the combination of decisions, services and workmanship that produces the result you actually care about.</p>
+          <p>Define the outcome first. Then align the services, integration decisions and workmanship around the vehicle as one plan.</p>
         </div>
         <div className="solution-editorial-map__steps">
           {meta.path.map((item,i)=><article key={item}><small>{String(i+1).padStart(2,'0')}</small><span>{item}</span>{i<meta.path.length-1?<b>→</b>:null}</article>)}
@@ -79,7 +88,7 @@ export default function SolutionV2Page({page}){
     {page.sections.map((section,index)=><section id={section.id||undefined} className={index%2?'section section--soft copy-section solution-editorial-section':'section copy-section solution-editorial-section'} key={section.title}>
       <div className="shell copy-section__grid">
         <div className="solution-editorial-section__title">
-          <p className="eyebrow">{String(index+1).padStart(2,'0')} / {page.title}</p>
+          <p className="eyebrow">{String(index+1).padStart(2,'0')} / {labels[index]||section.label||'Details'}</p>
           <h2>{section.title}</h2>
         </div>
         <div className="copy-section__body">
