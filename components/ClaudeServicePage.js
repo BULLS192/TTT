@@ -3,6 +3,47 @@ import AssetMedia from './AssetMedia';
 import TessaTrigger from './TessaTrigger';
 import ServiceExperience from './wave2/ServiceExperience';
 
+const serviceSectionLabels={
+  "The short version": "Quick take",
+  "Why people tint, and why they’re glad they did": "Why it matters",
+  "Not all film is the same": "Film types",
+  "Darker isn’t the same as cooler": "Shade vs. heat",
+  "Choose the glass": "Coverage",
+  "Clean glass, clean edges, checked in good light": "Installation",
+  "The first few days": "Aftercare",
+  "What we need for an accurate tint quote": "Quote prep",
+  "Upgrade the sound, not the problems": "Integration first",
+  "What do you want to hear?": "Listening goal",
+  "Four common directions": "Upgrade paths",
+  "Equipment sets the ceiling. Tuning decides what you hear.": "DSP & tuning",
+  "Less rattle, cleaner sound": "Cabin control",
+  "When the part doesn’t come in a box": "Custom fitment",
+  "Answers when you need them": "Capabilities",
+  "Who uses it": "Use cases",
+  "Hidden, powered properly, checked before handover": "Installation",
+  "Tracking shows where. A kill switch helps stop it moving.": "Tracking + security",
+  "What tracking can’t promise": "Limits",
+  "Another lock, independent of the factory one": "How it works",
+  "Worth considering if…": "Best fit",
+  "Installed so it doesn’t cause new problems": "Integration",
+  "One layer, not the whole answer": "Layered security",
+  "It starts with a private conversation": "Private planning",
+  "Sound familiar?": "When to use it",
+  "Five stages. Evidence at every step.": "Method",
+  "Problems SignalTrace is for": "Fault types",
+  "Codes are evidence, not the answer": "Diagnostic logic",
+  "You stay in control of time and cost": "Approvals",
+  "A written record, whatever the outcome": "Documentation",
+  "Universal parts rarely fit universally": "The problem",
+  "What we make": "Capabilities",
+  "From problem to fitted part": "Process",
+  "3D printing as a practical tool": "Additive manufacturing",
+  "What we don’t make": "Boundaries"
+};
+function serviceSectionLabel(section,index){
+  return serviceSectionLabels[section.title]||section.label||('Section '+String(index+1).padStart(2,'0'));
+}
+
 function SectionContent({section}){
   return <div className="copy-section__body">
     {(section.body||[]).map((p,i)=><p key={i}>{p}</p>)}
@@ -34,7 +75,7 @@ export default function ClaudeServicePage({page}) {
     </section>
     {page.experience?<ServiceExperience type={page.experience}/>:null}
     {page.sections.map((section,index)=><section id={section.id||undefined} className={index%2?'section section--soft copy-section':'section copy-section'} key={section.title}>
-      <div className="shell copy-section__grid"><div><p className="eyebrow">{String(index+1).padStart(2,'0')} / {page.eyebrow}</p><h2>{section.title}</h2></div><SectionContent section={section}/></div>
+      <div className="shell copy-section__grid"><div><p className="eyebrow">{String(index+1).padStart(2,'0')} / {serviceSectionLabel(section,index)}</p><h2>{section.title}</h2></div><SectionContent section={section}/></div>
       {section.visual?<div className="shell section-media"><AssetMedia visual={section.visual}/></div>:null}
     </section>)}
     {page.solutionLinks?.length?<section className="section section--compact"><div className="shell crosslink-strip"><div><p className="eyebrow">Part of these solutions</p><h2>Start with the outcome instead.</h2></div><div>{page.solutionLinks.map(([label,href])=><Link href={href} key={href}>{label} →</Link>)}</div></div></section>:null}
