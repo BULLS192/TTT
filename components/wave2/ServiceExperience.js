@@ -1,11 +1,21 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 
+const loading=()=>(
+  <div className="fusion-experience-loading" role="status" aria-live="polite">
+    <span>Loading interactive demonstration…</span>
+  </div>
+);
+
+const options={ssr:false,loading};
+
 const components={
-  tint:dynamic(()=>import('./GlassLab')),
-  audio:dynamic(()=>import('./AudioLab')),
-  security:dynamic(()=>import('./SecurityLab')),
-  tracking:dynamic(()=>import('./TrackingLab')),
-  fabrication:dynamic(()=>import('./FabricationLab'))
+  tint:dynamic(()=>import('./GlassLab'),options),
+  audio:dynamic(()=>import('./AudioLab'),options),
+  security:dynamic(()=>import('./SecurityLab'),options),
+  tracking:dynamic(()=>import('./TrackingLab'),options),
+  fabrication:dynamic(()=>import('./FabricationLab'),options)
 };
 
 export default function ServiceExperience({type,serviceName}){
