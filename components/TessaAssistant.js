@@ -611,7 +611,7 @@ export default function TessaAssistant() {
           <img src={TESSA_AVATAR_SRC} alt="" width="48" height="48" loading="eager" decoding="async" onError={(event) => { event.currentTarget.src = brandAssets.appIcon; }} />
           <span className="tessa-presence" aria-hidden="true" />
         </span>
-        <span className="tessa-launcher__copy"><small>Need help?</small><strong>{open ? 'Close Tessa' : 'Ask Tessa'}</strong></span>
+        <span className="tessa-launcher__copy"><small>Questions?</small><strong>{open ? 'Close' : 'Ask Tessa'}</strong></span>
       </button>
     </div>
   );

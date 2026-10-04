@@ -47,7 +47,7 @@ export default function BuildDock(){
   window.dispatchEvent(new CustomEvent('ttt:tessa-open',{detail:{prompt:'Please review my TTT vehicle project. '+context+' What should I consider next?'}}));
  };
  const quote=()=>{trackWebsiteEvent('wave2_build','handoff_quote',{count:projectItems.length});setOpen(false)};
- if(!ready)return null;
+ if(!ready||(!projectItems.length&&!open))return null;
 
  return <>
   <button ref={openerRef} className={'ttt-build-dock '+(projectItems.length?'has-items':'')} onClick={()=>setOpen(true)} aria-label={'Open My TTT Build, '+projectItems.length+' selection'+(projectItems.length===1?'':'s')} aria-expanded={open} aria-controls="ttt-build-drawer">
