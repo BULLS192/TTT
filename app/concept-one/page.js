@@ -1,53 +1,6 @@
 import Link from 'next/link';
 import AssetMedia from '../../components/AssetMedia';
 import ConceptOneSystemHub from '../../components/ConceptOneSystemHub';
-
-export const metadata={
-  title:'Concept One Reference Vehicle | TTT',
-  description:'Explore how TTT glass, audio, tracking, security, fabrication and hidden integration layers fit together on one reference vehicle, then continue into the dedicated service experiences.'
-};
-
-export default function Page(){return <main className="production-page concept3q-page">
-  <section className="review-hero concept3q-hero">
-    <AssetMedia visual="homeHeroNight" className="review-hero__media" priority/>
-    <div className="review-hero__overlay concept3q-hero__overlay"/>
-    <div className="shell review-hero__copy concept3q-hero__copy">
-      <p className="eyebrow">Concept One · TTT reference vehicle</p>
-      <h1>See how the systems belong together.</h1>
-      <p className="lead lead--dark">Concept One is the vehicle-level view: see what each system changes, where the layers depend on one another, and when a dedicated service experience can help you compare the next decision.</p>
-      <p className="concept-disclosure">REFERENCE CONCEPT. NOT A CUSTOMER VEHICLE.</p>
-      <div className="button-row"><a className="button" href="#system-view">Explore the vehicle ↓</a><Link className="button button--ghost-dark" href="/services">Browse all services</Link></div>
-    </div>
-  </section>
-
-  <section className="section concept3q-intro">
-    <div className="shell copy-section__grid">
-      <div><p className="eyebrow">Why Concept One exists</p><h2>One car shows the relationships that individual service pages cannot.</h2></div>
-      <div className="copy-section__body">
-        <p>Window tint can be understood on its own. So can audio, tracking or fabrication. But once several technologies share the same vehicle, decisions about power, mounting, controls, access and future service begin to overlap.</p>
-        <p>Concept One maps those relationships before product decisions begin. Use it to identify which systems belong in the same project, then move into a service experience when a visual comparison helps.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="system-view" className="section section--dark concept3q-section">
-    <div className="shell">
-      <div className="section-heading concept3q-section__head">
-        <div><p className="eyebrow">Vehicle system view</p><h2>Six layers. One reference vehicle. Go deeper only where it adds value.</h2><p className="lead lead--dark">Select a layer to understand its role in the build. When a service benefits from a visual comparison, Concept One takes you directly to the dedicated experience.</p></div>
-      </div>
-      <ConceptOneSystemHub/>
-    </div>
-  </section>
-
-  <section className="section concept3q-handoff">
-    <div className="shell editorial-media-band">
-      <AssetMedia visual="homeHeroTechnical" className="concept3q-handoff__media"/>
-      <div>
-        <p className="eyebrow">From reference to real vehicle</p>
-        <h2>Concept One gives the project context. The service labs explain the individual decisions.</h2>
-        <p>Use Concept One to decide which systems matter together. Use the dedicated service experiences to compare the decisions that are easier to understand visually. My TTT Build and Tessa carry that context forward so the quote request does not start from zero.</p>
-        <div className="button-row"><Link className="button" href="/experience">See the Interactive Experience Hub →</Link><Link className="button button--ghost" href="/standards">See The TTT Standard →</Link></div>
-      </div>
-    </div>
-  </section>
-</main>}
+import { getPageCopy } from '../../lib/sanityContent';
+export async function generateMetadata(){const p=await getPageCopy('/concept-one');return {title:p?.seoTitle||'Concept One Reference Vehicle | TTT',description:p?.seoDescription||'Explore how TTT glass, audio, tracking, security, fabrication and hidden integration layers fit together on one reference vehicle, then continue into the dedicated service experiences.'}}
+export default async function Page(){const cms=await getPageCopy('/concept-one');const c=(k,f)=>cms?.copy?.[k]||f;return <main className="production-page concept3q-page"><section className="review-hero concept3q-hero"><AssetMedia visual="homeHeroNight" className="review-hero__media" priority/><div className="review-hero__overlay concept3q-hero__overlay"/><div className="shell review-hero__copy concept3q-hero__copy"><p className="eyebrow">{c('hero.eyebrow','Concept One · TTT reference vehicle')}</p><h1>{c('hero.title','See how the systems belong together.')}</h1><p className="lead lead--dark">{c('hero.lead','Concept One is the vehicle-level view: see what each system changes, where the layers depend on one another, and when a dedicated service experience can help you compare the next decision.')}</p><p className="concept-disclosure">{c('hero.disclosure','REFERENCE CONCEPT. NOT A CUSTOMER VEHICLE.')}</p><div className="button-row"><a className="button" href="#system-view">Explore the vehicle ↓</a><Link className="button button--ghost-dark" href="/services">Browse all services</Link></div></div></section><section className="section concept3q-intro"><div className="shell copy-section__grid"><div><p className="eyebrow">{c('why.eyebrow','Why Concept One exists')}</p><h2>{c('why.title','One car shows the relationships that individual service pages cannot.')}</h2></div><div className="copy-section__body"><p>{c('why.body1','Window tint can be understood on its own. So can audio, tracking or fabrication. But once several technologies share the same vehicle, decisions about power, mounting, controls, access and future service begin to overlap.')}</p><p>{c('why.body2','Concept One maps those relationships before product decisions begin. Use it to identify which systems belong in the same project, then move into a service experience when a visual comparison helps.')}</p></div></div></section><section id="system-view" className="section section--dark concept3q-section"><div className="shell"><div className="section-heading concept3q-section__head"><div><p className="eyebrow">{c('system.eyebrow','Vehicle system view')}</p><h2>{c('system.title','Six layers. One reference vehicle. Go deeper only where it adds value.')}</h2><p className="lead lead--dark">{c('system.lead','Select a layer to understand its role in the build. When a service benefits from a visual comparison, Concept One takes you directly to the dedicated experience.')}</p></div></div><ConceptOneSystemHub/></div></section><section className="section concept3q-handoff"><div className="shell editorial-media-band"><AssetMedia visual="homeHeroTechnical" className="concept3q-handoff__media"/><div><p className="eyebrow">{c('handoff.eyebrow','From reference to real vehicle')}</p><h2>{c('handoff.title','Concept One gives the project context. The service labs explain the individual decisions.')}</h2><p>{c('handoff.body','Use Concept One to decide which systems matter together. Use the dedicated service experiences to compare the decisions that are easier to understand visually. My TTT Build and Tessa carry that context forward so the quote request does not start from zero.')}</p><div className="button-row"><Link className="button" href="/experience">See the Interactive Experience Hub →</Link><Link className="button button--ghost" href="/standards">See The TTT Standard →</Link></div></div></div></section></main>}
