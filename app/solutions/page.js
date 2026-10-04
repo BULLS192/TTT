@@ -20,7 +20,7 @@ export default function Page(){
         <p className="eyebrow">Solutions</p>
         <h1>Start with the result you want—not a parts list.</h1>
         <p className="lead">A vehicle owner rarely wakes up wanting “a DSP,” “a tracker,” or “a custom bracket.” The real goal is usually a better vehicle experience, stronger security, useful information, repeatability, or a solution that does not exist off the shelf.</p>
-        <div className="button-row"><Link className="button" href="/quote">Request a Quote →</Link><Link className="button button--ghost" href="/services">Browse individual services →</Link></div>
+        <div className="button-row"><Link className="button" href="/quote">Request a Quote →</Link><Link className="button button--ghost-dark" href="/services">Browse individual services →</Link></div>
       </div>
     </section>
 
