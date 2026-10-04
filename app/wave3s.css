@@ -231,3 +231,20 @@ body:has(#tessa-assistant) .ttt-build-dock{
     min-width:150px;
   }
 }
+
+
+/* QA contrast/accessibility corrections inside dark interactive labs */
+.wave2-experience .button--ghost{
+  color:#dcecff;
+  border-color:rgba(150,190,226,.44);
+  background:rgba(12,30,44,.36);
+}
+.wave2-experience .button--ghost:hover{
+  color:#fff;
+  border-color:rgba(178,214,242,.68);
+  background:rgba(25,55,78,.62);
+}
+.wave2-experience .button--ghost:focus-visible{
+  outline:2px solid #d9ecff;
+  outline-offset:3px;
+}
