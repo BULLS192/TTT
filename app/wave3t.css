@@ -156,3 +156,40 @@
   font-size:8px!important;
 }
 .ttt-build-drawer__journey span{font-size:9px!important}
+
+
+/* Secondary pass: readable minimums for remaining lab microcopy. */
+.glass3b__label,
+.glass3b__environment span,
+.glass3b__view-card small,
+.glass3b__readout small{
+  font-size:8px!important;
+}
+
+.audio3i__mode-list button em,
+.audio3i__response small,
+.audio3i__response span,
+.audio3i__balance small,
+.audio3i__summary small,
+.audio3i__trait small,
+.audio3i__ab span{
+  font-size:8px!important;
+}
+.audio3i__balance strong,
+.audio3i__summary strong,
+.audio3i__trait strong{
+  font-size:9px!important;
+}
+
+.tracking3e__map-head span,
+.tracking3e__map-head b,
+.tracking3e__geofence strong{
+  font-size:8px!important;
+}
+.ttt-sat__credit{font-size:7px!important}
+
+.security3e__timeline span{
+  font-size:8px!important;
+}
+
+.standards2b__toggle small{font-size:8px!important}
