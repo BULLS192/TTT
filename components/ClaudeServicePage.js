@@ -14,8 +14,25 @@ function SectionContent({section}){
   </div>
 }
 
+function ServiceSection({page,section,index}){
+  const id=section.id||(index===1?'service-content':undefined);
+  return <section id={id} className={index%2?'section section--soft copy-section fusion-service-section':'section copy-section fusion-service-section'}>
+    <div className="shell copy-section__grid">
+      <div>
+        <p className="eyebrow">{String(index+1).padStart(2,'0')} / {section.label||page.eyebrow}</p>
+        <h2>{section.title}</h2>
+      </div>
+      <SectionContent section={section}/>
+    </div>
+    {section.visual?<div className="shell section-media"><AssetMedia visual={section.visual}/></div>:null}
+  </section>;
+}
+
 export default function ClaudeServicePage({page}) {
-  return <main className="production-page">
+  const firstSection=page.sections?.[0];
+  const remainingSections=page.sections?.slice(1)||[];
+
+  return <main className="production-page fusion-service-page">
     <section className="review-hero">
       <AssetMedia visual={page.heroVisual} className="review-hero__media" priority />
       <div className="review-hero__overlay"/>
@@ -27,18 +44,22 @@ export default function ClaudeServicePage({page}) {
         <div className="button-row">
           <Link className="button" href={page.primaryHref}>{page.primary} →</Link>
           {page.secondaryHref?.startsWith('#')?<a className="button button--ghost-dark" href={page.secondaryHref}>{page.secondary}</a>:<Link className="button button--ghost-dark" href={page.secondaryHref}>{page.secondary}</Link>}
-          {page.experience?<a className="button button--ghost-dark wave2-hero-lab-link" href="#interactive">Try interactive lab ↓</a>:null}
         </div>
+        {page.experience?<a className="fusion-experience-link" href="#interactive">Interactive demonstration available ↓</a>:null}
         {page.heroTessa?<TessaTrigger className="cinematic__tessa-link" prompt={page.heroTessa}>Ask Tessa: “{page.heroTessa}” →</TessaTrigger>:null}
       </div>
     </section>
-    {page.experience?<ServiceExperience type={page.experience}/>:null}
-    {page.sections.map((section,index)=><section id={section.id||undefined} className={index%2?'section section--soft copy-section':'section copy-section'} key={section.title}>
-      <div className="shell copy-section__grid"><div><p className="eyebrow">{String(index+1).padStart(2,'0')} / {page.eyebrow}</p><h2>{section.title}</h2></div><SectionContent section={section}/></div>
-      {section.visual?<div className="shell section-media"><AssetMedia visual={section.visual}/></div>:null}
-    </section>)}
+
+    {firstSection?<ServiceSection page={page} section={firstSection} index={0}/>:null}
+
+    {page.experience?<ServiceExperience type={page.experience} serviceName={page.eyebrow}/>:null}
+
+    {remainingSections.map((section,i)=><ServiceSection page={page} section={section} index={i+1} key={section.title}/>)}
+
     {page.solutionLinks?.length?<section className="section section--compact"><div className="shell crosslink-strip"><div><p className="eyebrow">Part of these solutions</p><h2>Start with the outcome instead.</h2></div><div>{page.solutionLinks.map(([label,href])=><Link href={href} key={href}>{label} →</Link>)}</div></div></section>:null}
+
     <section className="section section--dark"><div className="shell faq-two-col"><div><p className="eyebrow">Questions</p><h2>Before the work begins.</h2></div><div className="faq-list">{page.faqs.map(([q,a])=><details key={q}><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div></div></section>
+
     <section className="cta-band"><div className="shell cta-band__inner"><div><p className="eyebrow">{page.eyebrow}</p><h2>{page.finalTitle}</h2>{page.finalCopy?<p>{page.finalCopy}</p>:null}</div><Link className="button button--light" href={page.primaryHref}>{page.primary} →</Link></div></section>
   </main>;
 }

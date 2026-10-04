@@ -1,14 +1,30 @@
-import GlassLab from './GlassLab';
-import AudioLab from './AudioLab';
-import SignalTraceLab from './SignalTraceLab';
-import SecurityLab from './SecurityLab';
-import TrackingLab from './TrackingLab';
-import FabricationLab from './FabricationLab';
+import dynamic from 'next/dynamic';
 
-const components={tint:GlassLab,audio:AudioLab,signaltrace:SignalTraceLab,security:SecurityLab,tracking:TrackingLab,fabrication:FabricationLab};
+const components={
+  tint:dynamic(()=>import('./GlassLab')),
+  audio:dynamic(()=>import('./AudioLab')),
+  security:dynamic(()=>import('./SecurityLab')),
+  tracking:dynamic(()=>import('./TrackingLab')),
+  fabrication:dynamic(()=>import('./FabricationLab'))
+};
 
-export default function ServiceExperience({type}){
- const Component=components[type];
- if(!Component)return null;
- return <section id="interactive" className="section wave2-section"><div className="shell"><Component/></div></section>;
+export default function ServiceExperience({type,serviceName}){
+  const Component=components[type];
+  if(!Component)return null;
+
+  return <section id="interactive" className="section wave2-section fusion-experience-section">
+    <div className="shell">
+      <div className="fusion-experience-intro">
+        <div>
+          <p className="eyebrow">Interactive demonstration</p>
+          <h2>See the system before choosing the hardware.</h2>
+        </div>
+        <p>This is optional. Use the demonstration to understand the trade-offs visually, then continue through the conventional service information below. Your selections can be saved to My TTT Build.</p>
+      </div>
+      <Component/>
+      <div className="fusion-experience-continue">
+        <a className="text-link text-link--light" href="#service-content">Continue reading about {serviceName||'this service'} ↓</a>
+      </div>
+    </div>
+  </section>;
 }
