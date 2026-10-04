@@ -193,3 +193,28 @@
 }
 
 .standards2b__toggle small{font-size:8px!important}
+
+
+/* Full-site contrast fixes found in release-candidate audit. */
+.technical-flow:not(.technical-flow--light) .flow-node small{
+  color:#9fb4c8!important;
+}
+.technical-flow:not(.technical-flow--light) .flow-node strong{
+  color:#f2f6fa!important;
+}
+.vehicle-hub__result>.eyebrow{
+  color:#8ec2ff!important;
+}
+.legal-hero .eyebrow{
+  color:#8eb6ff!important;
+}
+
+/* Remaining undersized labels in Tint and Security. */
+.glass3b__question small,
+.glass3b__spec small{
+  font-size:8px!important;
+}
+.security3c__steps button span,
+.security3e__steps button span{
+  font-size:8px!important;
+}
