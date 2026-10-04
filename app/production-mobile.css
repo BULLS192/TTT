@@ -10,7 +10,7 @@
   body.production-mobile-open{overflow:hidden}
 
   .production-header{z-index:500!important}
-  .production-header .site-header__inner{height:72px;min-height:72px;gap:14px}
+  .production-header .site-header__inner{height:calc(72px + env(safe-area-inset-top,0px));min-height:calc(72px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px);gap:14px}
   .production-header .brand-mark{min-width:0}
   .production-header .brand-mark__image{max-height:50px;width:auto}
   .production-nav{display:none!important}
@@ -106,7 +106,7 @@
   body{font-size:15px;text-rendering:optimizeLegibility}
   input,select,textarea{font-size:16px!important}
 
-  .production-header .site-header__inner{height:64px;min-height:64px}
+  .production-header .site-header__inner{height:calc(64px + env(safe-area-inset-top,0px));min-height:calc(64px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px)}
   .production-header .brand-mark{padding:3px 5px}
   .production-header .brand-mark__image{width:clamp(128px,39vw,158px);max-height:46px}
   .production-header .menu-button{min-width:58px;min-height:40px;padding:0 12px}
@@ -278,7 +278,7 @@
 }
 
 @media (orientation:landscape) and (max-height:520px) and (max-width:950px){
-  .production-header .site-header__inner{height:58px;min-height:58px}
+  .production-header .site-header__inner{height:calc(58px + env(safe-area-inset-top,0px));min-height:calc(58px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px)}
   .production-mobile--portal{top:calc(58px + env(safe-area-inset-top,0px))!important}
   .review-hero{min-height:620px}
   .tessa-panel{padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
