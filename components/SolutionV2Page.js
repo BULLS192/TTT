@@ -36,6 +36,37 @@ const experienceMeta={
   }
 };
 
+const solutionSectionLabels={
+  "For drivers who plan to keep the car": "Best fit",
+  "Separate upgrades rarely add up to a better car": "Why plan together",
+  "What changes when it’s planned as one": "Customer outcome",
+  "Services involved": "Services",
+  "The details that decide whether it feels factory": "Integration details",
+  "One vehicle plan, not a stack of separate jobs": "Project logic",
+  "Who it is for": "Best fit",
+  "One device answers one question": "Why layers matter",
+  "Each layer covers a different moment": "Security layers",
+  "Security that works together, and doesn’t break the car": "Integration",
+  "The plan starts with exposure, not a security package": "Risk profile",
+  "Most connected setups fail quietly": "Failure modes",
+  "Decide what’s worth knowing, then make it reliable": "Setup logic",
+  "Why integration matters": "Installation quality",
+  "From vehicle event to useful action": "Reporting chain",
+  "Good installs don’t scale by accident": "Scale problem",
+  "Repeatability you can check": "Standardization",
+  "Accessories that fit the sales and delivery process": "Dealerships",
+  "Standardize the program before the hardware": "Fleets",
+  "Pilot once. Then repeat with evidence.": "Rollout",
+  "Projects that start with “is this even possible?”": "Best fit",
+  "Generic hardware forced into a specific vehicle": "Why generic fails",
+  "A system designed for your requirement": "Design outcome",
+  "How a project runs": "Project process",
+  "Design first. Build second.": "Design discipline"
+};
+function solutionSectionLabel(section,index){
+  return solutionSectionLabels[section.title]||section.label||('Section '+String(index+1).padStart(2,'0'));
+}
+
 export default function SolutionV2Page({page}){
   const meta=experienceMeta[page.experience]||experienceMeta.custom;
   return <main className="production-page solution-editorial-page">
@@ -79,7 +110,7 @@ export default function SolutionV2Page({page}){
     {page.sections.map((section,index)=><section id={section.id||undefined} className={index%2?'section section--soft copy-section solution-editorial-section':'section copy-section solution-editorial-section'} key={section.title}>
       <div className="shell copy-section__grid">
         <div className="solution-editorial-section__title">
-          <p className="eyebrow">{String(index+1).padStart(2,'0')} / {page.title}</p>
+          <p className="eyebrow">{String(index+1).padStart(2,'0')} / {solutionSectionLabel(section,index)}</p>
           <h2>{section.title}</h2>
         </div>
         <div className="copy-section__body">
