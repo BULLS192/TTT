@@ -2,55 +2,11 @@ import Link from 'next/link';
 import AssetMedia from '../../components/AssetMedia';
 import InquiryForm from '../../components/InquiryForm';
 import TessaTrigger from '../../components/TessaTrigger';
+import { getPageCopy } from '../../lib/sanityContent';
 
-export const metadata={title:'Contact TTT | Thompson Transportation Technologies Houston',description:'Send TTT a message or request a quote for vehicle technology work in Greater Houston. Share the vehicle and what you need, and the team will follow up.'};
+const fallbackQuick=[{eyebrow:'A cooler, more private cabin',title:'Window Tint',href:'/services/window-tint'},{eyebrow:'Better sound',title:'Automotive Audio',href:'/services/audio'},{eyebrow:'To know where the vehicle is',title:'GPS Tracking',href:'/services/gps-tracking'},{eyebrow:'To make theft harder',title:'Vehicle Security',href:'/solutions/vehicle-security'},{eyebrow:'An electrical problem solved',title:'SignalTrace',href:'/services/signaltrace'},{eyebrow:'A part that does not exist',title:'Custom Fabrication',href:'/services/custom-fabrication'},{eyebrow:'Several vehicles done the same way',title:'Fleet & Dealership',href:'/solutions/fleet-dealership'}];
+const fallbackNext=[{title:'We read your request',body:'We check the vehicle, the goal and whether anything important is missing.'},{title:'We reply with a next step',body:'That may be questions, options, a quote or a recommendation to inspect the vehicle first.'},{title:'We confirm the plan',body:'Location, timing and the approved scope are confirmed before work is scheduled.'}];
 
-const quick=[
- ['A cooler, more private cabin','Window Tint','/services/window-tint'],
- ['Better sound','Automotive Audio','/services/audio'],
- ['To know where the vehicle is','GPS Tracking','/services/gps-tracking'],
- ['To make theft harder','Vehicle Security','/solutions/vehicle-security'],
- ['An electrical problem solved','SignalTrace','/services/signaltrace'],
- ['A part that does not exist','Custom Fabrication','/services/custom-fabrication'],
- ['Several vehicles done the same way','Fleet & Dealership','/solutions/fleet-dealership']
-];
+export async function generateMetadata(){const p=await getPageCopy('/contact');return {title:p?.seoTitle||'Contact TTT | Thompson Transportation Technologies Houston',description:p?.seoDescription||'Send TTT a message or request a quote for vehicle technology work in Greater Houston. Share the vehicle and what you need, and the team will follow up.'}}
 
-export default function Page(){return <main className="production-page">
- <section className="review-hero review-hero--compact">
-  <AssetMedia visual="consultationReal" className="review-hero__media" priority/>
-  <div className="review-hero__overlay"/>
-  <div className="shell review-hero__copy"><p className="eyebrow">Contact</p><h1>Contact TTT</h1><p className="lead lead--dark">Tell us about the vehicle and what you need. A few details up front help us give you a useful answer the first time.</p><div className="button-row"><Link className="button" href="/quote">Request a Quote →</Link><a className="button button--ghost-dark" href="#message">Send a Message ↓</a></div></div>
- </section>
-
- <section className="section"><div className="shell"><div className="contact-route-grid">
-  <Link href="/quote"><strong>Request a Quote</strong><span>Pricing for specific work</span></Link>
-  <Link href="/quote?service=signaltrace"><strong>SignalTrace intake</strong><span>Electrical problems</span></Link>
-  <Link href="/solutions/fleet-dealership#inquiry"><strong>Business inquiry</strong><span>Dealers and fleets</span></Link>
-  <TessaTrigger className="contact-route-card" prompt="I have a question about my vehicle."><strong>Ask Tessa</strong><span>Common questions, any time</span></TessaTrigger>
- </div></div></section>
-
- <section className="section section--soft"><div className="shell copy-section__grid">
-  <div><p className="eyebrow">What to include</p><h2>Help us help you faster.</h2></div>
-  <div className="copy-section__body"><ul className="clean-list"><li>Year, make and model.</li><li>What you want done, or what is going wrong, in your own words.</li><li>How you would like us to reply.</li></ul><p>Plain language is perfect. You do not need to know the technical terms.</p></div>
- </div></section>
-
- <section className="section"><div className="shell">
-  <div className="section-heading"><div><p className="eyebrow">Not sure which service?</p><h2>Start with what you want.</h2></div></div>
-  <div className="quick-guide">{quick.map(([want,title,href])=><Link href={href} key={title}><span>{want}</span><strong>{title}</strong><b>→</b></Link>)}</div>
- </div></section>
-
- <section className="section section--dark"><div className="shell copy-section__grid">
-  <div><p className="eyebrow">What happens next</p><h2>A useful first reply, not a generic callback.</h2></div>
-  <div className="process-cards"><article><small>01</small><strong>We read your request</strong><p>We check the vehicle, the goal and whether anything important is missing.</p></article><article><small>02</small><strong>We reply with a next step</strong><p>That may be questions, options, a quote or a recommendation to inspect the vehicle first.</p></article><article><small>03</small><strong>We confirm the plan</strong><p>Location, timing and the approved scope are confirmed before work is scheduled.</p></article></div>
- </div></section>
-
- <section className="section"><div className="shell copy-section__grid">
-  <div><p className="eyebrow">Greater Houston</p><h2>Project availability is confirmed before scheduling.</h2></div>
-  <div className="copy-section__body"><p>TTT serves Greater Houston by project. Send the vehicle location and what you need; the team will confirm service-area fit, appointment details and any travel requirements directly with you.</p><div className="button-row"><Link className="text-link" href="/service-area">See how service-area planning works →</Link></div></div>
- </div></section>
-
- <section id="message" className="section section--soft"><div className="shell contact-form-grid">
-  <div><p className="eyebrow">Message</p><h2>Send us a message.</h2><p>For pricing, the quote form is quicker. Use this for anything else.</p></div>
-  <InquiryForm title="Send us a message" intro="Tell us what you need and the right TTT conversation can start from there."/>
- </div></section>
-</main>}
+export default async function Page(){const cms=await getPageCopy('/contact');const c=(k,f)=>cms?.copy?.[k]||f;const include=cms?.collections?.include?.length?cms.collections.include:[{body:'Year, make and model.'},{body:'What you want done, or what is going wrong, in your own words.'},{body:'How you would like us to reply.'}];const quick=cms?.collections?.quick?.length?cms.collections.quick:fallbackQuick;const next=cms?.collections?.next?.length?cms.collections.next:fallbackNext;return <main className="production-page"><section className="review-hero review-hero--compact"><AssetMedia visual="consultationReal" className="review-hero__media" priority/><div className="review-hero__overlay"/><div className="shell review-hero__copy"><p className="eyebrow">{c('hero.eyebrow','Contact')}</p><h1>{c('hero.title','Contact TTT')}</h1><p className="lead lead--dark">{c('hero.lead','Tell us about the vehicle and what you need. A few details up front help us give you a useful answer the first time.')}</p><div className="button-row"><Link className="button" href="/quote">Request a Quote →</Link><a className="button button--ghost-dark" href="#message">Send a Message ↓</a></div></div></section><section className="section"><div className="shell"><div className="contact-route-grid"><Link href="/quote"><strong>Request a Quote</strong><span>Pricing for specific work</span></Link><Link href="/quote?service=signaltrace"><strong>SignalTrace intake</strong><span>Electrical problems</span></Link><Link href="/solutions/fleet-dealership#inquiry"><strong>Business inquiry</strong><span>Dealers and fleets</span></Link><TessaTrigger className="contact-route-card" prompt="I have a question about my vehicle."><strong>Ask Tessa</strong><span>Common questions, any time</span></TessaTrigger></div></div></section><section className="section section--soft"><div className="shell copy-section__grid"><div><p className="eyebrow">{c('include.eyebrow','What to include')}</p><h2>{c('include.title','Help us help you faster.')}</h2></div><div className="copy-section__body"><ul className="clean-list">{include.map(x=><li key={x.body}>{x.body}</li>)}</ul><p>{c('include.note','Plain language is perfect. You do not need to know the technical terms.')}</p></div></div></section><section className="section"><div className="shell"><div className="section-heading"><div><p className="eyebrow">{c('quick.eyebrow','Not sure which service?')}</p><h2>{c('quick.title','Start with what you want.')}</h2></div></div><div className="quick-guide">{quick.map(item=><Link href={item.href} key={item.title}><span>{item.eyebrow}</span><strong>{item.title}</strong><b>→</b></Link>)}</div></div></section><section className="section section--dark"><div className="shell copy-section__grid"><div><p className="eyebrow">{c('next.eyebrow','What happens next')}</p><h2>{c('next.title','A useful first reply, not a generic callback.')}</h2></div><div className="process-cards">{next.map((item,i)=><article key={item.title}><small>{String(i+1).padStart(2,'0')}</small><strong>{item.title}</strong><p>{item.body}</p></article>)}</div></div></section><section className="section"><div className="shell copy-section__grid"><div><p className="eyebrow">{c('area.eyebrow','Greater Houston')}</p><h2>{c('area.title','Project availability is confirmed before scheduling.')}</h2></div><div className="copy-section__body"><p>{c('area.body','TTT serves Greater Houston by project. Send the vehicle location and what you need; the team will confirm service-area fit, appointment details and any travel requirements directly with you.')}</p><div className="button-row"><Link className="text-link" href="/service-area">See how service-area planning works →</Link></div></div></div></section><section id="message" className="section section--soft"><div className="shell contact-form-grid"><div><p className="eyebrow">{c('form.eyebrow','Message')}</p><h2>{c('form.title','Send us a message.')}</h2><p>{c('form.body','For pricing, the quote form is quicker. Use this for anything else.')}</p></div><InquiryForm title={c('form.title','Send us a message')} intro={c('form.intro','Tell us what you need and the right TTT conversation can start from there.')}/></div></section></main>}
