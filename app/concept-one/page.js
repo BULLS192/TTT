@@ -33,7 +33,7 @@ export default function Page(){return <main className="production-page concept3q
   <section id="system-view" className="section section--dark concept3q-section">
     <div className="shell">
       <div className="section-heading concept3q-section__head">
-        <div><p className="eyebrow">Vehicle system view</p><h2>Six layers. One reference vehicle. Go deeper only where it adds value.</h2><p className="lead lead--dark">Select a layer to understand its role in the build. If that service has a worthwhile interactive demonstration, Concept One takes you directly to it.</p></div>
+        <div><p className="eyebrow">Vehicle system view</p><h2>Six layers. One reference vehicle. Go deeper only where it adds value.</h2><p className="lead lead--dark">Select a layer to understand its role in the build. When a service benefits from a visual comparison, Concept One takes you directly to the dedicated experience.</p></div>
       </div>
       <ConceptOneSystemHub/>
     </div>
