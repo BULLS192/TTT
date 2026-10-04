@@ -34,7 +34,7 @@ export default function ClaudeServicePage({page}) {
     </section>
     {page.experience?<ServiceExperience type={page.experience}/>:null}
     {page.sections.map((section,index)=><section id={section.id||undefined} className={index%2?'section section--soft copy-section':'section copy-section'} key={section.title}>
-      <div className="shell copy-section__grid"><div><p className="eyebrow">{String(index+1).padStart(2,'0')} / {page.eyebrow}</p><h2>{section.title}</h2></div><SectionContent section={section}/></div>
+      <div className="shell copy-section__grid"><div><p className="eyebrow">{String(index+1).padStart(2,'0')} / {section.label||page.eyebrow}</p><h2>{section.title}</h2></div><SectionContent section={section}/></div>
       {section.visual?<div className="shell section-media"><AssetMedia visual={section.visual}/></div>:null}
     </section>)}
     {page.solutionLinks?.length?<section className="section section--compact"><div className="shell crosslink-strip"><div><p className="eyebrow">Part of these solutions</p><h2>Start with the outcome instead.</h2></div><div>{page.solutionLinks.map(([label,href])=><Link href={href} key={href}>{label} →</Link>)}</div></div></section>:null}
