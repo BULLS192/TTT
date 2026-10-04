@@ -63,3 +63,96 @@
   outline:3px solid #8eb0ff;
   outline-offset:3px;
 }
+
+
+/* Interactive labs: eliminate sub-8px UI copy that became unreadable in review. */
+.audio3j__instrument,
+.audio3j__focus span,
+.audio3j__listener span,
+.audio3i__reference-head b,
+.audio3i__dashboard-head small,
+.audio3j__active-mode small,
+.audio3j__active-mode>span,
+.audio3j__mode-grid button em{
+  font-size:8px!important;
+}
+.audio3j__active-mode p{font-size:10px!important;line-height:1.45!important}
+.audio3j__mode-grid button strong{font-size:10px!important}
+
+.tracking3e__geofence span,
+.tracking3e__vehicle em,
+.tracking3e__vehicle-card small,
+.tracking3e__notice small,
+.tracking3e__history small,
+.tracking3e__history>div>span,
+.tracking3e__replay-head small,
+.tracking3e__panel-title span{
+  font-size:8px!important;
+}
+.tracking3e__notice span{font-size:9px!important}
+.tracking3e__metric small{font-size:8px!important}
+.tracking3e__metric strong{font-size:10px!important}
+.tracking3e__history li strong,
+.tracking3e__replay button span b,
+.tracking3e__choice button,
+.tracking3e__toggles button span{
+  font-size:8.5px!important;
+}
+
+.security3e__incident small,
+.security3e__geofence span,
+.security3e__vehicle em,
+.security3e__vehicle-card small,
+.security3e__status small,
+.security3e__compare-head small,
+.security3e__compare article div b{
+  font-size:8px!important;
+}
+.security3e__gps span,
+.security3e__geofence strong,
+.security3e__metric strong,
+.security3e__immobilize span{
+  font-size:9px!important;
+}
+.security3e__metric small{font-size:8px!important}
+.security3e__status p,
+.security3e__compare article p,
+.security3e__compare article div span,
+.security3e__safety span{
+  font-size:9px!important;
+  line-height:1.4!important;
+}
+
+.fab3n__stage-chip span,
+.fab3n__problem-note small,
+.fab3n__capture-tag small,
+.fab3n__cad-tag small,
+.fab3n__part-layer>span,
+.fab3n__scene-copy small,
+.fab3n__stops button span,
+.fab3n__aside-grid small{
+  font-size:8px!important;
+}
+.fab3n__problem-note strong,
+.fab3n__capture-tag strong,
+.fab3n__cad-tag strong,
+.fab3n__scene-copy strong,
+.fab3n__aside-grid strong{
+  font-size:9.5px!important;
+}
+.fab3n__scene-copy p{font-size:10px!important;line-height:1.45!important}
+
+.concept3q__context-head small,
+.concept3q__context-head>span,
+.concept3q__priorities>small,
+.concept3q__stage-copy>small,
+.concept3q__rail-head small,
+.concept3q__rail>button small,
+.concept3q__detail small{
+  font-size:9px!important;
+}
+.concept3q__stage-top>b,
+.concept3q__rail-status{
+  font-size:8px!important;
+}
+.ttt-build-drawer__journey span{font-size:9px!important}
