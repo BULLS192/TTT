@@ -1,5 +1,15 @@
 import LearnTopicPageV3 from '../../../components/LearnTopicPageV3';
 import { learnTopics } from '../../../lib/learnCopyV3';
-const page=learnTopics['telematics'];
-export const metadata={title:page.seoTitle,description:page.meta};
-export default function Page(){return <LearnTopicPageV3 page={page}/>}
+import { getTechnologyTopic } from '../../../lib/sanityContent';
+
+const slug='telematics';
+
+export async function generateMetadata(){
+  const page=await getTechnologyTopic(slug)||learnTopics[slug];
+  return {title:page.seoTitle,description:page.meta};
+}
+
+export default async function Page(){
+  const page=await getTechnologyTopic(slug)||learnTopics[slug];
+  return <LearnTopicPageV3 page={page}/>;
+}
