@@ -292,3 +292,38 @@
 @media (prefers-reduced-motion:reduce){
   .production-mobile--portal,.wave2-experience *, .concept3q *{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
+
+
+/* Mobile homepage: keep the Concept One reference badge out of hero copy. */
+@media (max-width:767px){
+  .cinematic__concept-label{
+    position:absolute!important;
+    z-index:5!important;
+    top:58px!important;
+    left:var(--gutter)!important;
+    right:auto!important;
+    bottom:auto!important;
+    width:auto!important;
+    max-width:min(210px,calc(100vw - 130px))!important;
+    padding:7px 10px!important;
+    border:1px solid rgba(255,255,255,.28)!important;
+    border-radius:999px!important;
+    background:rgba(5,10,16,.68)!important;
+    color:#e6edf7!important;
+    font-size:7px!important;
+    font-weight:850!important;
+    line-height:1.35!important;
+    letter-spacing:.1em!important;
+    text-align:center!important;
+    white-space:normal!important;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+  }
+}
+@media (max-width:360px){
+  .cinematic__concept-label{
+    top:54px!important;
+    max-width:190px!important;
+    font-size:6.5px!important;
+  }
+}
